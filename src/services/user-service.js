@@ -47,6 +47,12 @@ class UserService {
       );
     }
 
+    if (user.role === 'disabled') {
+      throw new Error(
+        '해당 계정은 탈퇴처리된 계정입니다. 관리자에게 문의하세요.',
+      );
+    }
+
     // 이제 이메일은 문제 없는 경우이므로, 비밀번호를 확인함
 
     // 비밀번호 일치 여부 확인
@@ -127,6 +133,19 @@ class UserService {
       userId,
       update: toUpdate,
     });
+
+    return user;
+  }
+
+  async deleteUser(userId) {
+    let user = await this.userModel.findById(userId);
+
+    if (user.role === 'basic-user') {
+      user = this.userModel.delete(userId);
+    }
+    if (user.role === 'admin') {
+      throw new Error('관리자는 계정을 삭제할 수 없습니다.');
+    }
 
     return user;
   }

@@ -150,4 +150,18 @@ userRouter.patch('/users/:uid', loginRequired, async function (req, res, next) {
   }
 });
 
+userRouter.patch(
+  '/users/delete/:uid',
+  loginRequired,
+  async (req, res, next) => {
+    try {
+      const userId = req.params.uid;
+      const deletedUserInfo = await userService.deleteUser(userId);
+      res.status(200).json(deletedUserInfo);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 export { userRouter };
