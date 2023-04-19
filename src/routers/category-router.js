@@ -1,52 +1,92 @@
 import { Router } from 'express';
-import { Category } from '../db';
 import is from '@sindresorhus/is';
-import { validateCategory } from '../middlewares';
+import { adminOnly, loginRequired } from '../middlewares';
+import { categoryService } from '../services';
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 
 const categoryRouter = Router();
-const { Types } = require('mongoose');
 
-categoryRouter.get('/admin/categories', async (req, res) => {
-  const categories = await Category.find();
-  res.json(categories);
-});
-
-categoryRouter.get('/admin/categories/:cid', async (req, res) => {
-  const { cid } = req.params;
-  const category = await Category.findById(cid);
-  if (!category) {
-    res.status(400).json({ error: 'Category not found' });
-  } else {
-    res.json(category);
+categoryRouter.get('/admin/categories', async (req, res, next) => {
+  try {
+    const categories = await categoryService.getCategorys();
+    res.status(200).json(categories);
+  } catch (error) {
+    next(error);
   }
 });
 
-categoryRouter.post('/admin/categories', validateCategory, async (req, res) => {
-  const { categoryName } = req.body;
-  const category = new Category({ categoryName });
-  await category.save();
-  res.json(category);
+categoryRouter.get(
+  '/admin/categories/:cid',
+  loginRequired,
+  async (req, res, next) => {
+    try {
+      const cid = req.params.cid;
+      const categoryData = await categoryService.getCategoryDataById(cid);
+
+      res.status(200).json(categoryData);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+categoryRouter.post('/admin/categories', adminOnly, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요',
+      );
+    }
+
+    const categoryName = req.body.categoryName;
+    const newCategory = await categoryService.addCategory({
+      categoryName,
+    });
+    res.status(201).json(newCategory);
+  } catch (error) {
+    next(error);
+  }
 });
 
-categoryRouter.put('/admin/categories/:cid', async (req, res) => {
-  const { cid } = req.params;
-  const { categoryName } = req.body;
-  const validId = Types.ObjectId(cid); //유효한 ObjectID로 형변환
-  const category = await Category.findByIdAndUpdate(
-    validId,
-    { categoryName },
-    {
-      new: true,
-    },
-  );
-  res.json(category);
-});
+categoryRouter.put(
+  '/admin/categories/:cid',
+  adminOnly,
+  async (req, res, next) => {
+    try {
+      if (is.emptyObject(req.body)) {
+        throw new Error(
+          'headers의 Content-Type을 application/json으로 설정해주세요',
+        );
+      }
+      const cid = req.params.cid;
+      const categoryName = req.body.categoryName;
 
-categoryRouter.delete('/admin/categories/:cid', async (req, res) => {
-  const { cid } = req.params;
-  await Category.findByIdAndDelete(cid);
-  res.sendStatus(204);
-});
+      const toUpdate = {
+        ...(categoryName && { categoryName }),
+      };
+
+      const updatedCategory = await categoryService.setCategory(cid, toUpdate);
+
+      res.status(200).json(updatedCategory);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+categoryRouter.delete(
+  '/admin/categories/:cid',
+  loginRequired,
+  async (req, res, next) => {
+    try {
+      const cid = req.params.cid;
+      const deleteResult = await categoryService.deleteCategoryData(cid);
+
+      res.status(200).json(deleteResult);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 export { categoryRouter };
