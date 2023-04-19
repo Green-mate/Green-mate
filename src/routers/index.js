@@ -3,3 +3,5 @@
 
 export * from "./views-router";
 export * from "./user-router";
+// 상품 라우터 추가
+export * from "./product-router";
