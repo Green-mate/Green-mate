@@ -3,37 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/output.css" rel="stylesheet" />
     <title>Document</title>
+    <link href="/dist/output.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="order-complete.css" />
     <!-- <script src="order-complete.js" type="module" defer></script> -->
   </head>
+
   <body>
     <!-- navigation -->
+    <nav class="nav-bar"></nav>
 
-    <section class="section">
-      <!-- 주문완료창 헤더-->
-      <div class="container">
-        <div class="cart-header">
-          <div class="title flex w-64 h-10">
-            <p class="text-xl">장바구니 ></p>
-            <p class="text-base">주문결제 ></p>
-            <p class="text-xl">주문완료</p>
+    <div class="section p-12">
+      <div class="process-container mx-20 mt-12">
+        <div class="process-bar flex mb-8 p-5">
+          <div class="title flex">
+            <p class="text-base mt-1">장바구니 ></p>
+            <p class="text-base ml-1 mt-1">주문결제 ></p>
+            <p class="text-xl ml-1">주문완료</p>
           </div>
         </div>
-        <div class="border-line-container">
-          <div class="border-line"></div>
-        </div>
-        <div class="border-line-container2">
-          <div class="border-line2"></div>
+      </div>
+
+      <div class="card-container">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title card-common">
+              <h5>주문 완료</h5>
+            </div>
+            <h6 class="card-subtitle mb-2 card-common">
+              <i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-20 h-20"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4.5 12.75l6 6 9-13.5"
+                  />
+                </svg>
+              </i>
+            </h6>
+            <div class="card-text other__link">주문이 완료되었습니다!</div>
+            <div class="to-oredered-list">
+              <a href="" class="card-link">주문 내역 보러가기</a>
+            </div>
+            <div class="to-list">
+              <a href="" class="card-link">다른 상품 보러가기</a>
+            </div>
+          </div>
         </div>
       </div>
-      <!-- 주문완료창 메인-->
-      <div class="main-container flex">
-        주문완료 로고 주문이완료되었습니다 주문 내역 보러가기 다른 상품 보러가기
-      </div>
-    </section>
+    </div>
 
     <!-- footer -->
   </body>
