@@ -1,63 +1,16 @@
-.process-bar {
-  border-bottom: hsl(0, 0%, 79%) solid 1px;
-}
 .card-container {
-  display: flex;
-  width: 100%;
-  height: 80%;
-  justify-content: center;
-  box-sizing: border-box;
+  width: 790px;
+  height: 500px;
 }
 
-.card {
-  display: flex;
-  justify-content: center;
-  width: 65%;
-  height: 70%;
-  box-sizing: border-box;
-  padding: 10px;
+.card-title {
+  font-size: 28px;
 }
-
-.card-body {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  box-sizing: border-box;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.card-common {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
-}
-
-.card-subtitle > i {
-  color: #48c78e;
+.check-logo {
+  color: #69b766;
   font-size: 100px;
-}
-.card-text {
-  font-size: 20px;
-}
-.to-oredered-list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.to-list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .card-link {
-  text-decoration-line: none;
-  color: #48c78e;
-}
-.card-link:hover {
-  color: #2aa96f;
+  color: #69b766;
 }

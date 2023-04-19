@@ -53,33 +53,36 @@
       </div>
     </header>
 
-    <div class="section">
-      <div class="process-container">
-        <div class="process-bar flex mb-8 p-5">
-          <div class="title flex">
-            <p class="text-base mt-1">장바구니 ></p>
-            <p class="text-base ml-1 mt-1">주문결제 ></p>
-            <p class="text-xl ml-1">주문완료</p>
-          </div>
-        </div>
+    <div class="process-section">
+      <div class="process-text flex -mt-14">
+        <p class="text-base text-stone-500 mt-1">장바구니 ></p>
+        <p class="text-base text-stone-500 ml-1 mt-1">주문결제 ></p>
+        <p class="text-xl font-medium ml-1">주문완료</p>
       </div>
+      <hr class="mt-5 border-t border-gray-500 w-1200 opacity-25" />
+    </div>
 
-      <div class="card-container">
-        <div class="card">
-          <div class="card-body">
-            <div class="card-title card-common">
-              <h5>주문 완료</h5>
-            </div>
-            <div class="card-subtitle mb-2 card-common">
-              <i class="fa-solid fa-circle-check fa-5x"></i>
-            </div>
-            <div class="card-text other__link">주문이 완료되었습니다!</div>
-            <div class="to-oredered-list">
-              <a href="#" class="card-link">주문 내역 보러가기</a>
-            </div>
-            <div class="other-link">
-              <a href="#" class="card-link">다른 상품 보러가기</a>
-            </div>
+    <div class="card-section flex justify-center items-center">
+      <div
+        class="card-container mt-16 mb-8 border-solid border-emerald-500 border flex justify-center items-center"
+      >
+        <div
+          class="card-body w-full h-full flex box-border flex-col items-center justify-around"
+        >
+          <div class="card-title w-full flex justify-center items-center h-1/5">
+            주문 완료
+          </div>
+          <div class="card-subtitle mb-8">
+            <i class="check-logo fa-solid fa-circle-check fa-5x"></i>
+          </div>
+          <div class="card-text text-xl flex justify-center items-center">
+            주문이 완료되었습니다!
+          </div>
+          <div class="to-order-list flex justify-center items-center">
+            <a href="#" class="card-link no-underline">주문 내역 보러가기</a>
+          </div>
+          <div class="to-shopping-list flex justify-center items-center mb-8">
+            <a href="#" class="card-link no-underline">다른 상품 보러가기</a>
           </div>
         </div>
       </div>
