@@ -3,102 +3,75 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>쇼핑-데모</title>
+    <title>Green Mate🪴</title>
+    <!-- import tailwind css -->
+    <link href="/dist/output.css" rel="stylesheet" />
     <!-- 아이콘 -->
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/elice-rabbit-favicon.png"
-    />
-    <!-- bulma css 관련 -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
-    />
+    <link rel="icon" type="image/png" sizes="16X16" href="../dist/logo-2.png" />
     <!-- 폰트 어썸: 아이콘 -->
     <script
       defer
       src="https://kit.fontawesome.com/9daa42bcef.js"
       crossorigin="anonymous"
     ></script>
-
     <!-- 커스텀 css, js -->
-    <link rel="stylesheet" href="login.css" />
+    <script src="../common/header-footer.js" type="module" defer></script>
+    <script src="../common/category.js" type="module" defer></script>
+
     <script src="login.js" type="module" defer></script>
   </head>
-  <body>
-    <!-- 헤더 -->
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="container mt-3">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="/">
-            <img src="/elice-rabbit.png" width="30" height="30" />
-            <span class="has-text-link">쇼핑-데모</span>
-          </a>
 
-          <a
-            role="button"
-            class="navbar-burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarBasicExample"
-          >
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
-
-        <div id="navbarBasicExample" class="navbar-menu">
-          <div class="navbar-end breadcrumb my-auto" aria-label="breadcrumbs">
-            <ul id="navbar">
-              <li><a href="/register">회원가입</a></li>
-              <li>
-                <a href="/cart" aria-current="page">
-                  <span class="icon">
-                    <i class="fas fa-cart-shopping"></i>
-                  </span>
-                  <span>카트</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </nav>
+  <body style="margin: 0 auto; padding: 0px; width: 1200px">
+    <div id="category-list-section" class="mb-24"></div>
 
     <!-- 로그인 폼(Form) -->
-    <div class="login-form-container">
-      <form class="box login-form-box" id="loginForm">
-        <p class="title is-5 has-text-info">어서오세요!</p>
-        <div class="field">
-          <label class="label" for="emailInput">이메일</label>
-          <div class="control">
-            <input
-              class="input"
-              id="emailInput"
-              type="email"
-              placeholder="abc@example.com"
-              autocomplete="on"
-            />
-          </div>
+    <div id="login-form-container" class="m-auto" style="width: 630px">
+      <form
+        class="flex flex-col justify-items-center justify-center"
+        id="login-form"
+      >
+        <p class="text-3xl text-green-500 font-bold mb-10 text-center">
+          로그인
+        </p>
+        <div class="mb-4">
+          <label
+            class="text-lg block text-gray-700 font-bold mb-2"
+            for="email-input"
+          >
+            이메일
+          </label>
+          <input
+            style="height: 50px"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
+            id="email-input"
+            type="email"
+            placeholder="abc@example.com"
+            autocomplete="on"
+          />
         </div>
-
-        <div class="field mb-5">
-          <label class="label" for="passwordInput">비밀번호</label>
-          <div class="control">
-            <input
-              class="input"
-              id="passwordInput"
-              type="password"
-              placeholder="********"
-              autocomplete="on"
-            />
-          </div>
+        <div class="mb-6">
+          <label
+            class="text-lg block text-gray-700 font-bold mb-2"
+            for="password-input"
+          >
+            비밀번호
+          </label>
+          <input
+            style="height: 50px"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-5"
+            id="password-input"
+            type="password"
+            placeholder="********"
+            autocomplete="on"
+          />
         </div>
-
-        <button class="button is-info is-fullwidth" id="submitButton">
+        <div id="invalid-msg"></div>
+        <button
+          style="height: 52px"
+          class="shadow bg-green-500 hover:bg-green-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none mb-28"
+          id="submit-button"
+          type="button"
+        >
           로그인하기
         </button>
       </form>
