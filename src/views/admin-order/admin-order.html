@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Admin Panel</title>
     <link href="/dist/output.css" rel="stylesheet" />
-    <script src="admin.js" type="module" defer></script>
+    <script src="admin-order.js" type="module" defer></script>
   </head>
   <body class="bg-gray-100">
     <div class="flex h-screen bg-gray-100">
@@ -17,21 +17,21 @@
         </div>
         <div class="flex flex-col p-4">
           <a
-            href="#"
+            href="/admin-order"
             id="order-manage-link"
             class="my-2 px-2 py-1 flex items-center rounded-lg text-white hover:bg-lime-500"
           >
             <span class="mx-3">주문 관리</span>
           </a>
           <a
-            href="#"
+            href="/admin-category"
             id="category-manage-link"
             class="my-2 px-2 py-1 flex items-center rounded-lg text-white hover:bg-lime-500"
           >
             <span class="mx-3">카테고리 관리</span>
           </a>
           <a
-            href="#"
+            href="/admin-product"
             id="product-manage-link"
             class="my-2 px-2 py-1 flex items-center rounded-lg text-white hover:bg-lime-500"
           >
@@ -183,12 +183,15 @@
               </div>
             </div>
           </div>
+
+          <!-- 추가해야할 부분 -->
           <div id="category-manage-content" style="display: none">
             <p>This is the users content</p>
           </div>
           <div id="product-manage-content" style="display: none">
             <p>This is the settings content</p>
           </div>
+          <!-- 추가해야할 부분 -->
         </div>
       </div>
     </div>
