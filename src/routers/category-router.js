@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
-import { adminOnly, loginRequired } from '../middlewares';
+import { adminOnly } from '../middlewares';
 import { categoryService } from '../services';
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 
@@ -17,7 +17,7 @@ categoryRouter.get('/admin/categories', async (req, res, next) => {
 
 categoryRouter.get(
   '/admin/categories/:cid',
-  loginRequired,
+  adminOnly,
   async (req, res, next) => {
     try {
       const cid = req.params.cid;
@@ -76,7 +76,7 @@ categoryRouter.put(
 
 categoryRouter.delete(
   '/admin/categories/:cid',
-  loginRequired,
+  adminOnly,
   async (req, res, next) => {
     try {
       const cid = req.params.cid;
