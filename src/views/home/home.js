@@ -12,7 +12,7 @@ const card = document.querySelector('#card');
 const createCard = () => {
   return ` 
   <div id="card" style="width:350px; height:480px;">
-    <a id="card-link" href="#">
+    <a id="card-link" href="/product-detail">
       <img
         src="../dist/example.jpeg"
         id="card-img-top"
