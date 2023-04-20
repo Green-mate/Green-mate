@@ -76,6 +76,9 @@ class UserService {
     if (!user) {
       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
+    if (!currentPassword) {
+      throw new Error('정보를 변경하려면, 현재의 비밀번호가 필요합니다.');
+    }
 
     //  사용자가 입력한 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;

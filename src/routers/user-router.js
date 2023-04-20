@@ -44,8 +44,7 @@ userRouter.post('/users/login', async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    const email = req.body.email;
-    const password = req.body.password;
+    const { email, password } = req.body;
 
     // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
     const userToken = await userService.getUserToken({ email, password });
@@ -82,22 +81,13 @@ userRouter.patch('/users/:uid', loginRequired, async function (req, res, next) {
 
     const userId = req.params.uid;
     const { userName, password, currentPassword } = req.body;
-
-    // currentPassword 없을 시, 진행 불가
-    if (!currentPassword) {
-      throw new Error('정보를 변경하려면, 현재의 비밀번호가 필요합니다.');
-    }
-
     const userInfoRequired = { userId, currentPassword };
 
-    // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
-    // 보내주었다면, 업데이트용 객체에 삽입함.
     const toUpdate = {};
 
     if (userName) {
       toUpdate.userName = userName;
     }
-
     if (password) {
       toUpdate.password = password;
     }
