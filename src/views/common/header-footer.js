@@ -10,7 +10,10 @@ function renderHeader() {
   >
     <ul id="user-menu-navbar" class="flex justify-end">
       <li id="admin-menu" class="text-gray-500 text-lg font-bold mr-8">
-        <a href="#">관리자 페이지로</a>
+        <a href="#">관리자 페이지</a>
+      </li>
+      <li id="my-page-menu" class="text-gray-500 text-lg font-bold mr-8">
+        <a href="/myPage">마이페이지</a>
       </li>
       <li id="signin-menu" class="text-gray-500 text-lg font-bold mr-8">
         <a href="/login">로그인</a>
