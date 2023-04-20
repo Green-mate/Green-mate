@@ -15,21 +15,3 @@ if (pathname === 'admin-order') {
 } else {
   productLink.classList.toggle('bg-lime-500');
 }
-
-// orderLink.addEventListener('click', () => {
-//   orderContent.style.display = 'block';
-//   categoryContent.style.display = 'none';
-//   productContent.style.display = 'none';
-// });
-
-// categoryLink.addEventListener('click', () => {
-//   orderContent.style.display = 'none';
-//   categoryContent.style.display = 'block';
-//   productContent.style.display = 'none';
-// });
-
-// productLink.addEventListener('click', () => {
-//   orderContent.style.display = 'none';
-//   categoryContent.style.display = 'none';
-//   productContent.style.display = 'block';
-// });

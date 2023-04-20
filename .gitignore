@@ -3,4 +3,4 @@ node_modules
 yarn.lock
 package-lock.json
 .env
-src/views/dist/
+src/views/dist/output.css
