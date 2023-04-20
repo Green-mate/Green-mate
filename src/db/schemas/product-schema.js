@@ -5,12 +5,13 @@ const ProductSchema = new Schema(
     productName: {
       type: String,
       required: true,
-      unique: true, // 상품명을 primary key로써 사용.
+      unique: true, // 상품명은 유일한 값으로 사용.
     },
     category: {
-      // type: [Schema.Types.ObjectId],
-      // ref: "categories",
-      type: [String],
+      type: [Schema.Types.ObjectId],
+      ref: "categories",
+      // 테스트용 임시타임 지정.
+      // type: [String],
       required: true,
     },
     productPrice: {
