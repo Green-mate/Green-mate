@@ -6,7 +6,6 @@ import { userService } from '../services';
 
 const userRouter = Router();
 
-// 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post('/users/join', async (req, res, next) => {
   try {
     // Content-Type: application/json 설정을 안 한 경우, 에러를 만들도록 함.
@@ -18,18 +17,15 @@ userRouter.post('/users/join', async (req, res, next) => {
     }
 
     // req (request)의 body 에서 데이터 가져오기
-    const userName = req.body.userName;
-    const email = req.body.email;
-    const password = req.body.password;
+    const { userName, email, password, role } = req.body;
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userService.addUser({
       userName,
       email,
       password,
+      role,
     });
-
-    // 추가된 유저의 db 데이터를 프론트에 다시 보내줌
     // 물론 프론트에서 안 쓸 수도 있지만, 편의상 일단 보내 줌
     res.status(201).json(newUser);
   } catch (error) {
@@ -61,15 +57,13 @@ userRouter.post('/users/login', async function (req, res, next) {
   }
 });
 
-// 유저 개인의 목록을 가져옴 (단일)
+// uid에 해당하는 유저 개인의 목록을 가져옴 (단일)
 userRouter.get('/users/:uid', loginRequired, async function (req, res, next) {
   try {
-    // 전체 사용자 목록을 얻음
     const userId = req.params.uid;
-    const users = await userService.getUser(userId);
+    const user = await userService.getUser(userId);
 
-    // 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
-    res.status(200).json(users);
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
@@ -86,15 +80,8 @@ userRouter.patch('/users/:uid', loginRequired, async function (req, res, next) {
       );
     }
 
-    // params로부터 id를 가져옴
     const userId = req.params.uid;
-
-    // body data 로부터 업데이트할 사용자 정보를 추출함.
-    const userName = req.body.userName;
-    const password = req.body.password; //바꿀 비밀번호
-
-    // body data로부터, 확인용으로 사용할 현재 비밀번호를 추출함.
-    const currentPassword = req.body.currentPassword;
+    const { userName, password, currentPassword } = req.body;
 
     // currentPassword 없을 시, 진행 불가
     if (!currentPassword) {
@@ -121,7 +108,6 @@ userRouter.patch('/users/:uid', loginRequired, async function (req, res, next) {
       toUpdate,
     );
 
-    // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
     res.status(200).json(updatedUserInfo);
   } catch (error) {
     next(error);

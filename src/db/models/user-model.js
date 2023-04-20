@@ -34,17 +34,7 @@ export class UserModel {
     const updatedUser = await User.findOneAndUpdate(filter, update, option);
     return updatedUser;
   }
-
-  async delete(userId) {
-    const filter = { _id: userId };
-    const update = { role: 'disabled' };
-    const option = { returnOriginal: false };
-
-    const deletedUser = await User.findOneAndUpdate(filter, update, option);
-    return deletedUser;
-  }
 }
-
 const userModel = new UserModel();
 
 export { userModel };
