@@ -1,0 +1,16 @@
+.card-container {
+  width: 790px;
+  height: 500px;
+}
+
+.card-title {
+  font-size: 28px;
+}
+.check-logo {
+  color: #69b766;
+  font-size: 100px;
+}
+
+.card-link {
+  color: #69b766;
+}

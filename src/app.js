@@ -5,6 +5,9 @@ import { errorHandler } from './middlewares';
 
 const app = express();
 
+// output.css 사용하기 위함
+// app.use(express.static('dist'));
+
 // CORS 에러 방지
 app.use(cors());
 app.use(express.static('src'));
