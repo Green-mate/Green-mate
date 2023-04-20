@@ -39,8 +39,8 @@ class CategoryService {
     return updatedCategory;
   }
 
-  async getCategoryDataById(categoryId) {
-    const category = await this.categoryModel.findById(categoryId);
+  async getCategoryDataById(cid) {
+    const category = await this.categoryModel.findById(cid);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!category) {
@@ -65,21 +65,21 @@ class CategoryService {
     return category;
   }
 
-  async deleteCategoryData(categoryId) {
+  async deleteCategoryData(cid) {
     // 만약 해당 카테고리의 제품이 1개라도 있다면, 삭제 불가함.
-    const product = await this.productModel.findOneByCategoryId(categoryId);
+    // const product = await this.productModel.findById(cid);
 
-    if (product) {
-      throw new Error(
-        `${categoryId} 카테고리에 등록된 제품이 있습니다. 등록된 제품이 없어야 카테고리 삭제가 가능합니다. `,
-      );
-    }
+    // if (product) {
+    //   throw new Error(
+    //     `${cid} 카테고리에 등록된 제품이 있습니다. 등록된 제품이 없어야 카테고리 삭제가 가능합니다. `,
+    //   );
+    // }
 
-    const { deletedCount } = await this.categoryModel.deleteById(categoryId);
+    const { deletedCount } = await this.categoryModel.deleteById(cid);
 
     // 삭제에 실패한 경우, 에러 메시지 반환
     if (deletedCount === 0) {
-      throw new Error(`${categoryId} 카테고리의 삭제에 실패하였습니다`);
+      throw new Error(`${cid} 카테고리의 삭제에 실패하였습니다`);
     }
 
     return { result: 'success' };
