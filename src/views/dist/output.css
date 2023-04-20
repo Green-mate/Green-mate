@@ -991,6 +991,11 @@ video {
   padding-right: 2.5rem;
 }
 
+.py-14 {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+
 .text-center {
   text-align: center;
 }
