@@ -1,4 +1,6 @@
-import { Schema } from "mongoose";
+import { Schema } from 'mongoose';
+// import { shortId } from "./types/short-Id";
+//(엘리스에서 short-ID를 계속 사용했는데, 사용할지는 생각 필요해보여요)
 
 const UserSchema = new Schema(
   {
@@ -6,41 +8,30 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    fullName: {
-      type: String,
-      required: true,
-    },
     password: {
       type: String,
       required: true,
     },
-    phoneNumber: {
+    userName: {
       type: String,
-      required: false,
-    },
-    address: {
-      type: new Schema(
-        {
-          postalCode: String,
-          address1: String,
-          address2: String,
-        },
-        {
-          _id: false,
-        }
-      ),
-      required: false,
+      required: true,
     },
     role: {
       type: String,
-      required: false,
-      default: "basic-user",
+      default: 'basic-user', // admin, disabled
     },
+    orderList: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+        required: true,
+      },
+    ],
   },
   {
-    collection: "users",
     timestamps: true,
-  }
+    collection: 'users',
+  },
 );
 
 export { UserSchema };
