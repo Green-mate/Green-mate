@@ -1,13 +1,13 @@
-import is from "@sindresorhus/is";
-import { Router } from "express";
-import { Product } from "../db";
-import { loginRequired } from "../middlewares";
+import is from '@sindresorhus/is';
+import { Router } from 'express';
+import { Product } from '../db';
+import { loginRequired } from '../middlewares';
 
 const productRouter = Router();
 
 // 상품 전체 조회: /api/products?category==all
 // 상품 카테고리별 조회: /api/products?category=다육식물
-productRouter.get("/products", async (req, res, next) => {
+productRouter.get('/products', async (req, res, next) => {
   try {
     const category = req.query.category;
     const products = await Product.find({ category });
@@ -19,7 +19,7 @@ productRouter.get("/products", async (req, res, next) => {
 });
 
 // 상품 상세 조회: /api/products/1
-productRouter.get("/products/:pid", async (req, res, next) => {
+productRouter.get('/products/:pid', async (req, res, next) => {
   try {
     const pid = req.params.pid;
     const products = await Product.findOne({ _id: pid });
@@ -32,7 +32,7 @@ productRouter.get("/products/:pid", async (req, res, next) => {
 
 // 관리자 상품 추가: /api/admin/product
 productRouter.post(
-  "/admin/product",
+  '/admin/product',
   //loginRequired,
   async (req, res, next) => {
     try {
@@ -57,12 +57,12 @@ productRouter.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 // 관리자 상품 수정: /api/admin/product/1
 productRouter.patch(
-  "/admin/product/:pid",
+  '/admin/product/:pid',
   //loginRequired,
   async (req, res, next) => {
     try {
@@ -94,12 +94,12 @@ productRouter.patch(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 // 관리자 상품 삭제: /api/admin/product/1
 productRouter.delete(
-  "/admin/product/:pid",
+  '/admin/product/:pid',
   //loginRequired,
   async (req, res, next) => {
     try {
@@ -112,11 +112,11 @@ productRouter.delete(
       const pid = req.params.pid;
       const deleteProduct = await Product.deleteOne({ _id: pid });
 
-      res.status(200).send("delete: OK");
+      res.status(200).send('delete: OK');
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export { productRouter };

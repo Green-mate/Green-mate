@@ -1,4 +1,5 @@
 import { userModel } from '../db';
+import { orderModel } from '../db';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -6,6 +7,7 @@ import jwt from 'jsonwebtoken';
 class UserService {
   constructor(userModel) {
     this.userModel = userModel;
+    this.orderModel = orderModel;
   }
 
   // 회원가입
@@ -62,6 +64,7 @@ class UserService {
     return { token };
   }
 
+  //유저 정보 조회
   async getUser(userId) {
     const user = await this.userModel.findById(userId);
     return user;
