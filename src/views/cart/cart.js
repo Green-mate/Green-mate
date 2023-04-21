@@ -1,3 +1,5 @@
+const orderContainer = document.querySelector('#order-container');
+
 const card = document.querySelector('#card-section');
 
 function createCard() {

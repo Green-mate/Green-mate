@@ -10,7 +10,7 @@ function renderHeader() {
   >
     <ul id="user-menu-navbar" class="flex justify-end">
       <li id="admin-menu" class="text-gray-500 text-lg font-bold mr-8">
-        <a href="#">관리자 페이지</a>
+        <a href="/admin-order">관리자 페이지</a>
       </li>
       <li id="my-page-menu" class="text-gray-500 text-lg font-bold mr-8">
         <a href="/mypage">마이페이지</a>
@@ -22,7 +22,7 @@ function renderHeader() {
         <a href="/register">회원가입</a>
       </li>
       <li id="cart-menu" class="text-gray-500 text-lg font-bold">
-        <a href="#cart" aria-current="page">
+        <a href="/cart" aria-current="page">
           <span>장바구니</span>
           <span>
             <i class="fas fa-cart-shopping"></i>
