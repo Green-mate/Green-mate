@@ -15,7 +15,7 @@ function createCard() {
             </div>
             <div id="product" class="ml-3 w-1/6">
               <a class="product-img" href="#">
-                <img src="../dist/plant-1.png" width="100" height="100" />
+                <img src="../dist/example.jpeg" width="100" height="100" />
               </a>
             </div>
             <div class="product-detail ml-6 w-1/4">

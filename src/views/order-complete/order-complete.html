@@ -14,45 +14,11 @@
       src="https://kit.fontawesome.com/9daa42bcef.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="order-complete.css" />
-    <!-- <script src="order-complete.js" type="module" defer></script> -->
+    <script src="../common/header-footer.js" type="module" defer></script>
+    <script src="order-complete.js" type="module" defer></script>
   </head>
 
   <body style="margin: 0 auto; padding: 0px; width: 1200px">
-    <header class="mx-auto px-0 box-border flex flex-col p-10">
-      <nav
-        class="flex flex-row justify-end"
-        id="navbar"
-        role="navigation"
-        aria-label="main navigation"
-      >
-        <ul id="user-menu-navbar" class="flex justify-end">
-          <li id="admin-menu" class="text-gray-500 text-lg font-bold mr-8">
-            <a href="#">관리자 페이지로</a>
-          </li>
-          <li id="signin-menu" class="text-gray-500 text-lg font-bold mr-8">
-            <a href="/login">로그인</a>
-          </li>
-          <li id="signup-menu" class="text-gray-500 text-lg font-bold mr-8">
-            <a href="/register">회원가입</a>
-          </li>
-          <li id="cart-menu" class="text-gray-500 text-lg font-bold">
-            <a href="#cart" aria-current="page">
-              <span>장바구니</span>
-              <span>
-                <i class="fas fa-cart-shopping"></i>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div id="navbar-logo" class="mt-5 flex justify-center items-center">
-        <a class="navbar-item" href="/">
-          <img src="../dist/logo-1.png" width="150" height="150" />
-        </a>
-      </div>
-    </header>
-
     <div class="process-section">
       <div class="process-text flex -mt-14">
         <p class="text-base text-stone-500 mt-1">장바구니 ></p>
@@ -64,40 +30,36 @@
 
     <div class="card-section flex justify-center items-center">
       <div
-        class="card-container mt-16 mb-8 border-solid border-emerald-500 border flex justify-center items-center"
+        class="card-container w-[790px] h-[500px] mt-16 mb-8 border-solid border-emerald-500 border flex justify-center items-center"
       >
         <div
           class="card-body w-full h-full flex box-border flex-col items-center justify-around"
         >
-          <div class="card-title w-full flex justify-center items-center h-1/5">
+          <div
+            class="card-title text-[28px] w-full flex justify-center items-center h-1/5"
+          >
             주문 완료
           </div>
           <div class="card-subtitle mb-8">
-            <i class="check-logo fa-solid fa-circle-check fa-5x"></i>
+            <i
+              class="check-logo fa-solid fa-circle-check fa-5x text-[#69b766] text-[100px]"
+            ></i>
           </div>
           <div class="card-text text-xl flex justify-center items-center">
             주문이 완료되었습니다!
           </div>
           <div class="to-order-list flex justify-center items-center">
-            <a href="#" class="card-link no-underline">주문 내역 보러가기</a>
+            <a href="#" class="card-link no-underline text-[#69b766]"
+              >주문 내역 보러가기</a
+            >
           </div>
           <div class="to-shopping-list flex justify-center items-center mb-8">
-            <a href="#" class="card-link no-underline">다른 상품 보러가기</a>
+            <a href="#" class="card-link no-underline text-[#69b766]"
+              >다른 상품 보러가기</a
+            >
           </div>
         </div>
       </div>
     </div>
-
-    <footer class="bg-gray-500 text-white py-4 mt-10">
-      <div class="max-w-6xl mx-auto flex justify-center items-center">
-        <p class="text-gray-400 text-sm">© 2023 그린메이트</p>
-        <span class="text-gray-400 text-sm mx-2">|</span>
-        <p class="text-gray-400 text-sm">FE : 김희삼 신하영 진호병</p>
-        <span class="text-gray-400 text-sm mx-2">|</span>
-        <p class="text-gray-400 text-sm">BE : 김마리나 류경서 류한나</p>
-        <span class="text-gray-400 text-sm mx-2">|</span>
-        <p class="text-gray-400 text-sm">저작권 : 푸르디마켓</p>
-      </div>
-    </footer>
   </body>
 </html>
