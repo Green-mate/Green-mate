@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import { Router } from 'express';
 import is from '@sindresorhus/is';
 import { loginRequired } from '../middlewares';
@@ -8,8 +9,12 @@ const orderRouter = Router();
 //주문 생성 api
 orderRouter.post('/new-order', loginRequired, async (req, res, next) => {
   try {
+    const userToken = req.headers['authorization']?.split(' ')[1];
+    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
+    const jwtDecoded = jwt.verify(userToken, secretKey);
+    const userId = jwtDecoded.userId;
+
     const {
-      userId,
       productList,
       recipient,
       phoneNumber,
@@ -83,6 +88,25 @@ orderRouter.patch('/orders/:oid', loginRequired, async (req, res, next) => {
     );
 
     res.status(200).json(updatedUserInfo);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//주문 삭제 api
+orderRouter.delete('/orders', loginRequired, async (req, res, next) => {
+  try {
+    const orderId = req.query.oid;
+    const deletedOrderInfo = await orderService.deleteOrder(orderId);
+    res.status(200).json('주문 삭제에 성공했습니다!').json(deletedOrderInfo);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//유저 전체 주문 리스트 전달
+orderRouter.get('/orders/:uid', loginRequired, async (req, res, next) => {
+  try {
   } catch (error) {
     next(error);
   }

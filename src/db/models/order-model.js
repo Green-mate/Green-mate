@@ -21,7 +21,7 @@ export class OrderModel {
     return createdNewOrder;
   }
   //주문 삭제
-  async deletedById(orderId) {
+  async deleteById(orderId) {
     const result = await Order.deleteOne({ _id: orderId });
     return result;
   }

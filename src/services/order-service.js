@@ -38,17 +38,35 @@ class OrderService {
     return createdOrder;
   }
 
-  //일반 유저의 주문 정보 수정 ()
+  //일반 유저의 주문 정보 수정
   async updateOrderInfo(orderInfoRequired, toUpdate) {
     const { orderId } = orderInfoRequired;
     let order = await this.orderModel.findById(orderId);
 
-    order = await this.orderModel.update({
-      orderId,
-      update: toUpdate,
-    });
+    if (order.shippingStatus === '배송전') {
+      order = await this.orderModel.update({
+        orderId,
+        update: toUpdate,
+      });
 
-    return order;
+      return order;
+    } else {
+      throw new Error(
+        "배송 상태가 '배송전'인 경우에만 정보를 수정할 수 있습니다.",
+      );
+    }
+  }
+
+  //일반 유저의 주문 정보 삭제
+  async deleteOrder(orderId) {
+    let order = await this.orderModel.findById(orderId);
+    if (order.shippingStatus === '배송전') {
+      order = await this.orderModel.deleteById(orderId);
+    } else {
+      throw new Error(
+        "배송 상태가 '배송전'인 경우에만 정보를 삭제할 수 있습니다.",
+      );
+    }
   }
 }
 

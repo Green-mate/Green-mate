@@ -61,7 +61,12 @@ class UserService {
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
     const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
-    return { token };
+    const userInfoWithUserToken = {};
+    userInfoWithUserToken.token = token;
+    userInfoWithUserToken.userId = user._id;
+    userInfoWithUserToken.role = user.role;
+
+    return userInfoWithUserToken;
   }
 
   //유저 정보 조회
