@@ -68,6 +68,11 @@ class OrderService {
       );
     }
   }
+
+  async getOrderListByUserId(userId) {
+    let orderList = await this.orderModel.findByUserId(userId);
+    return orderList;
+  }
 }
 
 const orderService = new OrderService(orderModel);

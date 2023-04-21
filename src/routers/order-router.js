@@ -9,12 +9,8 @@ const orderRouter = Router();
 //주문 생성 api
 orderRouter.post('/new-order', loginRequired, async (req, res, next) => {
   try {
-    const userToken = req.headers['authorization']?.split(' ')[1];
-    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
-    const jwtDecoded = jwt.verify(userToken, secretKey);
-    const userId = jwtDecoded.userId;
-
     const {
+      userId,
       productList,
       recipient,
       phoneNumber,
@@ -22,7 +18,7 @@ orderRouter.post('/new-order', loginRequired, async (req, res, next) => {
       address1,
       address2,
       shippingMessage,
-      shippingStatus, //undefined로 보내주시면 됩니다.
+      shippingStatus, //undefined
     } = req.body;
     const newOrder = await orderService.addOrder({
       userId,
@@ -98,7 +94,7 @@ orderRouter.delete('/orders', loginRequired, async (req, res, next) => {
   try {
     const orderId = req.query.oid;
     const deletedOrderInfo = await orderService.deleteOrder(orderId);
-    res.status(200).json('주문 삭제에 성공했습니다!').json(deletedOrderInfo);
+    res.status(200).send('주문 삭제에 성공했습니다!').json(deletedOrderInfo);
   } catch (error) {
     next(error);
   }
@@ -107,6 +103,9 @@ orderRouter.delete('/orders', loginRequired, async (req, res, next) => {
 //유저 전체 주문 리스트 전달
 orderRouter.get('/orders/:uid', loginRequired, async (req, res, next) => {
   try {
+    const userId = req.params.uid;
+    const orderListByUserId = await orderService.getOrderListByUserId(userId);
+    res.status(200).json(orderListByUserId);
   } catch (error) {
     next(error);
   }

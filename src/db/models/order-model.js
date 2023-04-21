@@ -15,6 +15,17 @@ export class OrderModel {
     return order;
   }
 
+  // userId들에 해당하는 주문리스트 조회
+  async findByUserId(userId) {
+    const orderList = await Order.find({ userId: userId })
+      .populate(
+        'productList.productId',
+        'productName productPrice stock productImage',
+      )
+      .exec();
+    return orderList;
+  }
+
   //주문 생성
   async create(orderInfo) {
     const createdNewOrder = await Order.create(orderInfo);
