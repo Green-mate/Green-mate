@@ -28,7 +28,7 @@ function adminOnly(req, res, next) {
 
       res.status(403).json({
         result: 'forbidden-approach',
-        reason: '관리자만 사용할 수 있는 서비스입니다.',
+        reason: '해당 페이지는 관리자만 접속 가능합니다.',
       });
 
       return;
