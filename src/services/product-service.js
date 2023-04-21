@@ -1,4 +1,4 @@
-import { categoryModel, Product } from "../db"; // Product는 Product model임.
+import { categoryModel, productModel } from "../db";
 /*
 status(200) - 성공
 해당되는 상품 목록을 객체리스트로 받아옵니다.
@@ -27,13 +27,13 @@ status(400) - 실패(페이지를 찾을 수 없는 경우)
 }
 */
 class ProductService {
-  constructor(categoryModel, Product) {
+  constructor(categoryModel, productModel) {
     this.categoryModel = categoryModel;
-    this.productModel = Product;
+    this.productModel = productModel;
   }
   // 주어진 데이터가 데이터베이스에 하나 이상 존재하는 경우에는 그 값을 반환하고, 아니면 null
   async getProduct(category) {
-    const products = await this.Product.exists({ category });
+    const products = await this.productModel.exists({ category });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (products === null) {
@@ -44,6 +44,6 @@ class ProductService {
   }
 }
 
-const productService = new ProductService(categoryModel, Product);
+const productService = new ProductService(categoryModel, productModel);
 
 export { productService };

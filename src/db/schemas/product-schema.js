@@ -3,7 +3,7 @@ import { shortId } from "./types/short-id";
 
 const ProductSchema = new Schema(
   {
-    pid: shortId, // 상품 id
+    shortId, // 상품 id
     productName: {
       type: String,
       required: true,
