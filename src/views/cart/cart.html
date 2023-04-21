@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="/dist/output.css" rel="stylesheet" />
+
+    <!-- 아이콘 -->
+    <link rel="icon" type="image/png" sizes="16X16" href="../dist/logo-2.png" />
+    <!-- 폰트 어썸: 아이콘 -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/9daa42bcef.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../common/header-footer.js" type="module" defer></script>
+    <script src="cart.js" type="module" defer></script>
+  </head>
+
+  <body style="margin: 0 auto; padding: 0px; width: 1200px">
+    <div class="process-section">
+      <div class="process-text flex -mt-14">
+        <p class="text-xl font-medium ml-2">장바구니 ></p>
+        <p class="text-base text-stone-500 ml-1 mt-1">주문결제 ></p>
+        <p class="text-base text-stone-500 ml-1 mt-1">주문완료</p>
+      </div>
+      <hr class="mt-5 border-t border-gray-500 opacity-25" />
+    </div>
+
+    <div class="main-section flex">
+      <div class="card-section w-3/5 h-full relative" id="card-section">
+        <div class="select-container flex mt-12 ml-1">
+          <label class="checkbox-section flex">
+            <input
+              class="checkbox-all accent-[#69B766] mb-1"
+              type="checkbox"
+              name="whole-check"
+              value="whole-check"
+            />
+            <div for="whole-check" class="text-sm ml-1">전체선택</div>
+          </label>
+
+          <button id="checked-delete" class="text-sm mb-1 ml-1">
+            / 선택삭제
+          </button>
+        </div>
+        <div class="border-line">
+          <hr class="mt-2 border-t border-gray-500 opacity-25" />
+        </div>
+        <!-- 카드 섹션 -->
+      </div>
+
+      <div class="order-summary-section w-2/5 relative">
+        <div
+          class="outborder border border-[#8ed08c] rounded-md w-[400px] h-[430px] mt-20 ml-20 flex-col relative"
+        >
+          <div
+            class="title-container w-full rounded-t-md h-1/6 bg-[#e7e7e7] flex items-center justify-center"
+          >
+            <div class="title">
+              <p class="text-lg font-medium text-[#393939]">전체주문금액</p>
+            </div>
+          </div>
+          <div
+            class="detail-container w-full h-[15rem] border-b-2 border-b-[#f6f6f6]"
+          >
+            <div
+              class="selecte-count-container flex mt-8 items-center justify-between mx-8 font-medium text-[15px]"
+            >
+              <p>선택 상품 수</p>
+              <p id="selected-count">3개</p>
+            </div>
+            <div
+              class="whole-goods-price-container flex mt-4 items-center justify-between mx-8 font-medium text-[15px]"
+            >
+              <p>총 상품금액</p>
+              <p id="whole-goods-price">10000원</p>
+            </div>
+            <div
+              class="delivery-fee-container flex mt-4 items-center justify-between mx-8 font-medium text-[15px]"
+            >
+              <p>배송비</p>
+              <p>3000원</p>
+            </div>
+          </div>
+          <div class="total-price-container flex justify-between mx-8 h-[85px]">
+            <p class="self-start font-medium text-[13px] text-[#145f37] mt-3">
+              결제 예정 금액
+            </p>
+            <p
+              class="self-end font-medium text-2xl text-[#145f37] mb-4"
+              id="total-price"
+            >
+              13,000원
+            </p>
+          </div>
+        </div>
+        <div class="order-container">
+          <button
+            class="button w-[400px] h-[75px] border rounded-md bg-[#69b766] mt-7 ml-20 text-2xl font-bold text-white"
+            id="order-button"
+          >
+            선택 상품 주문하기
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

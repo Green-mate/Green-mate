@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Green Mate🪴</title>
+    <!-- import tailwind css -->
+    <link href="/dist/output.css" rel="stylesheet" />
+    <!-- 아이콘 -->
+    <link rel="icon" type="image/png" sizes="16X16" href="/dist/logo-2.png" />
+    <!-- 폰트 어썸: 아이콘 -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/9daa42bcef.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- 커스텀 css, js -->
+    <script src="../common/header-footer.js" type="module" defer></script>
+    <script src="../common/category.js" type="module" defer></script>
+
+    <script src="product-detail.js" type="module" defer></script>
+  </head>
+
+  <body>
+    <div id="category-list-section" class="mb-20"></div>
+
+    <!-- 단일 상품 정보 이미지, 가격, 바로구매, 장바구니 버튼-->
+    <section id="product-detail-container" class="flex flex-row justify-center">
+      <div id="product-img-container" class="mr-10">
+        <img
+          src="../dist/example.jpeg"
+          id="card-img-top"
+          class="rounded-lg"
+          width="525"
+          height="564"
+        />
+      </div>
+
+      <div
+        id="product-main-container"
+        class="ml-10 flex flex-col justify-between"
+        style="width: 500px"
+      >
+        <div id="product-text-container" class="">
+          <div id="product-name" class="text-4xl font-semibold mb-5">
+            하얗게 피어난 얼음꽃
+          </div>
+          <div id="product-price-label" class="flex flex-row items-end mb-5">
+            <div id="product-price" class="font-bold mr-1 text-3xl">14,000</div>
+            <div id="product-price" class="text-lg">원</div>
+          </div>
+          <div id="product-name" class="text-gray-500 text-lg">#야생화</div>
+        </div>
+
+        <!-- 수량 변경 버튼 -->
+        <div>
+          <div
+            id="product-amount-container"
+            class="flex flex-row items-end mb-3"
+          >
+            <div
+              id="amount-button-container"
+              class="border rounded-md flex flex-row items-center justify-between"
+              style="width: 150px; height: 40px"
+            >
+              <button
+                id="button-minus"
+                style="width: 50px; height: 40px"
+                class="text-3xl text-center border-r rounded-l-md border-gray-200 hover:bg-gray-200"
+              >
+                -
+              </button>
+              <div id="product-amount">1</div>
+              <button
+                id="button-plus"
+                style="width: 50px; height: 40px"
+                class="text-3xl text-center border-l rounded-r-md border-gray-200 hover:bg-gray-200"
+              >
+                +
+              </button>
+            </div>
+            <p class="text-gray-400 ml-3">
+              ※ 재고 수량까지만 카운트 가능합니다.
+            </p>
+          </div>
+          <div id="deliveryFee-info" class="text-gray-400">배송비 / 3000원</div>
+
+          <!-- 총 주문 수량 & 총 상품 금액 -->
+          <div
+            id="total-amount-container"
+            class="flex flex-row justify-between items-end mb-3"
+          >
+            <p>총 상품 금액</p>
+            <div id="total-number-label" class="flex flex-row items-end">
+              <p class="text-gray-400">총 수량&nbsp;</p>
+              <p id="total-number" class="text-red-600">2</p>
+              <p class="text-gray-400 mr-10">개</p>
+              <p id="total-price" class="text-red-600 font-bold mr-1 text-2xl">
+                28,000
+              </p>
+              <p id="total-price" class="text-red-600">원</p>
+            </div>
+          </div>
+
+          <div
+            id="button-container"
+            class="flex flex-row justify-between"
+            style="height: 52px"
+          >
+            <button
+              type="button"
+              style="width: 400px"
+              class="shadow bg-green-500 hover:bg-green-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none"
+              id="order-button"
+              data-bs-toggle="modal"
+              data-bs-target="#modalLogin"
+            >
+              바로 구매
+            </button>
+            <button
+              type="button"
+              style="width: 70px"
+              id="cart-button"
+              class="shadow border rounded py-2 px-4 border-gray-200 hover:bg-gray-200"
+            >
+              <span>
+                <i class="fas fa-cart-shopping text-green-500"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="product-info-container"
+      class="mt-10 flex flex-col items-center"
+    >
+      <p class="text-lg mb-3" style="width: 1105px">상품 정보</p>
+      <table id="product-info-table" class="mb-10" style="width: 1106px">
+        <tbody>
+          <tr>
+            <td class="border px-4 py-2 bg-gray-200 w-44">상품 카테고리</td>
+            <td id="product-category-info" class="border px-4 py-2">야생화</td>
+            <td class="border px-4 py-2 bg-gray-200 w-44">재고수량</td>
+            <td id="product-amount-info" class="border px-4 py-2">230개</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
