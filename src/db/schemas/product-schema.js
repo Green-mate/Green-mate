@@ -13,10 +13,8 @@ const ProductSchema = new Schema(
     // i. product Object id로 product 도큐먼트를 찾아서,
     // ii. 그 도큐먼트의 categoriesName에 새로 만든 category 도큐먼트의 Object id를 추가
     category: {
-      // type: [Schema.Types.ObjectId],
-      // ref: "categories",
-      //테스트용.
-      type: [String],
+      type: [Schema.Types.ObjectId],
+      ref: "categories",
       required: true,
     },
     productPrice: {

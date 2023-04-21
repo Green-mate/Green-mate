@@ -1,6 +1,5 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
-import { productModel } from "../db";
 import { adminOnly } from "../middlewares";
 import { productService } from "../services";
 
@@ -18,7 +17,7 @@ productRouter.get("/products", async (req, res, next) => {
     // total, products 를 Promise.all 을 사용해 동시에 호출
     // 디스트럭트: [total, products] = [전체 게시글 수, 보여줄 게시글들]
     const [total, products] = await Promise.all([
-      productModel.countDocuments({ category }), // 전체 상품 개수를 가져옴
+      productModel.getProductsCount(category), // 전체 상품 개수를 가져옴
       // 페이지네이션
       productService
         .getProduct(category) // 전체 상품을 가져와서,
@@ -44,7 +43,7 @@ productRouter.get("/products", async (req, res, next) => {
 productRouter.get("/products/:pid", async (req, res, next) => {
   try {
     const pid = req.params.pid;
-    const products = await productModel.findOne({ shortId: pid });
+    const products = await productModel.getProductById(pid);
 
     res.status(200).json(products);
   } catch (error) {
@@ -61,7 +60,7 @@ productRouter.get("/admin/products", adminOnly, async (req, res, next) => {
       );
     }
 
-    const products = await productModel.find({});
+    const products = await productModel.getAdminProducts();
     res.status(200).json(products);
   } catch (error) {
     next(error);
@@ -80,15 +79,18 @@ productRouter.post("/admin/products", adminOnly, async (req, res, next) => {
     const { productName, category, productPrice, productImage, stock } =
       req.body;
 
-    const newProduct = await productModel.create({
+    const result = await productModel.addProducts(
       productName,
       category,
-      productPrice: Number(productPrice),
+      productPrice,
       productImage,
-      stock: Number(stock),
-    });
+      stock
+    );
 
-    res.status(201).json(newProduct);
+    res.status(201).json({
+      result,
+      reason: "상품이 추가되었습니다.",
+    });
   } catch (error) {
     next(error);
   }
@@ -103,13 +105,11 @@ productRouter.patch("/admin/products", adminOnly, async (req, res, next) => {
       );
     }
 
-    const pid = req.params.pid;
+    const item = req.query.item;
     const { productName, category, productPrice, productImage, stock } =
       req.body;
 
-    const filter = { shortId: pid };
-    // 일단은 전체만 수정 가능. 이따가 필드별로 수정하는 함수로 나눌 예정.
-    const update = {
+    const updateObj = {
       productName,
       category,
       productPrice,
@@ -117,11 +117,12 @@ productRouter.patch("/admin/products", adminOnly, async (req, res, next) => {
       stock,
     };
 
-    const products = await productModel.findOneAndUpdate(filter, update, {
-      new: true,
-    });
+    const result = await productModel.updateProduct(item, updateObj);
 
-    res.status(200).json(products);
+    res.status(200).json({
+      result,
+      reason: "상품이 수정되었습니다.",
+    });
   } catch (error) {
     next(error);
   }
@@ -136,10 +137,13 @@ productRouter.delete("/admin/products", adminOnly, async (req, res, next) => {
       );
     }
 
-    const pid = req.params.pid;
-    const deleteProduct = await productModel.deleteOne({ shortId: pid });
+    const item = req.query.item;
+    const deleteProduct = await productModel.deleteProduct(item);
 
-    res.status(200).send("delete: OK");
+    res.status(200).json({
+      result,
+      reason: "상품이 삭제되었습니다.",
+    });
   } catch (error) {
     next(error);
   }

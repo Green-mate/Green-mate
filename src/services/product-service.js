@@ -1,49 +1,96 @@
 import { categoryModel, productModel } from "../db";
-/*
-status(200) - 성공
-해당되는 상품 목록을 객체리스트로 받아옵니다.
-products = [
-  {
-    product_name,
-    product_price,
-    productImage,
-    stock,
-  },
-  {…},
-]
-전체 또는 카테고리에 해당하는 상품 개수를 받아옵니다.
-countProducts = 109 // 전체 상품 수: 109개
 
-status(400) - 실패(DB에서 카테고리를 찾을 수 없는 경우)
-{
-"result": "error",
-"reason": “카테고리가 존재하지 않습니다."
-}
+export class ProductService {
+  // 전체(해당 카테고리) 상품 개수를 가져옴
+  async getProductsCount(category) {
+    const count = await productModel.countDocuments({ category }).exec();
 
-status(400) - 실패(페이지를 찾을 수 없는 경우)
-{
-"result": "error",
-"reason": “해당 페이지가 존재하지 않습니다."
-}
-*/
-class ProductService {
-  constructor(categoryModel, productModel) {
-    this.categoryModel = categoryModel;
-    this.productModel = productModel;
+    return count;
   }
+  // 전체(해당 카테고리) 상품 조회
   // 주어진 데이터가 데이터베이스에 하나 이상 존재하는 경우에는 그 값을 반환하고, 아니면 null
-  async getProduct(category) {
-    const products = await this.productModel.exists({ category });
+  async getProducts(categoryName) {
+    const category = await categoryModel.findOne({ categoryName }).exec();
+    const products = await productModel.find({ category }).exec();
 
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (products === null) {
-      throw new Error("카테고리가 존재하지 않습니다.");
-    } else {
-      return products;
+    if (category === null) {
+      throw new Error("해당하는 카테고리가 없습니다.");
     }
+
+    return products;
+  }
+
+  // 상품 상세 조회
+  async getProductById(id) {
+    const products = await productModel.findOne({ shortId: id }).exec();
+
+    if (products === null) {
+      throw new Error("해당하는 상품이 존재하지 않습니다.");
+    }
+
+    return products;
+  }
+
+  // 관리자페이지 상품 전체 조회
+  async getAdminProducts() {
+    const products = await productModel.find({}, { productImage: 0 }).exec();
+
+    return products;
+  }
+
+  // 상품 추가
+  async addProducts(productName, category, productPrice, productImage, stock) {
+    const productNameDB = await productModel.findOne({ productName }).exec();
+    if (productNameDB) {
+      throw new Error("이미 존재하는 상품입니다.");
+    } else {
+      await productModel
+        .create({
+          productName,
+          category,
+          productPrice: Number(productPrice),
+          productImage,
+          stock: Number(stock),
+        })
+        .exec();
+    }
+
+    return "success";
+  }
+
+  // 상품 업데이트
+  async updateProduct(item, updateObj) {
+    const filter = { productName: item };
+
+    const updateProduct = await productModel
+      .findOneAndUpdate(filter, updateObj, { new: true })
+      .exec();
+
+    if (updateProduct === null) {
+      throw new Error("해당 상품을 찾을 수 없어 수정할 수 없습니다.");
+    }
+
+    return "success";
+  }
+
+  // 상품 삭제
+  async deleteProduct(item) {
+    const productName = await productModel
+      .findOne({ productName: item })
+      .exec();
+
+    if (productName === null) {
+      throw new Error("해당 상품을 찾을 수 없어 삭제에 실패했습니다.");
+    } else {
+      const deleteProduct = await productModel
+        .deleteOne({ productName })
+        .exec();
+    }
+
+    return "success";
   }
 }
 
-const productService = new ProductService(categoryModel, productModel);
+const productService = new ProductService();
 
 export { productService };

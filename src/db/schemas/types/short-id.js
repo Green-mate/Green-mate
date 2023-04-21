@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 
+// 6자리 random 문자열 생성 ex. "StGXR8"
 const shortId = {
   type: String,
   default: () => {
