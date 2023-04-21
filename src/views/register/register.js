@@ -1,4 +1,4 @@
-import * as Api from '/api.js';
+import * as API from '../api.js';
 import { validateEmail } from '/useful-functions.js';
 
 // 요소(element), input 혹은 상수
@@ -48,16 +48,16 @@ async function handleSubmit(e) {
 
   // 회원가입 api 요청
   try {
-    const data = { fullName, email, password };
-
-    await Api.post('/api/register', data);
-
+    const data = { userName: fullName, email: email, password: password };
+    await API.postWithoutToken('/api/users/join', data);
     alert(`정상적으로 회원가입되었습니다.`);
 
     // 로그인 페이지 이동
     window.location.href = '/login';
-  } catch (err) {
-    console.error(err.stack);
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+  } catch (error) {
+    console.error(error.stack);
+    const { message } = error.response.data;
+
+    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${message}`);
   }
 }
