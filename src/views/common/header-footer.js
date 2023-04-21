@@ -51,9 +51,9 @@ function renderFooter() {
     <span class="text-gray-400 text-sm mx-2">|</span>
     <p class="text-gray-400 text-sm">FE : 김희삼 신하영 진호병</p>
     <span class="text-gray-400 text-sm mx-2">|</span>
-    <p class="text-gray-400 text-sm">BE : 김마리나 류경서 류한나</p>
+    <p class="text-gray-400 text-sm">BE : 김마리나 류이서 류한나</p>
     <span class="text-gray-400 text-sm mx-2">|</span>
-    <p class="text-gray-400 text-sm">저작권 : 푸르디마켓</p>
+    <p class="text-gray-400 text-sm">저작권 : 푸르다마켓</p>
   </div>
 </footer>
   `;
