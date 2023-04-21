@@ -1,4 +1,5 @@
-import { Schema } from "mongoose";
+import { Schema } from 'mongoose';
+
 
 const UserSchema = new Schema(
   {
@@ -6,41 +7,30 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    fullName: {
-      type: String,
-      required: true,
-    },
     password: {
       type: String,
       required: true,
     },
-    phoneNumber: {
+    userName: {
       type: String,
-      required: false,
-    },
-    address: {
-      type: new Schema(
-        {
-          postalCode: String,
-          address1: String,
-          address2: String,
-        },
-        {
-          _id: false,
-        }
-      ),
-      required: false,
+      required: true,
     },
     role: {
       type: String,
-      required: false,
-      default: "basic-user",
+      default: 'basic-user', // admin, disabled
     },
+    orderList: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Order',
+        required: true,
+      },
+    ],
   },
   {
-    collection: "users",
     timestamps: true,
-  }
+    collection: 'users',
+  },
 );
 
 export { UserSchema };
