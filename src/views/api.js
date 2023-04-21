@@ -1,121 +1,179 @@
-// api 로 GET 요청 (/endpoint/params 형태로 요청함)
+import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
+
+// axios GET
+async function getWithoutToken(endpoint, params = '') {
+  const apiUrl = `${endpoint}/${params}`;
+  console.log(`%cGET 요청: ${apiUrl} `, 'color: #a25cd1;');
+
+  try {
+    const res = await axios.get(apiUrl);
+    const result = res.data;
+    return result;
+  } catch (error) {
+    const { reason } = error.response.data;
+
+    throw new Error(reason);
+  }
+}
+
+// axios GET with Authorization(token)
 async function get(endpoint, params = '') {
   const apiUrl = `${endpoint}/${params}`;
   console.log(`%cGET 요청: ${apiUrl} `, 'color: #a25cd1;');
 
-  const res = await fetch(apiUrl, {
-    // JWT 토큰을 헤더에 담아 백엔드 서버에 보냄.
-    headers: {
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-    },
-  });
-
-  // 응답 코드가 4XX 계열일 때 (400, 403 등)
-  if (!res.ok) {
-    const errorContent = await res.json();
-    const { reason } = errorContent;
-
+  try {
+    const res = await axios.get(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    const result = res.data;
+    return result;
+  } catch (error) {
+    const { reason } = error.response.data;
     throw new Error(reason);
   }
-
-  const result = await res.json();
-
-  return result;
 }
 
-// api 로 POST 요청 (/endpoint 로, JSON 데이터 형태로 요청함)
+// axios POST
+async function postWithoutToken(endpoint, data) {
+  const apiUrl = endpoint;
+  console.log(`%cPOST 요청: ${apiUrl}`, 'color: #296aba;');
+  console.log(`%cPOST 요청 데이터: ${data}`, 'color: #296aba;');
+
+  try {
+    const response = await axios.post(apiUrl, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const { reason } = error.response.data;
+      throw new Error(reason);
+    } else {
+      throw new Error('Network Error');
+    }
+  }
+}
+
+// axios POST with Authorization(token)
 async function post(endpoint, data) {
   const apiUrl = endpoint;
-  // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
-  // 예시: {name: "Kim"} => {"name": "Kim"}
-  const bodyData = JSON.stringify(data);
   console.log(`%cPOST 요청: ${apiUrl}`, 'color: #296aba;');
-  console.log(`%cPOST 요청 데이터: ${bodyData}`, 'color: #296aba;');
+  console.log(`%cPOST 요청 데이터: ${data}`, 'color: #296aba;');
 
-  const res = await fetch(apiUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-    },
-    body: bodyData,
-  });
+  try {
+    const response = await axios.post(apiUrl, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
 
-  // 응답 코드가 4XX 계열일 때 (400, 403 등)
-  if (!res.ok) {
-    const errorContent = await res.json();
-    const { reason } = errorContent;
-
-    throw new Error(reason);
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const { reason } = error.response.data;
+      throw new Error(reason);
+    } else {
+      throw new Error('Network Error');
+    }
   }
-
-  const result = await res.json();
-
-  return result;
 }
 
-// api 로 PATCH 요청 (/endpoint/params 로, JSON 데이터 형태로 요청함)
+// axios PUT with Authorization(token)
+async function put(endpoint, params = '', data) {
+  // const apiUrl = `/api/admin/categories/${categoryId}`;
+  const apiUrl = `${endpoint}/${params}`;
+
+  console.log(`%cPUT 요청: ${apiUrl}`, 'color: #059c4b;');
+  console.log(`%cPUT 요청 데이터: ${data}`, 'color: #059c4b;');
+
+  try {
+    const response = await axios.put(apiUrl, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const { reason } = error.response.data;
+      throw new Error(reason);
+    } else {
+      throw new Error('Network Error');
+    }
+  }
+}
+
+// axios PATCH with Authorization(token)
 async function patch(endpoint, params = '', data) {
   const apiUrl = `${endpoint}/${params}`;
-
-  // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
-  // 예시: {name: "Kim"} => {"name": "Kim"}
-  const bodyData = JSON.stringify(data);
   console.log(`%cPATCH 요청: ${apiUrl}`, 'color: #059c4b;');
-  console.log(`%cPATCH 요청 데이터: ${bodyData}`, 'color: #059c4b;');
+  console.log(`%cPATCH 요청 데이터: ${data}`, 'color: #059c4b;');
+  try {
+    const response = await axios.patch(apiUrl, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
 
-  const res = await fetch(apiUrl, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-    },
-    body: bodyData,
-  });
-
-  // 응답 코드가 4XX 계열일 때 (400, 403 등)
-  if (!res.ok) {
-    const errorContent = await res.json();
-    const { reason } = errorContent;
-
-    throw new Error(reason);
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const { reason } = error.response.data;
+      throw new Error(reason);
+    } else {
+      throw new Error('Network Error');
+    }
   }
-
-  const result = await res.json();
-
-  return result;
 }
 
-// 아래 함수명에 관해, delete 단어는 자바스크립트의 reserved 단어이기에,
-// 여기서는 우선 delete 대신 del로 쓰고 아래 export 시에 delete로 alias 함.
+// DELETE with Authorization(token)
 async function del(endpoint, params = '', data = {}) {
   const apiUrl = `${endpoint}/${params}`;
-  const bodyData = JSON.stringify(data);
 
   console.log(`DELETE 요청 ${apiUrl}`);
-  console.log(`DELETE 요청 데이터: ${bodyData}`);
+  console.log(`DELETE 요청 데이터: ${data}`);
 
-  const res = await fetch(apiUrl, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-    },
-    body: bodyData,
-  });
+  try {
+    const response = await axios.delete(apiUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      data: data,
+    });
 
-  // 응답 코드가 4XX 계열일 때 (400, 403 등)
-  if (!res.ok) {
-    const errorContent = await res.json();
-    const { reason } = errorContent;
-
-    throw new Error(reason);
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const { reason } = error.response.data;
+      throw new Error(reason);
+    } else {
+      throw new Error('Network Error');
+    }
   }
-
-  const result = await res.json();
-
-  return result;
 }
 
 // 아래처럼 export하면, import * as Api 로 할 시 Api.get, Api.post 등으로 쓸 수 있음.
-export { get, post, patch, del as delete };
+export {
+  getWithoutToken,
+  get,
+  postWithoutToken,
+  post,
+  patch,
+  put,
+  del as delete,
+};
