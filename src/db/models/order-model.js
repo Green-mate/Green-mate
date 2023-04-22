@@ -5,7 +5,12 @@ const Order = model('Order', OrderSchema);
 export class OrderModel {
   //주문 목록 전체 조회
   async findAll() {
-    const orders = await Order.find({});
+    const orders = await Order.find(
+      {},
+      '_id productList shippingStatus createdAt',
+    )
+      .populate('productList.productId', 'productName productPrice')
+      .exec();
     return orders;
   }
 
@@ -36,6 +41,7 @@ export class OrderModel {
     const result = await Order.deleteOne({ _id: orderId });
     return result;
   }
+
   //주문 내용 수정
   async update({ orderId, update }) {
     const filter = { _id: orderId };

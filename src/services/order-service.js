@@ -6,6 +6,7 @@ class OrderService {
   constructor(orderModel) {
     this.orderModel = orderModel;
     this.userModel = userModel;
+    this.productModel = productModel;
   }
 
   //주문 생성
@@ -72,6 +73,22 @@ class OrderService {
   async getOrderListByUserId(userId) {
     let orderList = await this.orderModel.findByUserId(userId);
     return orderList;
+  }
+
+  //관리자의 주문 목록 전체 조회
+  async getOrderLists() {
+    let orderLists = await this.orderModel.findAll();
+    return orderLists;
+  }
+
+  //관리자의 주문 상태 수정
+  async updateOrderStatus(orderInfoRequired, toUpdate) {
+    const { orderId } = orderInfoRequired;
+    let updatedOrder = this.orderModel.update({
+      orderId,
+      update: toUpdate,
+    });
+    return updatedOrder;
   }
 }
 

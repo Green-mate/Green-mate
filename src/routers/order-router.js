@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Router } from 'express';
 import is from '@sindresorhus/is';
-import { loginRequired } from '../middlewares';
+import { loginRequired, adminOnly } from '../middlewares';
 import { orderService } from '../services';
 
 const orderRouter = Router();
@@ -9,6 +9,12 @@ const orderRouter = Router();
 //주문 생성 api
 orderRouter.post('/new-order', loginRequired, async (req, res, next) => {
   try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요',
+      );
+    }
+
     const {
       userId,
       productList,
@@ -106,6 +112,48 @@ orderRouter.get('/orders/:uid', loginRequired, async (req, res, next) => {
     const userId = req.params.uid;
     const orderListByUserId = await orderService.getOrderListByUserId(userId);
     res.status(200).json(orderListByUserId);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 관리자 상품 전체 조회
+orderRouter.get('/admin/orders', adminOnly, async (req, res, next) => {
+  try {
+    const orderLists = await orderService.getOrderLists();
+    res.status(200).json(orderLists);
+  } catch (error) {
+    next(error);
+  }
+});
+
+orderRouter.patch('/admin/orders/:oid', adminOnly, async (req, res, next) => {
+  try {
+    const orderId = req.params.oid;
+    const { shippingStatus } = req.body;
+
+    const orderInfoRequired = { orderId };
+    const toUpdate = {};
+
+    if (shippingStatus) {
+      toUpdate.shippingStatus = shippingStatus;
+    }
+
+    const statusUpdatedOrder = await orderService.updateOrderStatus(
+      orderInfoRequired,
+      toUpdate,
+    );
+    res.status(200).json(statusUpdatedOrder);
+  } catch (error) {
+    next(error);
+  }
+});
+
+orderRouter.delete('/admin/orders/:oid', adminOnly, async (req, res, next) => {
+  try {
+    const orderId = req.params.oid;
+    const deletedOrderInfo = await orderService.deleteOrder(orderId);
+    res.status(200).send('주문 삭제에 성공했습니다!').json(deletedOrderInfo);
   } catch (error) {
     next(error);
   }
