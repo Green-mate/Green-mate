@@ -1,37 +1,61 @@
-function renderCategoryBar() {
-  const categoryBar = document.querySelector('#category-list-section');
+import * as API from '../api.js';
+import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 
+const categoryBar = document.querySelector('#category-menu-navbar');
+
+function renderAllProductCategoryLabel() {
   categoryBar.innerHTML = `
-  <hr class="my-4 border-t border-gray-500 w-1200 opacity-25" />
-      <nav id="category-wrap" class="w-1200 h-auto flex-wrap">
-        <ul id="user-menu-navbar" class="flex flex-row justify-around">
-          <li class="text-[#69b766] text-lg font-bold">
-            <a class="cursor-pointer" aria-current="page">전체상품</a>
-          </li>
-          <li class="text-lg font-bold hover:text-[#69b766]">
-            <a class="cursor-pointer">관엽/공기정화식물</a>
-          </li>
-          <li class="text-lg font-bold hover:text-[#69b766]">
-            <a class="cursor-pointer">다육/선인장</a>
-          </li>
-          <li class="text-lg font-bold hover:text-[#69b766]">
-            <a class="cursor-pointer">야생화</a>
-          </li>
-          <li class="text-lg font-bold hover:text-[#69b766]">
-            <a class="cursor-pointer">분재</a>
-          </li>
-          <li class="text-lg font-bold hover:text-[#69b766]">
-            <a class="cursor-pointer">동양란/서양란</a>
-          </li>
-          <li class="text-lg font-bold hover:text-[#69b766]">
-            <a class="cursor-pointer">화분</a>
-          </li>
-          <li class="text-lg font-bold hover:text-[#69b766]">
-            <a class="cursor-pointer">원예/자재류</a>
-          </li>
-        </ul>
-      </nav>
-      <hr class="my-4 border-t border-gray-500 w-1200 opacity-25" />`;
+  <li class="text-lg font-bold hover:text-[#69b766]">
+    <a class="cursor-pointer" aria-current="page">전체상품</a>
+  </li>`;
 }
 
-renderCategoryBar();
+renderAllProductCategoryLabel();
+
+function createCategory(category) {
+  categoryBar.innerHTML += `
+  <li class="text-lg font-bold hover:text-[#69b766]">
+    <a class="cursor-pointer">${category.categoryName}</a>
+  </li>
+  `;
+}
+
+getCategoryList();
+async function getCategoryList() {
+  // /api/admin/categories
+  // try{
+  // const response = await axios.get('category.json');
+  // const categories = await response.data;
+  // console.log(categories);
+  const categories = [
+    {
+      id: '1',
+      categoryName: '직립형',
+    },
+    {
+      id: '2',
+      categoryName: '관목형',
+    },
+    {
+      id: '3',
+      categoryName: '덩굴성',
+    },
+    {
+      id: '4',
+      categoryName: '풀모양',
+    },
+    {
+      id: '5',
+      categoryName: '로제트형',
+    },
+    {
+      id: '6',
+      categoryName: '다육형',
+    },
+  ];
+
+  const categoryList = categories.forEach((category) => {
+    createCategory(category);
+  });
+  return categoryList;
+}

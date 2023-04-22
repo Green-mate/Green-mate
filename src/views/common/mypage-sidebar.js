@@ -19,22 +19,22 @@ function renderCategoryBar() {
     <a
       href="/mypage"
       id="profile-manage-link"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766]"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
     >
-      <span class="mx-3">회원정보수정</span>
+      <span class="mx-3 font-semibold">회원정보수정</span>
     </a>
     <a
       href="/mypage-shipping"
       id="user-order-manage-link"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766]"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
     >
-      <span class="mx-3">주문/배송조회</span>
+      <span class="mx-3 font-semibold">주문/배송조회</span>
     </a>
     <button
       id="secession-btn"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766]"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
     >
-      <span class="mx-3">회원탈퇴</span>
+      <span class="mx-3 font-semibold">회원탈퇴</span>
     </button>
   </div>
   </div>`;
@@ -57,7 +57,7 @@ if (pathname === 'mypage') {
 } else if (pathname === 'mypage-shipping') {
   userOrderLink.classList.toggle('bg-[#69b766]');
 } else {
-  secessionLink.classList.toggle('bg-[#69b766]');
+  secessionBtn.classList.toggle('bg-[#69b766]');
 }
 
 secessionBtn.addEventListener('click', handleSecession);

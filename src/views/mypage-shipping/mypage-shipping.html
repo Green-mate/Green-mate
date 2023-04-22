@@ -22,16 +22,26 @@
   </head>
 
   <body>
-    <div id="category-list-section"></div>
+    <div id="category-list-section" class="mb-10">
+      <hr class="my-4 border-t border-gray-500 w-1200 opacity-25" />
+      <nav id="category-wrap" class="w-1200 h-auto flex-wrap">
+        <ul id="category-menu-navbar" class="flex flex-row justify-around"></ul>
+      </nav>
+      <hr class="my-4 border-t border-gray-500 w-1200 opacity-25" />
+    </div>
     <div class="flex h-screen text-black">
       <!-- sidebar -->
       <div id="mypage-sidebar"></div>
       <!-- main content -->
       <div class="flex-1 flex flex-col">
         <div class="flex justify-center overflow-y-auto p-5">
-          <div id="category-manage-content" style="display: block">
-            <div class="flex justify-center overflow-y-auto p-20">
-              <span class="font-bold text-xl">주문상세</span>
+          <div
+            id="category-manage-content"
+            style="display: block"
+            class="m-auto mt-10"
+          >
+            <div class="flex justify-start overflow-y-auto">
+              <span class="font-bold text-3xl mb-12">주문상세</span>
             </div>
             <div class="container" style="width: 800px" id="category-list-div">
               <div class="overflow-y-auto">
@@ -90,7 +100,7 @@
                   <div class="flex flex-row m-10">
                     <button
                       style="height: 52px; width: 200px"
-                      class="shadow bg-green-500 hover:bg-green-700 text-white text-lg font-bold py-2rounded focus:outline-none mb-10 mx-auto"
+                      class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-10 mx-auto"
                       id="submit-button "
                       type="button"
                     >
@@ -99,7 +109,7 @@
 
                     <button
                       style="height: 52px; width: 200px"
-                      class="shadow bg-green-500 hover:bg-green-700 text-white text-lg font-bold py-2rounded focus:outline-none mb-10 mx-auto"
+                      class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-10 mx-auto"
                       id="submit-button "
                       type="button"
                     >
