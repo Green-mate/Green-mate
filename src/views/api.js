@@ -139,6 +139,29 @@ async function patch(endpoint, params = '', data) {
   }
 }
 
+// axios PATCH with Authorization(token) && without data
+async function patchWithoutData(endpoint, params = '') {
+  const apiUrl = `${endpoint}/${params}`;
+  console.log(`%cPATCH 요청: ${apiUrl}`, 'color: #059c4b;');
+  try {
+    const response = await axios.patch(apiUrl, null, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const { reason } = error.response.data;
+      throw new Error(reason);
+    } else {
+      throw new Error('Network Error');
+    }
+  }
+}
+
 // DELETE with Authorization(token)
 async function del(endpoint, params = '', data = {}) {
   const apiUrl = `${endpoint}/${params}`;
@@ -174,6 +197,7 @@ export {
   postWithoutToken,
   post,
   patch,
+  patchWithoutData,
   put,
   del as delete,
 };
