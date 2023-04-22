@@ -52,8 +52,8 @@ export class OrderModel {
   }
 
   //전체 주문 개수 count
-  async countOrders(shippingStatus) {
-    const countedOrders = await Order.countDocuments(shippingStatus);
+  async countOrders(filter) {
+    const countedOrders = await Order.countDocuments(filter);
     return countedOrders;
   }
 }
