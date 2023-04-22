@@ -50,6 +50,12 @@ export class OrderModel {
     const updatedOrder = await Order.findOneAndUpdate(filter, update, option);
     return updatedOrder;
   }
+
+  //전체 주문 개수 count
+  async countOrders(shippingStatus) {
+    const countedOrders = await Order.countDocuments(shippingStatus);
+    return countedOrders;
+  }
 }
 const orderModel = new OrderModel();
 

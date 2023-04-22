@@ -84,11 +84,30 @@ class OrderService {
   //관리자의 주문 상태 수정
   async updateOrderStatus(orderInfoRequired, toUpdate) {
     const { orderId } = orderInfoRequired;
-    let updatedOrder = this.orderModel.update({
+    let updatedOrder = await this.orderModel.update({
       orderId,
       update: toUpdate,
     });
     return updatedOrder;
+  }
+
+  async getOrderCounts() {
+    const [preShippingOrderCount, inShippingOrderCount, shippedOrderCount] =
+      await Promise.all([
+        this.orderModel.countOrders({ shippingStatus: '배송전' }),
+        this.orderModel.countOrders({ shippingStatus: '배송중' }),
+        this.orderModel.countOrders({ shippingStatus: '배송완료' }),
+      ]);
+
+    const totalOrderCount =
+      preShippingOrderCount + inShippingOrderCount + shippedOrderCount;
+
+    return {
+      totalOrderCount,
+      preShippingOrderCount,
+      inShippingOrderCount,
+      shippedOrderCount,
+    };
   }
 }
 

@@ -127,6 +127,7 @@ orderRouter.get('/admin/orders', adminOnly, async (req, res, next) => {
   }
 });
 
+//관리자의 주문 상태 변경 기능
 orderRouter.patch('/admin/orders/:oid', adminOnly, async (req, res, next) => {
   try {
     const orderId = req.params.oid;
@@ -149,6 +150,7 @@ orderRouter.patch('/admin/orders/:oid', adminOnly, async (req, res, next) => {
   }
 });
 
+//관리자의 주문 삭제 기능
 orderRouter.delete('/admin/orders/:oid', adminOnly, async (req, res, next) => {
   try {
     const orderId = req.params.oid;
@@ -158,5 +160,20 @@ orderRouter.delete('/admin/orders/:oid', adminOnly, async (req, res, next) => {
     next(error);
   }
 });
+
+//관리자의 배송 상태별 주문 count
+orderRouter.get(
+  '/admin/orders/shipping-status',
+  adminOnly,
+  async (req, res, next) => {
+    try {
+      const orderCountByShippingStatus = await orderService.getOrderCounts();
+
+      res.status(200).json(orderCountByShippingStatus);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 export { orderRouter };
