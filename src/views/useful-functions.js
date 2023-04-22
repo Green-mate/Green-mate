@@ -38,6 +38,15 @@ export const blockAfterLogin = () => {
   }
 };
 
+export const blockBeforeLogin = () => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
+    window.location.replace('/');
+  }
+};
+
 // 이메일 형식인지 확인 (true 혹은 false 반환)
 export const validateEmail = (email) => {
   return String(email)
