@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
 import { Router } from 'express';
 import is from '@sindresorhus/is';
 import { loginRequired, adminOnly } from '../middlewares';
 import { orderService } from '../services';
+import { model } from 'mongoose';
 
 const orderRouter = Router();
 
@@ -118,9 +118,12 @@ orderRouter.get('/orders/:uid', loginRequired, async (req, res, next) => {
 });
 
 // 관리자 상품 전체 조회
-orderRouter.get('/admin/orders', adminOnly, async (req, res, next) => {
+orderRouter.get('/admin/orders/', adminOnly, async (req, res, next) => {
   try {
-    const orderLists = await orderService.getOrderLists();
+    const currentPage = Number(req.query.currentPage) || 1;
+    const perPage = 8;
+
+    const orderLists = await orderService.getOrderLists(currentPage, perPage);
     res.status(200).json(orderLists);
   } catch (error) {
     next(error);

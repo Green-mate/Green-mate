@@ -1,3 +1,4 @@
+import { model } from 'mongoose';
 import { orderModel } from '../db';
 import { productModel } from '../db';
 import { userModel } from '../db';
@@ -75,9 +76,9 @@ class OrderService {
     return orderList;
   }
 
-  //관리자의 주문 목록 전체 조회
-  async getOrderLists() {
-    let orderLists = await this.orderModel.findAll();
+  //관리자의 주문 목록 전체 조회 with 페이지네이션
+  async getOrderLists(currentPage, perPage) {
+    let orderLists = await this.orderModel.findAll(currentPage, perPage);
     return orderLists;
   }
 

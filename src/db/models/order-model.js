@@ -3,12 +3,14 @@ import { OrderSchema } from '../schemas/order-schema';
 const Order = model('Order', OrderSchema);
 
 export class OrderModel {
-  //주문 목록 전체 조회
-  async findAll() {
+  //주문 목록 전체 조회 with pagination
+  async findAll(currentPage, perPage) {
     const orders = await Order.find(
       {},
       '_id productList shippingStatus createdAt',
     )
+      .skip((currentPage - 1) * perPage)
+      .limit(perPage)
       .populate('productList.productId', 'productName productPrice')
       .exec();
     return orders;
@@ -51,7 +53,7 @@ export class OrderModel {
     return updatedOrder;
   }
 
-  //전체 주문 개수 count
+  //주문 개수 count by filter
   async countOrders(filter) {
     const countedOrders = await Order.countDocuments(filter);
     return countedOrders;
