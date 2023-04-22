@@ -12,8 +12,6 @@ let newPasswordInputChkVal = document.getElementById(
   'new-password-check-input',
 );
 
-console.log(nameInputVal);
-
 const uid = localStorage.getItem('userId');
 
 blockBeforeLogin();
