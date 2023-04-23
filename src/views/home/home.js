@@ -4,7 +4,9 @@ import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 const cards = document.querySelector('#item-cards-list');
 const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
+const searchByCategoryProduct = [];
 
+console.log('cards', cards);
 function createCard(product) {
   return `
   <div id="card" style="width:350px; height:480px;" class="mb-5">
@@ -29,11 +31,9 @@ function createCard(product) {
     </a>
   </div>`;
 }
-
 getProductList();
 async function getProductList() {
   ///api/products?category=분재&page=1&perPage=9
-  // try{
   // const productList = await API.getWithoutToken('/api/products', `category=${categoryName}&page=${currentPage}&perPage=9`);
   const response = await axios.get('./productDummy.json');
   const products = await response.data;
@@ -41,17 +41,14 @@ async function getProductList() {
   productCounter.innerText = products.length;
   console.log(products);
 
-  // product 각 요소마다 createCard함수 호출,
-  // 반환된 html을 cards요소에 추가해야하므로 forEach
-  const productList = products.forEach((product) => {
+  // product 각 요소마다 createCard함수 호출하여 productList에 담음
+  const productList = [];
+  for (const product of products) {
     const newCard = createCard(product);
     cards.innerHTML += newCard;
-  });
+    productList.push(product);
+  }
   return productList;
-  // }
-  // catch(err) {
-  //   console.log(err.message);
-  // }
 }
 
 /************카악퉤고리***********/
@@ -84,7 +81,7 @@ function createCategory({ categoryName }) {
 
   /**
    * 카테고리 클릭시, 클릭한 카테고리 이름 세션 스토리지에 저장
-   * 클릭한 카테고리 text색상 및 sessionStorage변경
+   * 클릭한 카테고리 text색상 및 sessionStorage변경, 카테고리 명 변경
    */
   categoryElem.addEventListener('click', () => {
     sessionStorage.setItem('selectedCategory', categoryName);
@@ -97,9 +94,44 @@ function createCategory({ categoryName }) {
       categoryLi.children[0].classList.remove('text-[#69b766]');
     });
     categoryLinkElem.classList.add('text-[#69b766]');
+    categoryFilter();
   });
 
   categoryBar.appendChild(categoryElem);
+}
+
+/************카테고리 필터 함수************/
+async function categoryFilter() {
+  const clickedCategoryName = sessionStorage.getItem('selectedCategory');
+  const searchByCategoryProductList = [];
+
+  const productList = await getProductList();
+
+  productList.forEach((product) => {
+    if (
+      product.category.includes(clickedCategoryName) ||
+      clickedCategoryName === 'all'
+    ) {
+      searchByCategoryProductList.push(product);
+    }
+  });
+
+  console.log(searchByCategoryProductList);
+
+  productCounter.innerText = searchByCategoryProductList.length;
+
+  if (searchByCategoryProductList.length === 0) {
+    cards.innerHTML = `
+    <div></div>
+      <div id="empty-product-list">상품이 없습니다.</div>
+    `;
+  } else {
+    cards.innerHTML = '';
+    searchByCategoryProductList.forEach((product) => {
+      const newCard = createCard(product);
+      cards.innerHTML += newCard;
+    });
+  }
 }
 
 wholeCategory.addEventListener('click', () => {
