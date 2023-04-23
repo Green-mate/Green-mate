@@ -1,44 +1,7 @@
-import { navigate } from '../useful-functions.js';
+import { addCommas, convertToNumber, navigate } from '../useful-functions.js';
 import { deleteFromDb, getFromDb, putToDb } from '../indexed-DB.js';
 
 // const orderContainer = document.querySelector('#order-container');
-
-const dummyData = [
-  {
-    _id: 'product-1',
-    title: '더미 상품 1',
-    quantity: 2,
-    imageKey:
-      'https://webp2.xplant.co.kr/data/thumb/item/342x300-2/15074/1507429107_l1',
-    price: 10000,
-  },
-  {
-    _id: 'product-2',
-    title: '더미 상품 2',
-    quantity: 1,
-    imageKey:
-      'https://webp2.xplant.co.kr/data/thumb/item/342x300-2/15074/1507429107_l1',
-    price: 20000,
-  },
-  {
-    _id: 'product-3',
-    title: '더미 상품 3',
-    quantity: 3,
-    imageKey:
-      'https://webp2.xplant.co.kr/data/thumb/item/342x300-2/15074/1507429107_l1',
-    price: 30000,
-  },
-];
-
-async function addDummyDataToCart() {
-  await Promise.all(
-    dummyData.map(async (product) => {
-      await putToDb('cart', product);
-    }),
-  );
-}
-
-addDummyDataToCart();
 
 const card = document.querySelector('#card-section');
 

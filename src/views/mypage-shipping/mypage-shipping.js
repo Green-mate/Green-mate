@@ -1,5 +1,9 @@
 import * as API from '../api.js';
 
+// 주문 조회페이지 주문 리스트 삽입.
+// 작동하지 않습니다.
+// 호병님이 html파일에 만들어뒀던 주문 카드 ui만 옮겨서 작업 시도 해본 코드입니다.
+
 const orderCardComponent = document.querySelector('#order-card-component');
 const uid = localStorage.getItem('userId');
 insertOrders();
@@ -86,6 +90,3 @@ async function insertOrders() {
     );
   });
 }
-// catch(error) => {
-//   console.log(error);
-// };

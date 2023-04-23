@@ -1,7 +1,8 @@
 import * as API from '../api.js';
-
+import { convertToNumber } from '../useful-functions.js';
 ////////////////
 
+// 상품 카드
 const goodsDetail = document.querySelector('#goods-detail-section');
 
 function createCard() {
@@ -31,6 +32,7 @@ for (let i = 0; i < 5; i++) {
 
 //////////////////
 
+// 다음 주소 API
 const postalCodeInput = document.querySelector('#postal-code');
 const searchAddressButton = document.querySelector('#search-address-button');
 const addressMainInput = document.querySelector('#address-main');
@@ -112,6 +114,9 @@ const totalPriceContainer = document.querySelector('#total-price');
 const doOrderButton = document.querySelector('#order-button');
 doOrderButton.addEventListener('click', order);
 
+// 주문 작성 (동작안합니다)
+// 엘리스 솔루션 코드 참고 했습니다.
+// 오히려 헷갈릴 수도 있으니 그냥 다 지우고 하시는 것도 좋을 것 같습니다.
 async function order() {
   const receiverName = nameInput.value;
   const receiverPhoneNumber = phoneNumberInput.value;
