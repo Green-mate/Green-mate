@@ -11,7 +11,6 @@ async function getWithoutToken(endpoint, params = '') {
     return result;
   } catch (error) {
     const { reason } = error.response.data;
-
     throw new Error(reason);
   }
 }

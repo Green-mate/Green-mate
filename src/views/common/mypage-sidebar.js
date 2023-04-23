@@ -11,7 +11,7 @@ function renderCategoryBar() {
     class="flex items-center justify-center h-28 border-b my-4 border-gray-300"
   >
     <div class="items-end">
-      <span class="text-2xl text-black font-bold">${userName}</span>
+      <span id="user-name" class="text-2xl text-black font-bold">${userName}</span>
       <span class="text-lg text-black">님 안녕하세요!</span>
     </div>
   </div>
@@ -19,30 +19,28 @@ function renderCategoryBar() {
     <a
       href="/mypage"
       id="profile-manage-link"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766]"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
     >
-      <span class="mx-3">회원정보수정</span>
+      <span class="mx-3 font-semibold">회원정보수정</span>
     </a>
     <a
       href="/mypage-shipping"
       id="user-order-manage-link"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766]"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
     >
-      <span class="mx-3">주문/배송조회</span>
+      <span class="mx-3 font-semibold">주문/배송조회</span>
     </a>
     <button
       id="secession-btn"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766]"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
     >
-      <span class="mx-3">회원탈퇴</span>
+      <span class="mx-3 font-semibold">회원탈퇴</span>
     </button>
   </div>
   </div>`;
 }
 
 renderCategoryBar();
-
-// 이름 span 변수 바로 적용 안됨
 
 let pathname = window.location.pathname;
 pathname = pathname.substring(1, pathname.length - 1);
@@ -59,7 +57,7 @@ if (pathname === 'mypage') {
 } else if (pathname === 'mypage-shipping') {
   userOrderLink.classList.toggle('bg-[#69b766]');
 } else {
-  secessionLink.classList.toggle('bg-[#69b766]');
+  secessionBtn.classList.toggle('bg-[#69b766]');
 }
 
 secessionBtn.addEventListener('click', handleSecession);

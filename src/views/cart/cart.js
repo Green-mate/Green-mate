@@ -3,18 +3,51 @@ import { deleteFromDb, getFromDb, putToDb } from '../indexed-DB.js';
 
 // const orderContainer = document.querySelector('#order-container');
 
+const dummyData = [
+  {
+    _id: 'product-1',
+    title: '더미 상품 1',
+    quantity: 2,
+    imageKey:
+      'https://webp2.xplant.co.kr/data/thumb/item/342x300-2/15074/1507429107_l1',
+    price: 10000,
+  },
+  {
+    _id: 'product-2',
+    title: '더미 상품 2',
+    quantity: 1,
+    imageKey:
+      'https://webp2.xplant.co.kr/data/thumb/item/342x300-2/15074/1507429107_l1',
+    price: 20000,
+  },
+  {
+    _id: 'product-3',
+    title: '더미 상품 3',
+    quantity: 3,
+    imageKey:
+      'https://webp2.xplant.co.kr/data/thumb/item/342x300-2/15074/1507429107_l1',
+    price: 30000,
+  },
+];
+
+async function addDummyDataToCart() {
+  await Promise.all(
+    dummyData.map(async (product) => {
+      await putToDb('cart', product);
+    }),
+  );
+}
+
+addDummyDataToCart();
+
 const card = document.querySelector('#card-section');
 
 async function insertProductsfromDb() {
   const products = await getFromDb('cart');
-  const { selectedIds } = await getFromDb('order', 'summary');
 
   products.forEach(async (product) => {
     // 객체 destructuring
     const { _id, title, quantity, imageKey, price } = product;
-    const imageUrl = await getImageUrl(imageKey);
-
-    const isSelected = selectedIds.includes(_id);
 
     card.insertAdjacentHTML(
       'beforeend',
@@ -27,12 +60,12 @@ async function insertProductsfromDb() {
           type="checkbox"
           name="check"
           value="check"
-          ${isSelected ? 'checked' : ''}
+          
         />
       </div>
       <div id="product" class="ml-3 w-1/6">
         <a class="product-img" href="#">
-          <img src="${imageUrl}" id="image-${_id}" width="100" height="100" />
+          <img src="${imageKey}" id="image-${_id}" width="100" height="100" />
         </a>
       </div>
       <div class="product-detail ml-6 w-1/4">

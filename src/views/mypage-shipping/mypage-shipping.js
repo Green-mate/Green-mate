@@ -1,25 +1,24 @@
 import * as API from '../api.js';
 
 const orderCardComponent = document.querySelector('#order-card-component');
-
+const uid = localStorage.getItem('userId');
 insertOrders();
 
 async function insertOrders() {
-  API.get('/api/orders/643f5bc50d6068373c74a683')
-    .then((response) => {
-      const data = response.data;
-      console.log(data);
-      data.forEach((order) => {
-        const { _id, productList, shippingStatus, createdAt } = order;
-        const { productName, productPrice, productImage } =
-          order.productList[0].productId;
-        const { quantity } = order.productList[0];
+  const response = await API.get('/api/orders', `${uid}`);
+  const orders = await response.data;
 
-        const date = createdAt.split('T')[0];
+  orders.forEach((order) => {
+    const { _id, productList, shippingStatus, createdAt } = order;
+    const { productName, productPrice, productImage } =
+      order.productList[0].productId;
+    const { quantity } = order.productList[0];
 
-        orderCardComponent.insertAdjacentHTML(
-          'beforeend',
-          `
+    const date = createdAt.split('T')[0];
+
+    orderCardComponent.insertAdjacentHTML(
+      'beforeend',
+      `
             <div id="order-card" class="flex flex-col w-full border border-grey-100 p-8">
               <div class="border-b-2 w-full">
                 <span class="float-left m-3">${date}</span>
@@ -84,10 +83,9 @@ async function insertOrders() {
               </div>
             </div>;
             `,
-        );
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    );
+  });
 }
+// catch(error) => {
+//   console.log(error);
+// };
