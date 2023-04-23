@@ -6,7 +6,8 @@ const uid = localStorage.getItem('userId');
 function renderCategoryBar() {
   const categoryBar = document.querySelector('#mypage-sidebar');
 
-  categoryBar.innerHTML = `<div class="flex flex-col flex-shrink-0 w-64">
+  categoryBar.innerHTML = `
+  <div class="flex flex-col flex-shrink-0 w-64">
   <div
     class="flex items-center justify-center h-28 border-b my-4 border-gray-300"
   >
