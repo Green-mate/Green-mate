@@ -46,7 +46,7 @@ function renderBasicHeader() {
         <button id="logout-btn">로그아웃</button>
     </li>
     <li id="cart-menu" class="text-gray-500 text-lg font-bold">
-      <a href="#cart" aria-current="page">
+      <a href="/cart" aria-current="page">
         <span>장바구니</span>
         <span>
           <i class="fas fa-cart-shopping"></i>
@@ -88,7 +88,7 @@ function renderAdminHeader() {
         <button id="logout-btn">로그아웃</button>
       </li>
       <li id="cart-menu" class="text-gray-500 text-lg font-bold">
-        <a href="#cart" aria-current="page">
+        <a href="/cart" aria-current="page">
           <span>장바구니</span>
           <span>
             <i class="fas fa-cart-shopping"></i>
@@ -128,7 +128,7 @@ function renderHeader() {
       </li>
     
       <li id="cart-menu" class="text-gray-500 text-lg font-bold">
-        <a href="#cart" aria-current="page">
+        <a href="/cart" aria-current="page">
           <span>장바구니</span>
           <span>
             <i class="fas fa-cart-shopping"></i>
@@ -139,7 +139,7 @@ function renderHeader() {
   </nav>
   <div id="navbar-logo" class="mt-5 flex justify-center items-center">
     <a class="navbar-item" href="/">
-      <img src="../dist/logo-1.png" width="150" height="150" />
+      <img src="../dist/logo-1.png" width="150" height="150" alt="product-image"/>
     </a>
   </div>
 </header>

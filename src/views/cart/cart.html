@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Green Mate🪴</title>
     <link href="/dist/output.css" rel="stylesheet" />
 
     <!-- 아이콘 -->
@@ -34,6 +34,7 @@
           <label class="checkbox-section flex">
             <input
               class="checkbox-all accent-[#69B766] mb-1"
+              id="checkbox-all"
               type="checkbox"
               name="whole-check"
               value="whole-check"
@@ -81,7 +82,7 @@
               class="delivery-fee-container flex mt-4 items-center justify-between mx-8 font-medium text-[15px]"
             >
               <p>배송비</p>
-              <p>3000원</p>
+              <p id="delivery-fee">3000원</p>
             </div>
           </div>
           <div class="total-price-container flex justify-between mx-8 h-[85px]">
@@ -96,7 +97,7 @@
             </p>
           </div>
         </div>
-        <div class="order-container">
+        <div class="order-container" id="order-container">
           <button
             class="button w-[400px] h-[75px] border rounded-md bg-[#69b766] mt-7 ml-20 text-2xl font-bold text-white"
             id="order-button"
