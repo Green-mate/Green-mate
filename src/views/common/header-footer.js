@@ -52,7 +52,7 @@ function renderHeader() {
   </nav>
   <div id="navbar-logo" class="mt-5 flex justify-center items-center">
     <a class="navbar-item" href="/">
-      <img src="../dist/logo-1.png" width="150" height="150" />
+      <img src="../dist/logo-1.png" width="150" height="150" alt="product-image"/>
     </a>
   </div>
 </header>

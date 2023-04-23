@@ -4,6 +4,7 @@ import { deleteFromDb, getFromDb, putToDb } from '../indexed-DB.js';
 // const orderContainer = document.querySelector('#order-container');
 
 const card = document.querySelector('#card-section');
+
 async function insertProductsfromDb() {
   const products = await getFromDb('cart');
   const { selectedIds } = await getFromDb('order', 'summary');
@@ -15,7 +16,7 @@ async function insertProductsfromDb() {
 
     const isSelected = selectedIds.includes(_id);
 
-    cartProductsContainer.insertAdjacentHTML(
+    card.insertAdjacentHTML(
       'beforeend',
       `
       <div class="card-container flex items-center h-32 relative" id="product-${_id}" >
