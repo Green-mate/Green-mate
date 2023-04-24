@@ -20,7 +20,7 @@ async function getOrdersLists() {
 
   for (const order of orders) {
     const newOrderCard = createOrderCard(order);
-    orderCardComponent.innerHTML += newOrderCard;
+    orderCardComponent.insertAdjacentHTML('beforeend', newOrderCard);
   }
 }
 
@@ -48,31 +48,20 @@ function createOrderCard(order) {
     zipCode,
   } = order;
 
-  // editOrderInfo = {
-  //   _id,
-  //   recipient,
-  //   phoneNumber,
-  //   zipCode,
-  //   address1,
-  //   address2,
-  //   shippingMessage,
-  // };
-
-  // console.log(editOrderInfo);
-
   const date = createdAt.split('T')[0];
   console.log(productList);
-  let productCardsHTML = ''; // 빈 문자열로 초기화
+  let productCardsHTML = ``; // 빈 문자열로 초기화
   TOTALPRICE = DELIVERY_CHARGE;
   for (const product of productList) {
     const newProductCard = createProductCard(product);
+    // productCardsHTML.insertAdjacentHTML('beforeend', newProductCard);
     productCardsHTML += newProductCard; // 각 상품 리스트 HTML 코드를 추가
   }
 
   return `
   <div id="order-card" class="flex flex-col w-full border border-grey-100 p-8 mb-14">
     <div class="border-b-2 w-full">
-      <span class="float-left mt-3 mb-3">${date} 주문</span>
+      <span class="float-left mt-3 mb-3">주문일&nbsp&nbsp&nbsp&nbsp${date}</span>
     </div>
 
     <span class="float-left w-full py-4 text-3xl text-[#69b766] mt-3 mb-3 font-semibold">
@@ -83,26 +72,33 @@ function createOrderCard(order) {
 
     <div id="one-product-card-wrap">${productCardsHTML}</div>
 
-    <span class="text-xl font-bold mt-5">배송비</span>
+    <span class="text-xl font-bold mt-5 mb-3">배송비</span>
     <span class="mb-4 border-b-2 border-grey-100">${DELIVERY_CHARGE}</span>
-    <span class="text-xl font-bold">총 결제 금액</span>
+    <span class="text-xl font-bold mb-3">총 결제 금액</span>
     <span class="mb-4 border-b-2 border-grey-100">${TOTALPRICE}</span>
-    <span class="text-xl font-bold">받는 사람</span>
-    <span class="mb-4 border-b-2 border-grey-100">${recipient}</span>
-    <span class="text-xl font-bold">연락처</span>
-    <span class="mb-4 border-b-2 border-grey-100">${phoneNumber}</span>
-    <span class="text-xl font-bold">주소</span>
-    <span class="mb-4 border-b-2 border-grey-100">${address1} ${address2}</span>
-    <span class="text-xl font-bold">배송 요청사항</span>
-    <span class="mb-4 border-b-2 border-grey-100">
-      ${shippingMessage}
-    </span>
+    <span class="text-xl font-bold mb-3">받는 사람</span>
+    <input id="recipient-name" class="rounded mb-4 border-2 border-grey-100" value="${recipient}"></input>
+    <span class="text-xl font-bold mb-3">연락처</span>
+    <input id="phone-number" class="rounded mb-4 border-2 border-grey-100" value="${phoneNumber}"></input>
+    <div class="flex flex-row mb-3 items-center">
+       <span class="text-xl font-bold">주소</span>
+       <button
+        class="search-address border rounded w-20 ml-3 bg-[#f6f6f6]"
+        id="search-address-button"
+      > 주소 재검색
+      </button>
+    </div>
+    <input id="postal-code" class="rounded border-2 border-grey-100" value="${zipCode}"></input>
+    <input id="address1-input" class="rounded border-2 border-grey-100" value="${address1}"></input>
+    <input id="address2-input" class="rounded mb-4 border-2 border-grey-100" value="${address2}"></input>
+    <span class="text-xl font-bold mb-3">배송 요청사항</span>
+    <input id="shipping-msg" class="rounded mb-4 border-2 border-grey-100" value="${shippingMessage}"></input>
 
     <div class="flex flex-row m-10">
       <button
         style="height: 52px; width: 200px"
         class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
-        id="submit-button "
+        id="edit-order-info-submit-btn"
         type="button"
       >
         주문정보수정
@@ -111,7 +107,7 @@ function createOrderCard(order) {
       <button
         style="height: 52px; width: 200px"
         class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
-        id="submit-button "
+        id="delete-order-btn"
         type="button"
       >
         주문 취소
@@ -120,6 +116,42 @@ function createOrderCard(order) {
   </div>
   `;
 }
+
+/***************************주문 수정작업과 삭제 작업을 하기 위해서 주문 정보가 입력된 dom요소를 가져와야 하는데 가져와지지가 않음**************************/
+
+document.addEventListener('DOMContentLoaded', () => {
+  let postalCodeInput = document.getElementById('postal-code');
+  let addressMainInput = document.getElementById('address1-input');
+  let addressSubInput = document.getElementById('address2-input');
+  let recipientNameInput = document.getElementById('recipient-name');
+  let phoneNumberInput = document.getElementById('phone-number');
+  let shippingMsgInput = document.getElementById('shipping-msg');
+
+  let postalCodeVal = postalCodeInput.value;
+  console.log(postalCodeVal);
+  const EditOrderSubmitBtn = document.querySelector(
+    '#edit-order-info-submit-btn',
+  );
+  const deleteOrderBtn = document.querySelector('#delete-order-btn');
+});
+
+window.onload = function () {
+  let postalCodeInput = document.getElementById('postal-code');
+  let addressMainInput = document.getElementById('address1-input');
+  let addressSubInput = document.getElementById('address2-input');
+  let recipientNameInput = document.getElementById('recipient-name');
+  let phoneNumberInput = document.getElementById('phone-number');
+  let shippingMsgInput = document.getElementById('shipping-msg');
+
+  let postalCodeVal = postalCodeInput.value;
+  console.log(postalCodeVal);
+  const EditOrderSubmitBtn = document.querySelector(
+    '#edit-order-info-submit-btn',
+  );
+  const deleteOrderBtn = document.querySelector('#delete-order-btn');
+};
+
+/***********************************************************************************************************************************/
 
 function createProductCard(product) {
   const { productId, quantity } = product;
