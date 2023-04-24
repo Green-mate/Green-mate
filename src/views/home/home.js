@@ -31,6 +31,7 @@ function createCard(product) {
     </a>
   </div>`;
 }
+
 getProductList();
 async function getProductList() {
   ///api/products?category=분재&page=1&perPage=9
