@@ -10,6 +10,17 @@ const productPostBtn = document.getElementById('post-product-btn');
 const productUpdateBtn = document.getElementsByClassName('product-update-btn');
 const productDeleteBtn = document.getElementsByClassName('product-delete-btn');
 
+function hangulEncoder(queryParams) {
+  const kor_reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글인지 식별해주기 위한 정규표현식
+
+  if (queryParams.match(kor_reg)) {
+    const encodeQuery = encodeURI(queryParams);
+    return encodeQuery;
+  } else {
+    return queryParams;
+  }
+}
+
 function getImageFiles(e) {
   const files = e.currentTarget.files;
   console.log(typeof files, files);
@@ -86,12 +97,13 @@ const adminProductCategoryAPI = async (data) => {
       window.location.reload();
     });
   } catch (error) {
+    alert('형식에 맞춰 입력해주세요.');
     console.error(error);
   }
 };
 
 const adminDeleteProductAPI = async (id) => {
-  const encodedSearchID = encodeURIComponent(id);
+  const encodedSearchID = hangulEncoder(id);
   const config = {
     headers: {
       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
@@ -103,7 +115,7 @@ const adminDeleteProductAPI = async (id) => {
     await axios
       .delete(`/api/admin/products/?item=${encodedSearchID}`, config)
       .then((res) => {
-        console.log(res);
+        window.location.reload();
       });
   } catch (error) {
     console.error(error);
