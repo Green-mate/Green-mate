@@ -3,9 +3,19 @@ import { OrderSchema } from '../schemas/order-schema';
 const Order = model('Order', OrderSchema);
 
 export class OrderModel {
-  //주문 목록 전체 조회
-  async findAll() {
-    const orders = await Order.find({});
+  //주문 목록 전체 조회 with pagination
+  async findAll(currentPage, perPage) {
+    const orders = await Order.find(
+      {},
+      '_id productList shippingStatus createdAt',
+    )
+      .skip((currentPage - 1) * perPage)
+      .limit(perPage)
+      .populate({
+        path: 'productList.productId',
+        select: 'productName productPrice',
+      })
+      .exec();
     return orders;
   }
 
@@ -36,6 +46,7 @@ export class OrderModel {
     const result = await Order.deleteOne({ _id: orderId });
     return result;
   }
+
   //주문 내용 수정
   async update({ orderId, update }) {
     const filter = { _id: orderId };
@@ -43,6 +54,12 @@ export class OrderModel {
 
     const updatedOrder = await Order.findOneAndUpdate(filter, update, option);
     return updatedOrder;
+  }
+
+  //주문 개수 count by filter
+  async countOrders(filter) {
+    const countedOrders = await Order.countDocuments(filter);
+    return countedOrders;
   }
 }
 const orderModel = new OrderModel();

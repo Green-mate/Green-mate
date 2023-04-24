@@ -1,3 +1,4 @@
+import { model } from 'mongoose';
 import { orderModel } from '../db';
 import { productModel } from '../db';
 import { userModel } from '../db';
@@ -6,11 +7,12 @@ class OrderService {
   constructor(orderModel) {
     this.orderModel = orderModel;
     this.userModel = userModel;
+    this.productModel = productModel;
   }
 
   //주문 생성
   async addOrder(orderInfo) {
-    //여기서 ProductList는 productId들을 담은 List임.
+    //여기서 ProductList는 shortId 들을 담은 List임.
     const {
       userId,
       productList,
@@ -72,6 +74,46 @@ class OrderService {
   async getOrderListByUserId(userId) {
     let orderList = await this.orderModel.findByUserId(userId);
     return orderList;
+  }
+
+  //관리자의 주문 목록 전체 조회 with 페이지네이션
+  async getOrderLists(currentPage, perPage) {
+    let orderLists = await this.orderModel.findAll(currentPage, perPage);
+
+    if (orderLists.length === 0) {
+      throw new Error('주문 내역이 없습니다.');
+    }
+
+    return orderLists;
+  }
+
+  //관리자의 주문 상태 수정
+  async updateOrderStatus(orderInfoRequired, toUpdate) {
+    const { orderId } = orderInfoRequired;
+    let updatedOrder = await this.orderModel.update({
+      orderId,
+      update: toUpdate,
+    });
+    return updatedOrder;
+  }
+
+  async getOrderCounts() {
+    const [preShippingOrderCount, inShippingOrderCount, shippedOrderCount] =
+      await Promise.all([
+        this.orderModel.countOrders({ shippingStatus: '배송전' }),
+        this.orderModel.countOrders({ shippingStatus: '배송중' }),
+        this.orderModel.countOrders({ shippingStatus: '배송완료' }),
+      ]);
+
+    const totalOrderCount =
+      preShippingOrderCount + inShippingOrderCount + shippedOrderCount;
+
+    return {
+      totalOrderCount,
+      preShippingOrderCount,
+      inShippingOrderCount,
+      shippedOrderCount,
+    };
   }
 }
 
