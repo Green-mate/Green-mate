@@ -33,6 +33,8 @@ async function handleSubmit(e) {
   const isEmailValid = validateEmail(email);
   const isPasswordValid = password.length >= 4;
 
+  // 이메일이 틀렸을 때 이메일이 틀렸다 알려주고, 비밀번호가 틀렸을 때 비밀번호가 틀렸다 알려주는 것은
+  // 악의적으로 사용될 수 있다고함 -> 보통 사이트들도 실패만 알려주고 뭐가 틀렸는지는 안알려줌
   if (!isEmailValid || !isPasswordValid) {
     return alert(
       '비밀번호가 4글자 이상인지, 이메일 형태가 맞는지 확인해 주세요.',
