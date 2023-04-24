@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="/dist/output.css" rel="stylesheet" />
+
+    <!-- 아이콘 -->
+    <link rel="icon" type="image/png" sizes="16X16" href="../dist/logo-2.png" />
+    <!-- 폰트 어썸: 아이콘 -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/9daa42bcef.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../common/header-footer.js" type="module" defer></script>
+    <script src="order.js" type="module" defer></script>
+  </head>
+  <body>
+    <div class="process-section">
+      <div class="process-text flex -mt-14">
+        <p class="text-base text-stone-500 ml-2 mt-2">장바구니 ></p>
+        <p class="text-xl font-medium ml-1 mt-1">주문결제</p>
+        <p class="text-base text-stone-500 ml-1 mt-2">> 주문완료</p>
+      </div>
+      <hr class="mt-5 border-t border-gray-500 opacity-25" />
+    </div>
+    <div class="detail-titles-container">
+      <div class="text-base font-semibold mt-8">주문 상품 정보</div>
+      <hr class="mt-4 border-t border-gray-500 opacity-25" />
+      <div
+        class="subtitle-container flex mt-3 font-semibold text-sm text-center"
+      >
+        <p class="w-8/12">상품정보</p>
+        <p class="w-1/12">수량</p>
+        <p class="w-1/12">단가</p>
+        <p class="w-2/12">총 금액</p>
+      </div>
+      <hr class="mt-3 border-t-2 border-[#69B766] opacity-50" />
+    </div>
+    <div
+      class="goods-detail-section h-[300px] overflow-auto scrollbar-hide"
+      id="goods-detail-section"
+    ></div>
+    <hr class="mt-3 border-t-2 border-[#69B766] opacity-50" />
+    <div class="delivery-information-title">
+      <div class="text-base font-semibold mt-8">배송지 정보</div>
+      <hr class="mt-4 border-t border-gray-500 opacity-25" />
+    </div>
+    <div class="main-section flex">
+      <div class="delivery-information-form w-[700px]">
+        <form class="" id="information-form">
+          <div class="name-container flex mt-5 ml-3">
+            <div class="name-label mt-2 mr-12">
+              <label class="text-base text-gray-700" for="name-input"
+                >이름</label
+              >
+            </div>
+            <div class="name-body ml-12">
+              <input
+                class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-700 leading-tight"
+                id="name-input"
+                type="text"
+                placeholder="받는 분 이름을 입력해 주세요."
+                autocomplete="on"
+              />
+            </div>
+          </div>
+          <div class="phone-container flex mt-5 ml-3">
+            <div class="phone-label mt-2 mr-12">
+              <label class="text-base text-gray-700" for="phone-input"
+                >휴대폰번호</label
+              >
+            </div>
+            <div class="name-body">
+              <input
+                class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-700 leading-tight"
+                id="phone-input"
+                type="number"
+                placeholder="- 없이 입력해 주세요."
+                autocomplete="on"
+              />
+            </div>
+          </div>
+          <div class="postal-container flex mt-5 ml-3">
+            <div class="postal-label mt-2 mr-20">
+              <label class="text-base text-gray-700" for="adress2"
+                >배송지</label
+              >
+            </div>
+            <div class="postal-body">
+              <input
+                class="h-[40px] appearance-none border rounded w-[300px] py-2 px-3 text-gray-700 leading-tight"
+                id="postal-code"
+                type="text"
+                placeholder="주소찾기를 클릭해 주세요."
+                readonly
+              />
+            </div>
+            <button
+              class="search-address border rounded w-20 ml-[120px] bg-[#f6f6f6]"
+              id="search-address"
+            >
+              주소검색
+            </button>
+          </div>
+          <div class="postal-body mt-5 ml-[140px]">
+            <input
+              class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-700 leading-tight"
+              id="address1"
+              type="text"
+              placeholder=""
+              autocomplete="on"
+              readonly
+            />
+          </div>
+          <div class="postal-body-type mt-5 ml-[140px]">
+            <input
+              class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-700 leading-tight"
+              id="address2"
+              type="text"
+              placeholder=""
+              autocomplete="on"
+            />
+          </div>
+          <div class="request-container flex mt-5 ml-3">
+            <div class="request-label mt-2 mr-16">
+              <label class="text-base text-gray-700" for="request-select-box"
+                >요청사항</label
+              >
+            </div>
+            <div class="request-body">
+              <select
+                id="request-select-box"
+                class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-300 leading-tight"
+              >
+                <option value="0">배송시 요청사항을 선택해 주세요.</option>
+                <option value="1" class="select-option">
+                  직접 수령하겠습니다.
+                </option>
+                <option value="2" class="select-option">
+                  배송 전 연락바랍니다.
+                </option>
+                <option value="3" class="select-option">
+                  부재 시 경비실에 맡겨주세요.
+                </option>
+                <option value="4" class="select-option">
+                  부재 시 문 앞에 놓아주세요.
+                </option>
+                <option value="5" class="select-option">
+                  부재 시 택배함에 넣어주세요.
+                </option>
+                <option value="6" class="select-option">직접 입력</option>
+              </select>
+            </div>
+          </div>
+          <div
+            class="custom-request-container mt-5 ml-[140px] hidden"
+            id="custom-request-container"
+          >
+            <input
+              class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-700 leading-tight"
+              id="custom-request-input"
+              type="text"
+              maxlength="50"
+              placeholder="최대 50자 입력이 가능합니다."
+              autocomplete="on"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="order-summary-container w-full h-[320px] mt-5">
+        <div
+          class="order-summary-box w-[340px] h-full border border-[#8ed08c] rounded ml-auto"
+        >
+          <div class="order-summaty-title w-full h-1/6">
+            <p class="ml-5 mt-5 text-lg font-semibold">최종 결제정보</p>
+          </div>
+          <div class="selected-price flex justify-between mx-7 mt-2">
+            <p class="font-light">총 상품금액</p>
+            <p>50,000원</p>
+          </div>
+          <div class="delivery-fee flex justify-between mx-7 mt-3">
+            <p class="font-light">배송비</p>
+            <p>3,000원</p>
+          </div>
+          <div class="justify-center w-full mt-6 mb-6">
+            <hr class="border-t border-gray-500 opacity-25 w-[310px] mx-auto" />
+          </div>
+          <div class="whole-price flex justify-between mx-7">
+            <p class="text-lg font-semibold text-[#145f37]">총 금액</p>
+            <p class="text-lg font-semibold text-[#145f37]">52,000원</p>
+          </div>
+          <div class="text-center w-full mt-6">
+            <button
+              class="order-button w-[310px] h-[60px] mx-auto border rounded-md bg-[#69b766] text-2xl font-bold text-white"
+              id="order-button"
+            >
+              결제하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

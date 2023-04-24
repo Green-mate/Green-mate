@@ -72,7 +72,6 @@ productRouter.get("/products/:shortId", async (req, res, next) => {
   try {
     const shortId = req.params.shortId;
     const products = await productService.getProductById(shortId);
-
     res.status(200).json(products);
   } catch (error) {
     next(error);
@@ -90,7 +89,7 @@ productRouter.get("/admin/products", adminOnly, async (req, res, next) => {
   }
 });
 
-// 관리자 상품 추가: /api/admin/products
+// // 관리자 상품 추가: /api/admin/products
 productRouter.post("/admin/products", adminOnly, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
@@ -121,7 +120,7 @@ productRouter.post("/admin/products", adminOnly, async (req, res, next) => {
   }
 });
 
-// 관리자 상품 수정: /api/admin/products?item=상품명
+// // 관리자 상품 수정: /api/admin/products?item=상품명
 productRouter.patch("/admin/products", adminOnly, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Green Mate🪴</title>
+    <!-- import tailwind css -->
+    <link href="/dist/output.css" rel="stylesheet" />
+    <!-- 아이콘 -->
+    <link rel="icon" type="image/png" sizes="16X16" href="../dist/logo-2.png" />
+    <!-- 폰트 어썸: 아이콘 -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/9daa42bcef.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- 커스텀 css, js -->
+    <script src="../common/header-footer.js" type="module" defer></script>
+    <script src="../common/category.js" type="module" defer></script>
+    <script src="../common/mypage-sidebar.js" type="module" defer></script>
+
+    <script src="mypage.js" type="module" defer></script>
+  </head>
+
+  <body>
+    <div id="category-list-section"></div>
+    <div class="flex flex-row text-black">
+      <!-- sidebar -->
+      <div id="mypage-sidebar" class="flex flex-col"></div>
+      <section
+        id="mypage-update-userInfo"
+        style="width: 700px"
+        class="flex flex-col m-auto mt-10"
+      >
+        <!-- 정보 수정 폼 -->
+        <div id="table-header" class="text-3xl font-bold mb-12">기본정보</div>
+        <form class="flex flex-col" id="login-form">
+          <div class="mb-4 flex flex-row">
+            <label
+              class="w-36 text-lg block text-gray-700 font-bold mb-2 mr-3"
+              for="email-input"
+            >
+              이메일
+            </label>
+            <p
+              style="height: 50px; font-size: 20px"
+              id="email-input"
+              type="email"
+            >
+              test@test.test
+            </p>
+          </div>
+          <div class="mb-4 flex flex-row items-center">
+            <label
+              class="w-36 text-lg block text-gray-700 font-bold mb-2 mr-3"
+              for="email-input"
+            >
+              비밀번호
+            </label>
+            <div
+              id="password-inputs-container"
+              class="flex flex-col"
+              style="width: 556px"
+            >
+              <input
+                style="height: 50px"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
+                id="password-input"
+                type="password"
+                placeholder="비밀번호를 입력해주세요."
+                autocomplete="on"
+              />
+              <input
+                style="height: 50px"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
+                id="password-check-input"
+                type="password-check"
+                placeholder="비밀번호를 재입력해주세요."
+                autocomplete="on"
+              />
+            </div>
+          </div>
+          <div class="mb-28 flex flex-row items-center">
+            <label
+              style="width: 172px"
+              class="text-lg block text-gray-700 font-bold mb-2 mr-5"
+              for="name-input"
+              >이름
+            </label>
+            <input
+              style="height: 50px"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
+              id="name-input"
+              placeholder="홍길동"
+              autocomplete="on"
+            />
+          </div>
+
+          <button
+            style="height: 52px"
+            class="shadow bg-green-500 hover:bg-green-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none mb-28"
+            id="submit-button"
+            type="button"
+          >
+            수정
+          </button>
+        </form>
+      </section>
+    </div>
+  </body>
+</html>
