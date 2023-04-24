@@ -43,14 +43,18 @@ export class ProductModel {
     return newProducts;
   }
 
-  async update({ item, updateObj }) {
-    const filter = { productName: item };
+  async update({ product, updateObj }) {
+    const filter = { productName: product };
     const option = { returnOriginal: false };
 
     const updatedProduct = await Product.findOneAndUpdate(
       filter,
       updateObj,
       option
+    );
+    console.log(
+      "🚀 ~ file: product-model.js:55 ~ ProductModel ~ update ~ updatedProduct:",
+      updatedProduct
     );
     return updatedProduct;
   }

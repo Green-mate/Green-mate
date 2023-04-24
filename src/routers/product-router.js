@@ -120,7 +120,7 @@ productRouter.post("/admin/products", adminOnly, async (req, res, next) => {
   }
 });
 
-// // 관리자 상품 수정: /api/admin/products?item=상품명
+// // 관리자 상품 수정: /api/admin/products?item
 productRouter.patch("/admin/products", adminOnly, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
@@ -152,7 +152,7 @@ productRouter.patch("/admin/products", adminOnly, async (req, res, next) => {
   }
 });
 
-// 관리자 상품 삭제: /api/admin/products?item=상품명
+// 관리자 상품 삭제: /api/admin/products?item
 productRouter.delete("/admin/products", adminOnly, async (req, res, next) => {
   try {
     const item = req.query.item;
