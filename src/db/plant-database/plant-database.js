@@ -138,10 +138,10 @@ app.get('/', (req, res) => {
             Math.floor(Math.random() * (maxPrice - minPrice + 1)) + minPrice;
 
           plantData.push({
-            product_code: plantNumber,
-            product_name: plantName,
+            productCode: plantNumber,
+            productName: plantName,
             productImage: plantImageUrl.match(regex)[1],
-            product_price: `${Math.floor(randomPrice / 1000) * 1000}원`,
+            productPrice: `${Math.floor(randomPrice / 1000) * 1000}원`,
             category: plantType,
           });
         }
