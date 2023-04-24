@@ -18,6 +18,7 @@ function getImageFiles(e) {
   const files = e.currentTarget.files[0];
   console.log(typeof files, files);
 
+  // url로 변경
   newImg = URL.createObjectURL(files);
   console.log(newImg);
 }

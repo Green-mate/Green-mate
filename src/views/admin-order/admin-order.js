@@ -9,6 +9,11 @@ const orderListDiv = document.getElementById('order-list-div');
 const orderUpdateBtn = document.getElementsByClassName('order-update-btn');
 const orderDeleteBtn = document.getElementsByClassName('order-delete-btn');
 
+const preOrder = document.getElementById('pre-order');
+const totalOrder = document.getElementById('total-order');
+const shippingOrder = document.getElementById('shipping-order');
+const shippedOrder = document.getElementById('shipped-order');
+
 // 정의 파트
 
 let orderList = [];
@@ -27,6 +32,26 @@ const adminGetOrderAPI = async () => {
       .get(`/api/admin/orders?currentPage=${page}`, config)
       .then((response) => {
         orderList = response.data;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const adminStatusGetOrderAPI = async () => {
+  const config = {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+    },
+  };
+  try {
+    await axios
+      .get(`/api/admin/orders/shipping-status`, config)
+      .then((response) => {
+        preOrder.innerText = response.data.preShippingOrderCount;
+        totalOrder.innerText = response.data.totalOrderCount;
+        shippingOrder.innerText = response.data.inShippingOrderCount;
+        shippedOrder.innerText = response.data.shippedOrderCount;
       });
   } catch (error) {
     console.error(error);
@@ -102,6 +127,7 @@ previousPageBtn.addEventListener('click', () => {
 });
 
 await adminGetOrderAPI();
+await adminStatusGetOrderAPI();
 
 for (var value of orderList) {
   // total 금액 계산 코드
