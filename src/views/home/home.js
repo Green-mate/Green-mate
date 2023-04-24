@@ -100,7 +100,7 @@ function createCategory({ categoryName }) {
   categoryBar.appendChild(categoryElem);
 }
 
-/************카테고리 필터 함수************/
+/************카테고리 필터 함수 -> 카테고리 중복 검사 ************/
 async function categoryFilter() {
   const clickedCategoryName = sessionStorage.getItem('selectedCategory');
   const searchByCategoryProductList = [];
