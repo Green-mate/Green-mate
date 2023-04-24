@@ -85,6 +85,9 @@ class OrderService {
         "배송 상태가 '배송전'인 경우에만 정보를 삭제할 수 있습니다.",
       );
     }
+
+    order.productList.
+
   }
 
   async getOrderListByUserId(userId) {
