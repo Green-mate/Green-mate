@@ -67,189 +67,42 @@
         <!-- 회원 현황 -->
         <div class="flex justify-center overflow-y-auto p-5">
           <div id="product-manage-content">
-            <div
-              class="bg-gray-100 py-4"
-              id="product-list-div"
-              style="display: block"
-            >
+            <div class="bg-gray-100 py-4" style="width: 800px">
               <!-- main -->
               <div class="flex justify-center overflow-y-auto p-20">
                 <span class="font-bold text-3xl">제품 리스트</span>
               </div>
               <div class="flex font-bold text-gray-600 ml-2">
-                <div class="w-1/4">제품 이름</div>
-                <div class="w-1/4">카테고리</div>
-                <div class="w-1/4">가격</div>
-                <div class="w-1/4">재고</div>
+                <div class="w-1/5">제품 이름</div>
+                <div class="w-1/5">카테고리</div>
+                <div class="w-1/5">가격</div>
+                <div class="w-1/5">재고</div>
+                <div class="w-1/5">썸네일</div>
                 <div class="w-20"></div>
               </div>
-              <div class="container mx-auto">
+              <div class="container mx-auto" id="product-list-div">
+
+                <!-- 여기에 추가하는 div 숨기기 -->
                 <div
-                  class="bg-gray-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
+                  class="bg-grayx-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
+                  id="add-content-div"
+                  style="display : none"
                 >
-                  <div class="w-1/4">필로델드론 버럴막스</div>
-                  <div class="w-1/4">공기정화식물</div>
-                  <div class="w-1/4">13,500</div>
-                  <div class="w-1/4">
-                    <select class="w-full py-1 px-2 rounded-lg font-bold">
-                      <option value="ready" selected>판매중</option>
-                      <option value="shipping">매진</option>
-                    </select>
-                  </div>
+                  <input class="w-1/5" id="product-input1"></input>
+                  <input class="w-1/5" id="${listID}put"></input>
+                  <input class="w-1/5" id="${listID}put"></input>
+                  <input class="w-1/5" id="${listID}put4"></input>
+                  <input class="w-1/5" id="${listID}put"></input>
+
                   <button
-                    class="w-20 border border-slate-500 bg-white py-1 px-2 rounded-lg"
+                  id="post-product-btn"
+                  class="w-20 h-10 border border-slate-500 bg-white  rounded-lg"
                   >
-                    취소
+                    등록
                   </button>
+
                 </div>
-                <div
-                  class="bg-gray-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
-                >
-                  <div class="w-1/4">필로델드론 버럴막스</div>
-                  <div class="w-1/4">공기정화식물</div>
-                  <div class="w-1/4">13,500</div>
-                  <div class="w-1/4">
-                    <select class="w-full py-1 px-2 rounded-lg font-bold">
-                      <option value="ready" selected>판매중</option>
-                      <option value="shipping">매진</option>
-                    </select>
-                  </div>
-                  <button
-                    class="w-20 border border-slate-500 bg-white py-1 px-2 rounded-lg"
-                  >
-                    취소
-                  </button>
-                </div>
-                <div
-                  class="bg-gray-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
-                >
-                  <div class="w-1/4">필로델드론 버럴막스</div>
-                  <div class="w-1/4">공기정화식물</div>
-                  <div class="w-1/4">13,500</div>
-                  <div class="w-1/4">
-                    <select class="w-full py-1 px-2 rounded-lg font-bold">
-                      <option value="ready" selected>판매중</option>
-                      <option value="shipping">매진</option>
-                    </select>
-                  </div>
-                  <button
-                    class="w-20 border border-slate-500 bg-white py-1 px-2 rounded-lg"
-                  >
-                    취소
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- 제품추가html : 버튼 클릭시 나타나도록 -->
-            <div class="pt-20">
-              <form
-                class="flex flex-col justify-items-center justify-center w-96"
-                id="register-product-form"
-                style="display: none"
-              >
-                <!-- 제품이름 입력 -->
-                <div class="mb-4">
-                  <label
-                    class="text-lg block text-gray-700 font-bold mb-2"
-                    for="product-name-input"
-                    >제품이름</label
-                  >
-
-                  <input
-                    style="height: 50px"
-                    class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
-                    id="product-name-input"
-                    type="text"
-                    placeholder="ex.해바라기 .."
-                    autocomplete="on"
-                  />
-                </div>
-
-                <!-- 카테고리 입력 -->
-                <div class="mb-4">
-                  <label
-                    class="text-lg block text-gray-700 font-bold mb-2"
-                    for="category-input"
-                    >카테고리</label
-                  >
-
-                  <input
-                    style="height: 50px"
-                    class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
-                    id="category-input"
-                    type="text"
-                    autocomplete="on"
-                  />
-                </div>
-
-                <!-- 가격 입력 -->
-                <div class="mb-4">
-                  <label
-                    class="text-lg block text-gray-700 font-bold mb-2"
-                    for="price-input"
-                    >가격</label
-                  >
-
-                  <input
-                    style="height: 50px"
-                    class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
-                    id="price-input"
-                    type="text"
-                    autocomplete="off"
-                  />
-                </div>
-
-                <!-- 재고 입력 -->
-                <div class="mb-5">
-                  <label
-                    class="text-lg block text-gray-700 font-bold mb-2"
-                    for="inventory-confirm-input"
-                    >재고</label
-                  >
-
-                  <input
-                    style="height: 50px"
-                    class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-5"
-                    id="inventory-confirm-input"
-                    type="text"
-                    autocomplete="off"
-                  />
-                </div>
-                <!-- 썸네일 사진 -->
-                <label
-                  class="text-lg block text-gray-700 font-bold mb-2"
-                  for="thumbnail-input"
-                  >썸네일</label
-                >
-
-                <div class="flex flex-col justify-center items-center mb-8">
-                  <input
-                    style="display: none"
-                    class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-5"
-                    id="thumbnail-input"
-                    type="file"
-                  />
-
-                  <img
-                    src="../dist/uploadimg.png"
-                    id="upload"
-                    class="rounded-xl shadow focus:outline-none"
-                    style="width: 300px; height: 300px"
-                  />
-                </div>
-
-                <button
-                  style="height: 52px; width: 200px"
-                  class="shadow bg-green-500 hover:bg-green-700 text-white text-lg font-bold py-2rounded focus:outline-none mb-10 mx-auto"
-                  id="submit-button "
-                  type="button"
-                >
-                  등록하기
-                </button>
-              </form>
-            </div>
-
+                <!--  -->
             <!-- 추가 하는 버튼  -->
             <div class="flex justify-center font-bold text-gray-600">
               <button
@@ -268,9 +121,11 @@
               </button>
             </div>
             <!-- 추가 하는 버튼  -->
+            </div>
           </div>
         </div>
       </div>
+      
     </div>
   </body>
 </html>

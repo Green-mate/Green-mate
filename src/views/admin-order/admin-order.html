@@ -18,10 +18,11 @@
     <script src="admin-order.js" type="module" defer></script>
     <script src="../common/admin-sidebar.js" type="module" defer></script>
   </head>
+
   <body class="bg-gray-100">
     <!-- wrapper -->
     <div class="flex h-screen bg-gray-100">
-      <!-- siderbar -->
+      <!-- sidebar -->
       <div class="flex flex-col flex-shrink-0 w-64 bg-green-600 text-white">
         <div
           class="flex items-center justify-center h-28 border-b border-gray-700 bg-white"
@@ -63,106 +64,155 @@
             <h1 class="text-2xl font-medium">주문 관리 페이지</h1>
           </div>
         </div>
-        <!-- main -->
-        <div class="flex justify-center overflow-y-auto p-5">
-          <div id="order-manage-content">
-            <div class="bg-gray-100 py-4">
-              <!-- 주문 현황 -->
-              <div
-                class="flex justify-center overflow-y-auto p-10 border-b-2 flex-col"
-              >
-                <div class="flex justify-center">
-                  <div class="flex justify-center w-1/3 text-lg font-bold m-4">
-                    총 주문 수
-                  </div>
-                </div>
-                <div class="flex justify-center">
-                  <div class="flex justify-center w-1/3 text-xl">30</div>
-                </div>
-              </div>
+        <!-- 회원 현황 -->
 
-              <div
-                class="flex justify-center overflow-y-auto p-10 border-b-2 flex-col"
-              >
-                <div class="flex justify-center">
-                  <div class="flex justify-center w-1/3 text-lg font-bold m-4">
-                    상품 준비
-                  </div>
-                  <div class="flex justify-center w-1/3 text-lg font-bold m-4">
-                    배송중인 상품
-                  </div>
-                  <div class="flex justify-center w-1/3 text-lg font-bold m-4">
-                    배송 완료
-                  </div>
-                </div>
-                <div class="flex justify-center">
-                  <div class="flex justify-center w-1/3 text-xl">15</div>
-                  <div class="flex justify-center w-1/3 text-xl">2</div>
-                  <div class="flex justify-center w-1/3 text-xl">13</div>
-                </div>
-              </div>
-              <!-- 주문 리스트  -->
+
+      <div
+      class="flex justify-center overflow-y-auto p-10 border-b-2 flex-col"
+      >
+      <div class="flex justify-center">
+        <div class="flex justify-center w-1/3 text-lg font-bold m-4">
+          총 주문 수
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <div class="flex justify-center w-1/3 text-xl">30</div>
+      </div>
+      </div>
+
+      <div
+      class="flex justify-center overflow-y-auto p-10 border-b-2 flex-col"
+      >
+      <div class="flex justify-center">
+        <div class="flex justify-center w-1/3 text-lg font-bold m-4">
+          상품 준비
+        </div>
+        <div class="flex justify-center w-1/3 text-lg font-bold m-4">
+          배송중인 상품
+        </div>
+        <div class="flex justify-center w-1/3 text-lg font-bold m-4">
+          배송 완료
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <div class="flex justify-center w-1/3 text-xl">15</div>
+        <div class="flex justify-center w-1/3 text-xl">2</div>
+        <div class="flex justify-center w-1/3 text-xl">13</div>
+      </div>
+      </div>
+        <div class="flex justify-center overflow-y-auto p-5">
+          <div id="product-manage-content">
+            <div class="bg-gray-100 py-4" style="width: 800px">
+              <!-- main -->
               <div class="flex justify-center overflow-y-auto p-20">
-                <span class="font-bold text-3xl">주문 리스트</span>
+                <span class="font-bold text-3xl">제품 리스트</span>
               </div>
               <div class="flex font-bold text-gray-600 ml-2">
-                <div class="w-1/4">주문 날짜</div>
-                <div class="w-1/4">주문 정보</div>
-                <div class="w-1/4">주문 금액</div>
-                <div class="w-1/4">배송 상태</div>
+                <div class="w-1/5">제품 이름</div>
+                <div class="w-1/5">카테고리</div>
+                <div class="w-1/5">가격</div>
+                <div class="w-1/5">재고</div>
+                <div class="w-1/5">썸네일</div>
                 <div class="w-20"></div>
               </div>
-              <div class="container mx-auto">
+              <div class="container mx-auto" id="product-list-div">
+
+                <!-- 여기에 추가하는 div 숨기기 -->
                 <div
-                  class="bg-gray-200 py-2 flex items-center gap-x-16 px-4 my-2 rounded-md border-b-2 border-gray-300"
+                  class="bg-grayx-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
+                  id="add-content-div"
+                  style="display : none"
                 >
-                  <div class="w-1/4">2023-04-19</div>
-                  <div class="w-1/4">청바지 1개, 티셔츠 2개</div>
-                  <div class="w-1/4">￦ 50,000</div>
-                  <div class="w-1/4">
+                  <input class="w-1/5" id="${listID}put" value=${eachListDiv.innerText}></input>
+                  <input class="w-1/5" id="${listID}put" value=${eachListDiv.innerText}></input>
+                  <input class="w-1/5" id="${listID}put" value=${eachListDiv.innerText}></input>
+                  <div class="w-1/5">
                     <select class="w-full py-1 px-2 rounded-lg font-bold">
-                      <option value="ready" selected>상품 준비중</option>
-                      <option value="shipping">배송 중</option>
-                      <option value="delivered">배송 완료</option>
+                      <option value="ready" selected>판매중</option>
+                      <option value="shipping">매진</option>
                     </select>
                   </div>
-                  <button
-                    class="w-20 border border-slate-500 bg-white py-1 px-2 rounded-lg"
-                  >
-                    취소
-                  </button>
-                </div>
-                <div
-                  class="bg-gray-200 py-2 flex items-center gap-x-16 px-4 my-2 rounded-md border-b-2 border-gray-300"
-                >
-                  <div class="w-1/4">2023-04-14</div>
-                  <div class="w-1/4">운동화 1켤레</div>
-                  <div class="w-1/4">￦ 80,000</div>
-                  <div class="w-1/4">
-                    <select class="w-full py-1 px-2 rounded-lg font-bold">
-                      <option value="ready" selected>상품 준비중</option>
-                      <option value="shipping">배송 중</option>
-                      <option value="delivered">배송 완료</option>
-                    </select>
+                  <input class="w-1/5" id="${listID}put" value=${eachListDiv.innerText}></input>
+                  <div class="flex flex-row items-center">
+                    <button
+                    id="${listID}complete"
+                    class="w-10 h-10 border border-slate-500 bg-white  rounded-lg"
+                    >
+                      완료
+                    </button>
+                    <button
+                      id="${listID}cancle"
+                      class="w-10 h-10 border border-slate-500 bg-white  rounded-lg"
+                    >
+                      취소
+                    </button>
                   </div>
-                  <button
-                    class="w-20 border border-slate-500 bg-white py-1 px-2 rounded-lg"
-                  >
-                    취소
-                  </button>
                 </div>
+                <!--  -->
+
 
                 <div
-                  class="bg-gray-200 py-2 flex items-center gap-x-16 px-4 my-2 rounded-md border-b-2 border-gray-300"
+                  class="bg-gray-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
                 >
-                  <div class="w-1/4">2023-04-11</div>
-                  <div class="w-1/4">후드티 1개, 팬츠 1개</div>
-                  <div class="w-1/4">￦ 70,000</div>
+                  <div class="w-1/5">필로델드론 버럴막스</div>
+                  <div class="w-1/5">공기정화식물</div>
+                  <div class="w-1/5">13,500</div>
+                  <div class="w-1/5">
+                    판매중
+                  </div>
+                  <div class="w-1/5">썸네일</div>
+                  <div class="flex flex-row items-center">
+                    <button
+                      class="product-update-btn w-10 h-10 border border-slate-500 bg-white  rounded-lg"
+                    >
+                      수정
+                    </button>
+                    <button
+                      class="product-delete-btn w-10 h-10 border border-slate-500 bg-white  rounded-lg"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="bg-gray-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
+                >
+                
+                  <input class="w-1/5" id="${listID}put" value=${eachListDiv.innerText}></input>
+                  <input class="w-1/5" id="${listID}put" value=${eachListDiv.innerText}></input>
+                  <input class="w-1/5" id="${listID}put" value=${eachListDiv.innerText}></input>
+                  <div class="w-1/5">
+                    <select class="w-full py-1 px-2 rounded-lg font-bold">
+                      <option value="ready" selected>판매중</option>
+                      <option value="shipping">매진</option>
+                    </select>
+                  </div>
+                  <input class="w-1/5" id="${listID}put" value=${eachListDiv.innerText}></input>
+                  <div class="flex flex-row items-center">
+                    <button
+                    id="${listID}complete"
+                    class="w-10 h-10 border border-slate-500 bg-white  rounded-lg"
+                    >
+                      완료
+                    </button>
+                    <button
+                      id="${listID}cancle"
+                      class="w-10 h-10 border border-slate-500 bg-white  rounded-lg"
+                    >
+                      취소
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="bg-gray-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
+                >
+                  <div class="w-1/4">필로델드론 버럴막스</div>
+                  <div class="w-1/4">공기정화식물</div>
+                  <div class="w-1/4">13,500</div>
                   <div class="w-1/4">
                     <select class="w-full py-1 px-2 rounded-lg font-bold">
-                      <option value="ready" selected>상품 준비중</option>
-                      <option value="shipping">배송 중</option>
-                      <option value="delivered">배송 완료</option>
+                      <option value="ready" selected>판매중</option>
+                      <option value="shipping">매진</option>
                     </select>
                   </div>
                   <button
@@ -173,9 +223,30 @@
                 </div>
               </div>
             </div>
+            <!-- 추가 하는 버튼  -->
+            <div class="flex justify-center font-bold text-gray-600">
+              <button
+                style="display: block"
+                id="addBtn"
+                class="w-15 border border-slate-500 bg-white py-1 px-2 rounded-lg"
+              >
+                추가
+              </button>
+              <button
+                style="display: none"
+                id="cancleBtn"
+                class="w-15 border border-slate-500 bg-white py-1 px-2 rounded-lg"
+              >
+                취소
+              </button>
+            </div>
+            <!-- 추가 하는 버튼  -->
           </div>
         </div>
       </div>
     </div>
   </body>
 </html>
+
+
+
