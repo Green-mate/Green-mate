@@ -122,7 +122,7 @@ app.get('/', (req, res) => {
           '덩굴성,다육형',
         ];
         for (var i = 0; i < keys.length; i++) {
-          var plantNumber = data.response.body.items.item[i].cntntsNo['_cdata'];
+          // var plantNumber = data.response.body.items.item[i].cntntsNo['_cdata'];
           var plantName = data.response.body.items.item[i].cntntsSj['_cdata'];
           var plantImageUrl =
             data.response.body.items.item[i].rtnFileUrl['_cdata'];
@@ -138,11 +138,11 @@ app.get('/', (req, res) => {
             Math.floor(Math.random() * (maxPrice - minPrice + 1)) + minPrice;
 
           plantData.push({
-            productCode: plantNumber,
             productName: plantName,
-            productImage: plantImageUrl.match(regex)[1],
-            productPrice: `${Math.floor(randomPrice / 1000) * 1000}원`,
             category: plantType,
+            productPrice: Math.floor(randomPrice / 1000) * 1000,
+            productImage: plantImageUrl.match(regex)[1],
+            stock: 20,
           });
         }
         res.json(plantData);
@@ -153,7 +153,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// 데이터값 확인할때
 // app.listen(3000, () => {
 //   console.log('Server listening on port 3000');
 // });
