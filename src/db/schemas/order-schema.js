@@ -8,6 +8,10 @@ const OrderSchema = new Schema(
       type: String,
       required: true,
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -16,8 +20,8 @@ const OrderSchema = new Schema(
     //상품 리스트 (상품 id와 수량을 프론트엔드에서 받아올 예정)
     productList: [
       {
-        shortId: {
-          type: Schema.Types.String,
+        productId: {
+          type: Schema.Types.ObjectId,
           ref: "products",
           required: true,
         },

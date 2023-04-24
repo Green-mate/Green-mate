@@ -11,7 +11,10 @@ export class OrderModel {
     )
       .skip((currentPage - 1) * perPage)
       .limit(perPage)
-      .populate('productList.shortId', 'productName productPrice')
+      .populate({
+        path: 'productList.productId',
+        select: 'productName productPrice',
+      })
       .exec();
     return orders;
   }
@@ -26,7 +29,7 @@ export class OrderModel {
   async findByUserId(userId) {
     const orderList = await Order.find({ userId: userId })
       .populate(
-        'productList.shortId',
+        'productList.productId',
         'productName productPrice stock productImage',
       )
       .exec();
