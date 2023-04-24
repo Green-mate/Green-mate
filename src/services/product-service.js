@@ -1,28 +1,61 @@
-import { categoryModel, productModel } from "../db";
+import { productModel } from "../db";
 
 export class ProductService {
-  // 전체(해당 카테고리) 상품 개수를 가져옴
-  async getProductsCount(category) {
-    const count = await productModel.countDocuments({ category }).exec();
-
+  constructor(productModel) {
+    this.productModel = productModel;
+  }
+  // 전체 상품 개수를 가져옴
+  async getProductsCountAll() {
+    const count = await this.productModel.countDocumentsAll();
+    if (count === null) {
+      throw new Error("상품 개수를 불러올 수 없습니다.");
+    }
+    console.log(`count: ${count}`);
     return count;
   }
-  // 전체(해당 카테고리) 상품 조회
-  // 주어진 데이터가 데이터베이스에 하나 이상 존재하는 경우에는 그 값을 반환하고, 아니면 null
-  async getProducts(categoryName) {
-    const category = await categoryModel.findOne({ categoryName }).exec();
-    const products = await productModel.find({ category }).exec();
 
-    if (category === null) {
-      throw new Error("해당하는 카테고리가 없습니다.");
+  // 카테고리 상품 개수를 가져옴
+  async getProductsCount(category) {
+    const count = await this.productModel.countDocumentsByCategory(category);
+    if (count === null) {
+      throw new Error("상품 개수를 불러올 수 없습니다.");
+    }
+    console.log(`count: ${count}`);
+    return count;
+  }
+
+  // 전체 상품 조회
+  async getProductsAll() {
+    const products = await this.productModel.findAll();
+
+    if (products === null) {
+      throw new Error("상품 목록을 불러올 수 없습니다.");
+    }
+    console.log(
+      "🚀 ~ file: product-service.js:38 ~ ProductService ~ getProducts ~ products:",
+      products
+    );
+    return products;
+  }
+
+  // 카테고리별 상품 조회
+  async getProducts(category) {
+    const products = await this.productModel.findAllByCategory(category);
+    console.log(
+      "🚀 ~ file: product-service.js:36 ~ ProductService ~ getProducts ~ products:",
+      products
+    );
+
+    if (products === null) {
+      throw new Error("상품 목록을 불러올 수 없습니다.");
     }
 
     return products;
   }
 
   // 상품 상세 조회
-  async getProductById(id) {
-    const products = await productModel.findOne({ shortId: id }).exec();
+  async getProductById(shortId) {
+    const products = await this.productModel.findByShortId(shortId);
 
     if (products === null) {
       throw new Error("해당하는 상품이 존재하지 않습니다.");
@@ -33,64 +66,51 @@ export class ProductService {
 
   // 관리자페이지 상품 전체 조회
   async getAdminProducts() {
-    const products = await productModel.find({}, { productImage: 0 }).exec();
+    const products = await this.productModel.findAll({}, { productImage: 0 });
 
     return products;
   }
 
   // 상품 추가
-  async addProducts(productName, category, productPrice, productImage, stock) {
-    const productNameDB = await productModel.findOne({ productName }).exec();
+  async addProducts(productObj) {
+    const { productName } = productObj;
+    const productNameDB = await this.productModel.findByProductName(
+      productName
+    );
     if (productNameDB) {
       throw new Error("이미 존재하는 상품입니다.");
-    } else {
-      await productModel
-        .create({
-          productName,
-          category,
-          productPrice: Number(productPrice),
-          productImage,
-          stock: Number(stock),
-        })
-        .exec();
     }
 
+    const newProduct = await this.productModel.create(productObj);
+    console.log(newProduct);
     return "success";
   }
 
   // 상품 업데이트
   async updateProduct(item, updateObj) {
-    const filter = { productName: item };
-
-    const updateProduct = await productModel
-      .findOneAndUpdate(filter, updateObj, { new: true })
-      .exec();
+    const updateProduct = await this.productModel.update(item, updateObj);
 
     if (updateProduct === null) {
       throw new Error("해당 상품을 찾을 수 없어 수정할 수 없습니다.");
     }
+
+    console.log(`수정된 데이터: ${updateProduct}`);
 
     return "success";
   }
 
   // 상품 삭제
   async deleteProduct(item) {
-    const productName = await productModel
-      .findOne({ productName: item })
-      .exec();
+    const deleteProduct = await this.productModel.delete(item);
 
-    if (productName === null) {
+    if (deleteProduct === null) {
       throw new Error("해당 상품을 찾을 수 없어 삭제에 실패했습니다.");
-    } else {
-      const deleteProduct = await productModel
-        .deleteOne({ productName })
-        .exec();
     }
 
     return "success";
   }
 }
 
-const productService = new ProductService();
+const productService = new ProductService(productModel);
 
 export { productService };

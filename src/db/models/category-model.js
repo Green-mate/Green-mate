@@ -1,7 +1,7 @@
-import { model } from 'mongoose';
-import { CategorySchema } from '../schemas/category-schema';
+import { model } from "mongoose";
+import { CategorySchema } from "../schemas/category-schema";
 
-const Category = model('categorys', CategorySchema);
+const Category = model("categorys", CategorySchema);
 
 export class CategoryModel {
   async findByTitle(categoryName) {
@@ -31,7 +31,7 @@ export class CategoryModel {
     const updatedCategory = await Category.findOneAndUpdate(
       filter,
       update,
-      option,
+      option
     );
     return updatedCategory;
   }
