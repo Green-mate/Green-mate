@@ -2,15 +2,15 @@ import * as API from '../api.js';
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 
 const cards = document.querySelector('#item-cards-list');
+const card = document.querySelector('#cards');
 const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
 const searchByCategoryProduct = [];
 
-console.log('cards', cards);
 function createCard(product) {
   return `
   <div id="card" style="width:350px; height:480px;" class="mb-5">
-    <a id="card-link" href="/product-detail">
+    <a id="card-link" href="/product-detail?pid=${product.id}">
       <img
         src="${product.productImage}"
         id="card-img-top"
