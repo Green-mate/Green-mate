@@ -32,7 +32,7 @@ app.use(viewsRouter);
 // api 라우팅
 
 app.use('/api', userRouter);
-// app.use('/api', productRouter);
+app.use('/api', productRouter);
 app.use('/api', categoryRouter);
 app.use('/api', orderRouter);
 
