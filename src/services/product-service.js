@@ -88,7 +88,11 @@ export class ProductService {
 
   // 상품 업데이트
   async updateProduct(item, updateObj) {
-    const updateProduct = await this.productModel.update({ item, updateObj });
+    const product = item;
+    const updateProduct = await this.productModel.update({
+      product,
+      updateObj,
+    });
 
     if (updateProduct === null) {
       throw new Error("해당 상품을 찾을 수 없어 수정할 수 없습니다.");

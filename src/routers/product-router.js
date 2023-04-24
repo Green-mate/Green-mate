@@ -140,7 +140,7 @@ productRouter.patch("/admin/products", adminOnly, async (req, res, next) => {
       productImage,
       stock: Number(stock),
     };
-
+    console.log(item);
     const result = await productService.updateProduct(item, updateObj);
 
     res.status(200).json({

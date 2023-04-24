@@ -46,7 +46,7 @@ export class ProductModel {
   async update({ product, updateObj }) {
     const filter = { productName: product };
     const option = { returnOriginal: false };
-
+    console.log(product);
     const updatedProduct = await Product.findOneAndUpdate(
       filter,
       updateObj,
@@ -54,6 +54,8 @@ export class ProductModel {
     );
     console.log(
       "🚀 ~ file: product-model.js:55 ~ ProductModel ~ update ~ updatedProduct:",
+      filter,
+      updateObj,
       updatedProduct
     );
     return updatedProduct;
