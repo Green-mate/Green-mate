@@ -4,6 +4,7 @@ const orderCardComponent = document.querySelector('#order-card-component');
 const uid = localStorage.getItem('userId');
 const DELIVERY_CHARGE = 3000;
 let TOTALPRICE = DELIVERY_CHARGE;
+const editOrderInfo = {};
 
 getOrdersLists();
 
@@ -11,11 +12,27 @@ async function getOrdersLists() {
   const orders = await API.get('/api/orders', `${uid}`);
   console.log('orders : ', orders);
 
+  if (orders.length === 0) {
+    orderCardComponent.innerHTML += `
+    <div class="flex justify-center items-center pt-28 text-2xl font-bold text-gray-500">주문 내역이 없습니다.</div>
+    `;
+  }
+
   for (const order of orders) {
     const newOrderCard = createOrderCard(order);
     orderCardComponent.innerHTML += newOrderCard;
   }
 }
+
+// 주문 수정 시 보낼 내용
+// {
+//   "recipient" : "엘리스",
+//   "phoneNumber" : "01012341234",
+//   "zipCode" : "12345",
+//   "address1" : "서울시 성수성수 ",
+//   "address2" : "성수낙낙 너무 조아",
+//   "shippingMessage" : "매니저님께 맡겨주세요."
+//   }
 
 function createOrderCard(order) {
   const {
@@ -28,9 +45,21 @@ function createOrderCard(order) {
     address1,
     address2,
     phoneNumber,
+    zipCode,
   } = order;
 
-  // const { quantity } = order.productList[0];
+  // editOrderInfo = {
+  //   _id,
+  //   recipient,
+  //   phoneNumber,
+  //   zipCode,
+  //   address1,
+  //   address2,
+  //   shippingMessage,
+  // };
+
+  // console.log(editOrderInfo);
+
   const date = createdAt.split('T')[0];
   console.log(productList);
   let productCardsHTML = ''; // 빈 문자열로 초기화
@@ -46,7 +75,7 @@ function createOrderCard(order) {
       <span class="float-left mt-3 mb-3">${date} 주문</span>
     </div>
 
-    <span class="float-left w-full py-4 text-3xl text-[#69b766] mt-3 mb-3">
+    <span class="float-left w-full py-4 text-3xl text-[#69b766] mt-3 mb-3 font-semibold">
       ${shippingStatus}
     </span>
 
