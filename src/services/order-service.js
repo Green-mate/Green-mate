@@ -2,6 +2,7 @@ import { model } from 'mongoose';
 import { orderModel } from '../db';
 import { productModel } from '../db';
 import { userModel } from '../db';
+import { shortId } from '../db/schemas/types/short-id';
 
 class OrderService {
   constructor(orderModel) {
@@ -12,7 +13,7 @@ class OrderService {
 
   //주문 생성
   async addOrder(orderInfo) {
-    //여기서 ProductList는 shortId 들을 담은 List임.
+    //여기서 ProductList는 ObjectId와 quantity 들을 담은 List임.
     const {
       userId,
       productList,
@@ -36,7 +37,22 @@ class OrderService {
       shippingStatus,
     };
 
+    for (let i = 0; i < productList.length; i++) {
+      const productId = productList[i].productId;
+      const product = await this.productModel.findById(productId);
+      const count = Number(productList[i].quantity);
+      const productStock = Number(product.stock);
+      if (productStock < count) {
+        throw new Error('상품 주문 개수가 현재 재고 수보다 많습니다. ');
+      }
+      const updatedProduct = await this.productModel.updateById({
+        productId,
+        count: count * -1,
+      });
+    }
+
     const createdOrder = await this.orderModel.create(newOrderInfo);
+
     return createdOrder;
   }
 
