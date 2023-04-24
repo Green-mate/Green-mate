@@ -1,40 +1,143 @@
-// const createCategory = (category) => {
-//   return `
-//         <li class="nav-item category">
-//           <div class="nav-link">#${category.name}</div>
-//         </li>`;
-// };
+import * as API from '../api.js';
+import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 
 const cards = document.querySelector('#item-cards-list');
+const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
-const card = document.querySelector('#card');
+const searchByCategoryProduct = [];
 
-const createCard = () => {
-  return ` 
-  <div id="card" style="width:350px; height:480px;">
+console.log('cards', cards);
+function createCard(product) {
+  return `
+  <div id="card" style="width:350px; height:480px;" class="mb-5">
     <a id="card-link" href="/product-detail">
       <img
-        src="../dist/example.jpeg"
+        src="${product.productImage}"
         id="card-img-top"
         class="rounded-lg"
-        width="350" height="376"
+        style="width:350px; height:376px;"
       />
       <div id="card-body">
         <div id="card-text card-title" class="text-lg mt-3 mb-1">
-          하얗게 피어난 얼음꽃
+          ${product.productName}
         </div>
         <div id="card-text card-hashtags" class="text-gray-500 mt-1 mb-1">
-          #관엽/공기정화식물
+          #${product.category}
         </div>
         <div id="card-text card-price" class="font-bold text-base mt-1 mb-1">
-          14,000 원
+          ${product.productPrice} 원
         </div>
       </div>
     </a>
   </div>`;
-};
-
-// 임시로 화면에 뿌리는 것임 UI상 어케 보이나
-for (let i = 0; i < 9; i++) {
-  cards.innerHTML += createCard();
 }
+getProductList();
+async function getProductList() {
+  ///api/products?category=분재&page=1&perPage=9
+  // const productList = await API.getWithoutToken('/api/products', `category=${categoryName}&page=${currentPage}&perPage=9`);
+  const response = await axios.get('./productDummy.json');
+  const products = await response.data;
+  console.log(products.length);
+  productCounter.innerText = products.length;
+  console.log(products);
+
+  // product 각 요소마다 createCard함수 호출하여 productList에 담음
+  const productList = [];
+  for (const product of products) {
+    const newCard = createCard(product);
+    cards.innerHTML += newCard;
+    productList.push(product);
+  }
+  return productList;
+}
+
+/************카악퉤고리***********/
+const categoryBar = document.querySelector('#category-menu-navbar');
+const wholeCategory = document.querySelector('#whole-product-category');
+
+// 초기 sessionStorage
+sessionStorage.setItem('selectedCategory', 'all');
+
+// 카테고리 데이터 받아와서 동적 생성
+const categories = await API.getWithoutToken('/api/admin/categories');
+
+categories.map((category) => {
+  createCategory(category);
+});
+
+// 전체 상품 이외 생성될 카테고리
+function createCategory({ categoryName }) {
+  const categoryElem = document.createElement('li');
+  const categoryLinkElem = document.createElement('a');
+
+  // 하나의 카테고리 속성 부여
+  categoryLinkElem.textContent = categoryName;
+  categoryLinkElem.classList.add('cursor-pointer');
+  categoryElem.classList.add('text-lg', 'font-bold', 'hover:text-[#69b766]');
+  categoryElem.setAttribute('id', 'category');
+
+  // 카테고리 element 동적 생성
+  categoryElem.appendChild(categoryLinkElem);
+
+  /**
+   * 카테고리 클릭시, 클릭한 카테고리 이름 세션 스토리지에 저장
+   * 클릭한 카테고리 text색상 및 sessionStorage변경, 카테고리 명 변경
+   */
+  categoryElem.addEventListener('click', () => {
+    sessionStorage.setItem('selectedCategory', categoryName);
+    categoryNameLabel.innerText = categoryName;
+    const categoryLiList = document.querySelectorAll('#category');
+    categoryLiList.forEach((categoryLi) => {
+      if (sessionStorage.getItem('selectedCategory') !== 'all') {
+        wholeCategory.classList.remove('text-[#69b766]');
+      }
+      categoryLi.children[0].classList.remove('text-[#69b766]');
+    });
+    categoryLinkElem.classList.add('text-[#69b766]');
+    categoryFilter();
+  });
+
+  categoryBar.appendChild(categoryElem);
+}
+
+/************카테고리 필터 함수 -> 카테고리 중복 검사 ************/
+async function categoryFilter() {
+  const clickedCategoryName = sessionStorage.getItem('selectedCategory');
+  const searchByCategoryProductList = [];
+
+  const productList = await getProductList();
+
+  productList.forEach((product) => {
+    if (
+      product.category.includes(clickedCategoryName) ||
+      clickedCategoryName === 'all'
+    ) {
+      searchByCategoryProductList.push(product);
+    }
+  });
+
+  console.log(searchByCategoryProductList);
+
+  productCounter.innerText = searchByCategoryProductList.length;
+
+  if (searchByCategoryProductList.length === 0) {
+    cards.innerHTML = `
+    <div></div>
+      <div id="empty-product-list">상품이 없습니다.</div>
+    `;
+  } else {
+    cards.innerHTML = '';
+    searchByCategoryProductList.forEach((product) => {
+      const newCard = createCard(product);
+      cards.innerHTML += newCard;
+    });
+  }
+}
+
+wholeCategory.addEventListener('click', () => {
+  sessionStorage.setItem('selectedCategory', 'all');
+
+  if (sessionStorage.getItem('selectedCategory') === 'all') {
+    wholeCategory.classList.toggle('text-[#69b766]');
+  }
+});
