@@ -1,11 +1,16 @@
-import * as Api from '/api.js';
-import { validateEmail } from '/useful-functions.js';
+import * as API from '../api.js';
+import {
+  blockAfterLogin,
+  getUrlParams,
+  validateEmail,
+} from '/useful-functions.js';
 
 // 요소(element), input 혹은 상수
 const emailInput = document.querySelector('#email-input');
 const passwordInput = document.querySelector('#password-input');
 const submitButton = document.querySelector('#submit-button');
 
+blockAfterLogin();
 addAllElements();
 addAllEvents();
 
@@ -38,17 +43,23 @@ async function handleSubmit(e) {
   try {
     const data = { email, password };
 
-    const result = await Api.post('/api/login', data);
+    const result = await API.postWithoutToken('/api/users/login', data);
     const token = result.token;
+    const userId = result.userId;
+    const role = result.role;
 
-    // 로그인 성공, 토큰을 세션 스토리지에 저장
-    // 물론 다른 스토리지여도 됨
-    sessionStorage.setItem('token', token);
-
+    // 로그인 성공, 토큰, 유저정보 로컬 스토리지에 저장
+    localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('role', role);
     alert(`정상적으로 로그인되었습니다.`);
 
-    // 로그인 성공
-
+    const { previousPage } = getUrlParams();
+    console.log('previousPage', previousPage);
+    if (previousPage) {
+      window.location.href = previousPage;
+      return;
+    }
     // 기본 페이지로 이동
     window.location.href = '/';
   } catch (err) {
