@@ -1,14 +1,41 @@
+// newimg 변경
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 
 const addBtn = document.getElementById('addBtn');
 const addContentDiv = document.getElementById('add-content-div');
 const cancleBtn = document.getElementById('cancleBtn');
-const thumbnailInputUpload = document.getElementById('thumbnail-input');
-const upload = document.getElementById('upload');
+
 const productListDiv = document.getElementById('product-list-div');
 const productPostBtn = document.getElementById('post-product-btn');
 const productUpdateBtn = document.getElementsByClassName('product-update-btn');
 const productDeleteBtn = document.getElementsByClassName('product-delete-btn');
+
+let newImg = '';
+const thumbnailInputUpload = document.getElementById(`thumbnail-input`);
+const upload = document.getElementById(`upload`);
+
+function getImageFiles(e) {
+  const files = e.currentTarget.files[0];
+  console.log(typeof files, files);
+
+  newImg = URL.createObjectURL(files);
+  console.log(newImg);
+}
+
+upload.addEventListener('click', () => thumbnailInputUpload.click());
+thumbnailInputUpload.addEventListener('change', getImageFiles);
+
+thumbnailInputUpload.addEventListener('change', () => {
+  if (thumbnailInputUpload.files && thumbnailInputUpload.files[0]) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      upload.src = e.target.result;
+    };
+
+    reader.readAsDataURL(thumbnailInputUpload.files[0]);
+  }
+});
 
 function hangulEncoder(queryParams) {
   const kor_reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글인지 식별해주기 위한 정규표현식
@@ -19,11 +46,6 @@ function hangulEncoder(queryParams) {
   } else {
     return queryParams;
   }
-}
-
-function getImageFiles(e) {
-  const files = e.currentTarget.files;
-  console.log(typeof files, files);
 }
 
 addBtn.addEventListener('click', () => {
@@ -43,27 +65,14 @@ productPostBtn.addEventListener('click', async () => {
     productName: addContentDiv.children[0].value,
     category: addContentDiv.children[1].value,
     productPrice: addContentDiv.children[2].value,
-    productImage: addContentDiv.children[3].value,
-    stock: addContentDiv.children[4].value,
+    stock: addContentDiv.children[3].value,
+    productImage: newImg,
   };
 
-  await adminProductCategoryAPI(data);
+  console.log(data);
+
+  await adminPostProductAPI(data);
 });
-
-// upload.addEventListener('click', () => thumbnailInputUpload.click());
-// thumbnailInputUpload.addEventListener('change', getImageFiles);
-
-// thumbnailInputUpload.addEventListener('change', () => {
-//   if (thumbnailInputUpload.files && thumbnailInputUpload.files[0]) {
-//     const reader = new FileReader();
-
-//     reader.onload = (e) => {
-//       upload.src = e.target.result;
-//     };
-
-//     reader.readAsDataURL(thumbnailInputUpload.files[0]);
-//   }
-// });
 
 let productList = [];
 
@@ -85,7 +94,7 @@ const adminGetProductAPI = async () => {
   }
 };
 
-const adminProductCategoryAPI = async (data) => {
+const adminPostProductAPI = async (data) => {
   const config = {
     headers: {
       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
@@ -98,6 +107,25 @@ const adminProductCategoryAPI = async (data) => {
     });
   } catch (error) {
     alert('형식에 맞춰 입력해주세요.');
+    console.error(error);
+  }
+};
+
+const adminPutProductAPI = async (data, id) => {
+  const encodedSearchID = hangulEncoder(id);
+  const config = {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+    },
+  };
+
+  try {
+    await axios
+      .put(`/api/admin/products?items=${id}`, data, config)
+      .then((response) => {
+        window.location.reload();
+      });
+  } catch (error) {
     console.error(error);
   }
 };
@@ -123,6 +151,7 @@ const adminDeleteProductAPI = async (id) => {
 };
 
 // 실행 파트
+
 await adminGetProductAPI();
 
 for (var value of productList) {
@@ -140,7 +169,7 @@ for (var value of productList) {
           <div class="w-1/5">${value.category}</div>
           <div class="w-1/5">${value.productPrice}</div>
           <div class="w-1/5 ml-6">${value.stock}</div>
-          <div class="w-1/5 text-ellipsis overflow-hidden">${value.productImage}</div>
+          <img src=${value.productImage} class="w-20 h-20" >
           <div class="flex flex-row items-center">
         <button
           class="product-update-btn w-10 h-10 border border-slate-500 bg-white  rounded-lg"
@@ -158,7 +187,7 @@ for (var value of productList) {
         </div>      `,
   );
 }
-
+//     <input type="file" class="w-1/5"       id="${listID}put5" ></input>
 for (let value of productUpdateBtn) {
   let listID = value.name;
   const eachListDiv = document.getElementById(listID);
@@ -172,7 +201,23 @@ for (let value of productUpdateBtn) {
     <input class="w-1/5" id="${listID}put2" value=${eachListDiv.children[1].innerText}></input>
     <input class="w-1/5" id="${listID}put3" value=${eachListDiv.children[2].innerText}></input>
     <input class="w-1/5" id="${listID}put4" value=${eachListDiv.children[3].innerText}></input>
-    <input class="w-1/5" id="${listID}put5" value=${eachListDiv.children[4].innerText}></input>
+    <div class="flex flex-col justify-center items-center w-1/5 h-10">
+      <input
+        style="display: none"
+        class="hadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-5"
+        id="${listID}thumbnail-input"
+
+        type="file"
+      />
+
+      <img
+        src="../dist/uploadimg.png"
+        id="${listID}upload"
+        class="rounded-xl shadow focus:outline-none"
+        style="width: 100px; height: 100px"
+      />
+    </div>
+
     <div class="flex flex-row items-center">
       <button
       id="${listID}complete"
@@ -188,6 +233,33 @@ for (let value of productUpdateBtn) {
       </button>
     </div>
     `;
+
+    let newImg = '';
+    const thumbnailInputUpload = document.getElementById(
+      `${listID}thumbnail-input`,
+    );
+    const upload = document.getElementById(`${listID}upload`);
+
+    function getImageFiles(e) {
+      const files = e.currentTarget.files[0];
+      console.log(typeof files, files);
+      newImg = files;
+    }
+
+    upload.addEventListener('click', () => thumbnailInputUpload.click());
+    thumbnailInputUpload.addEventListener('change', getImageFiles);
+
+    thumbnailInputUpload.addEventListener('change', () => {
+      if (thumbnailInputUpload.files && thumbnailInputUpload.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          upload.src = e.target.result;
+        };
+
+        reader.readAsDataURL(thumbnailInputUpload.files[0]);
+      }
+    });
 
     // 5개 만들기
     const nameValue = document.getElementById(`${listID}put1`);
@@ -206,10 +278,10 @@ for (let value of productUpdateBtn) {
         category: categoryValue.value,
         productPrice: priceValue.value,
         stock: stockValue.value,
-        productImage: imageValue.value,
+        productImage: imageValue || newImg,
       };
       console.log(data);
-      // await adminPutCategoryAPI(data, listID);
+      await adminPutProductAPI(data, nameValue.value);
     });
 
     cancelBtn.addEventListener('click', () => {
@@ -227,3 +299,50 @@ for (let value of productDeleteBtn) {
     // window.location.reload();
   });
 }
+
+// productPostBtn.addEventListener('click', async () => {
+//   let newImg = '';
+//   const thumbnailInputUpload = document.getElementById(`thumbnail-input`);
+//   const upload = document.getElementById(`upload`);
+
+//   const postInput1 = document.getElementById('post-input1');
+//   const postInput2 = document.getElementById('post-input2');
+//   const postInput3 = document.getElementById('post-input3');
+//   const postInput4 = document.getElementById('post-input4');
+
+//   function getImageFiles(e) {
+//     const files = e.currentTarget.files[0];
+//     console.log(typeof files, files);
+//     newImg = files;
+//   }
+
+//   upload.addEventListener('click', () => thumbnailInputUpload.click());
+//   thumbnailInputUpload.addEventListener('change', getImageFiles);
+
+//   thumbnailInputUpload.addEventListener('change', () => {
+//     console.log('dsfaf');
+//     if (thumbnailInputUpload.files && thumbnailInputUpload.files[0]) {
+//       const reader = new FileReader();
+
+//       reader.onload = (e) => {
+//         upload.src = e.target.result;
+//       };
+
+//       reader.readAsDataURL(thumbnailInputUpload.files[0]);
+//     }
+//   });
+
+//   // console.log(postInput1.value);
+//   // console.log(postInput2.value);
+//   // console.log(postInput3.value);
+//   // console.log(postInput4.value);
+
+//   let data = {
+//     productName: postInput1.value,
+//     category: postInput2.value,
+//     productPrice: parseInt(postInput3.value),
+//     productImage: 'newImg',
+//     stock: parseInt(postInput4.value),
+//   };
+//   await adminPostProductAPI(data);
+// });

@@ -88,11 +88,26 @@
                   id="add-content-div"
                   style="display : none"
                 >
-                  <input class="w-1/5"></input>
-                  <input class="w-1/5"></input>
-                  <input class="w-1/5"></input>
-                  <input class="w-1/5"></input>
-                  <input class="w-1/5"></input>
+                  <input class="w-1/5" id="post-input1"></input>
+                  <input class="w-1/5" id="post-input2"></input>
+                  <input class="w-1/5" id="post-input3"></input>
+                  <input class="w-1/5" id="post-input4"></input>
+                  <div class="flex flex-col justify-center items-center w-1/5 h-10">
+                    <input
+                      style="display: none"
+                      class="hadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-5"
+                      id="thumbnail-input"
+              
+                      type="file"
+                    />
+              
+                    <img
+                      src="../dist/uploadimg.png"
+                      id="upload"
+                      class="rounded-xl shadow focus:outline-none"
+                      style="width: 100px; height: 100px"
+                    />
+                  </div>
 
                   <button
                   id="post-product-btn"
