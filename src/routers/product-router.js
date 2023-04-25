@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { adminOnly } from "../middlewares";
-import { productService } from "../services";
+import { productService, pagenate } from "../services";
 
 const productRouter = Router();
 
@@ -9,26 +9,16 @@ const productRouter = Router();
 productRouter.get("/products", async (req, res, next) => {
   try {
     // page(현재 페이지 number), perPage(한 페이지에 보여줄 페이지 수)
-    const page = Number(req.query.page || 1);
-    const perPage = Number(req.query.perPage || 9);
-
-    // 페이지네이션
-    // total: 전체(카테고리) 상품 개수, products: 보여줄 게시글들
+    const page = parseInt(req.query.page || 1);
+    const perPage = parseInt(req.query.perPage || 9);
+    // total: 전체 상품 개수
     const total = await productService.getProductsCountAll();
-    // 전체 상품을 가져와서, 먼저 게시글을 최신 순으로 정렬하고, 현재 보여지는 상품은 건너뛰고, 상품을 9개까지 보여줌.
     const products = await productService.getProductsAll();
-    //.sort({ createdAt: -1 })
-    //.skip(perPage * (page - 1))
-    //.limit(perPage);
-
-    const totalPage = Math.ceil(total / perPage);
+    const pagenatedProducts = await pagenate(page, perPage, products);
 
     res.status(200).json({
-      //total,
-      //page,
-      //perPage,
-      //totalPage,
-      products,
+      total,
+      pagenatedProducts,
     });
   } catch (error) {
     next(error);
@@ -39,28 +29,15 @@ productRouter.get("/products", async (req, res, next) => {
 productRouter.get("/products/categories", async (req, res, next) => {
   try {
     const category = req.query.category;
+    const page = parseInt(req.query.page || 1);
+    const perPage = parseInt(req.query.perPage || 9);
 
-    // page(현재 페이지 number), perPage(한 페이지에 보여줄 페이지 수)
-    const page = Number(req.query.page || 1);
-    const perPage = Number(req.query.perPage || 9);
-
-    // 페이지네이션
-    // total: 전체(카테고리) 상품 개수, products: 보여줄 게시글들
     const total = await productService.getProductsCount(category);
-    // 전체 상품을 가져와서, 먼저 게시글을 최신 순으로 정렬하고, 현재 보여지는 상품은 건너뛰고, 상품을 9개까지 보여줌.
     const products = await productService.getProducts(category);
-    //.sort({ createdAt: -1 })
-    //.skip(perPage * (page - 1))
-    //.limit(perPage);
-
-    const totalPage = Math.ceil(total / perPage);
-
+    const pagenatedProducts = await pagenate(page, perPage, products);
     res.status(200).json({
-      //total,
-      //page,
-      //perPage,
-      //totalPage,
-      products,
+      total,
+      pagenatedProducts,
     });
   } catch (error) {
     next(error);

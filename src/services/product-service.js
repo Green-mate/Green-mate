@@ -10,7 +10,6 @@ export class ProductService {
     if (count === null) {
       throw new Error("상품 개수를 불러올 수 없습니다.");
     }
-    console.log(`count: ${count}`);
     return count;
   }
 
@@ -20,7 +19,6 @@ export class ProductService {
     if (count === null) {
       throw new Error("상품 개수를 불러올 수 없습니다.");
     }
-    console.log(`count: ${count}`);
     return count;
   }
 
@@ -31,20 +29,12 @@ export class ProductService {
     if (products === null) {
       throw new Error("상품 목록을 불러올 수 없습니다.");
     }
-    console.log(
-      "🚀 ~ file: product-service.js:38 ~ ProductService ~ getProducts ~ products:",
-      products
-    );
     return products;
   }
 
   // 카테고리별 상품 조회
   async getProducts(category) {
     const products = await this.productModel.findAllByCategory(category);
-    console.log(
-      "🚀 ~ file: product-service.js:36 ~ ProductService ~ getProducts ~ products:",
-      products
-    );
 
     if (products === null) {
       throw new Error("상품 목록을 불러올 수 없습니다.");
@@ -82,7 +72,7 @@ export class ProductService {
     }
 
     const newProduct = await this.productModel.create(productObj);
-    console.log(newProduct);
+    console.log(`추가한 상품: ${newProduct}`);
     return "success";
   }
 
