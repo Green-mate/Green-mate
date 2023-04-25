@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Green Mate🪴</title>
     <link href="/dist/output.css" rel="stylesheet" />
 
     <!-- 아이콘 -->
@@ -14,12 +14,13 @@
       src="https://kit.fontawesome.com/9daa42bcef.js"
       crossorigin="anonymous"
     ></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="../common/header-footer.js" type="module" defer></script>
     <script src="order.js" type="module" defer></script>
   </head>
   <body>
     <div class="process-section">
-      <div class="process-text flex -mt-14">
+      <div class="process-text flex mt-8">
         <p class="text-base text-stone-500 ml-2 mt-2">장바구니 ></p>
         <p class="text-xl font-medium ml-1 mt-1">주문결제</p>
         <p class="text-base text-stone-500 ml-1 mt-2">> 주문완료</p>
@@ -77,7 +78,7 @@
               <input
                 class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-700 leading-tight"
                 id="phone-input"
-                type="number"
+                type="text"
                 placeholder="- 없이 입력해 주세요."
                 autocomplete="on"
               />
@@ -89,7 +90,7 @@
                 >배송지</label
               >
             </div>
-            <div class="postal-body">
+            <div class="postal-code">
               <input
                 class="h-[40px] appearance-none border rounded w-[300px] py-2 px-3 text-gray-700 leading-tight"
                 id="postal-code"
@@ -100,7 +101,7 @@
             </div>
             <button
               class="search-address border rounded w-20 ml-[120px] bg-[#f6f6f6]"
-              id="search-address"
+              id="search-address-button"
             >
               주소검색
             </button>
@@ -108,7 +109,7 @@
           <div class="postal-body mt-5 ml-[140px]">
             <input
               class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-700 leading-tight"
-              id="address1"
+              id="address-main"
               type="text"
               placeholder=""
               autocomplete="on"
@@ -118,7 +119,7 @@
           <div class="postal-body-type mt-5 ml-[140px]">
             <input
               class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-700 leading-tight"
-              id="address2"
+              id="address-sub"
               type="text"
               placeholder=""
               autocomplete="on"
@@ -133,7 +134,7 @@
             <div class="request-body">
               <select
                 id="request-select-box"
-                class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-300 leading-tight"
+                class="h-[40px] appearance-none border rounded w-[500px] py-2 px-3 text-gray-500 leading-tight"
               >
                 <option value="0">배송시 요청사항을 선택해 주세요.</option>
                 <option value="1" class="select-option">
@@ -190,7 +191,9 @@
           </div>
           <div class="whole-price flex justify-between mx-7">
             <p class="text-lg font-semibold text-[#145f37]">총 금액</p>
-            <p class="text-lg font-semibold text-[#145f37]">52,000원</p>
+            <p class="text-lg font-semibold text-[#145f37]" id="total-price">
+              52,000원
+            </p>
           </div>
           <div class="text-center w-full mt-6">
             <button

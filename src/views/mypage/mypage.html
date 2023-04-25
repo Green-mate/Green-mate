@@ -16,14 +16,13 @@
     ></script>
     <!-- 커스텀 css, js -->
     <script src="../common/header-footer.js" type="module" defer></script>
-    <script src="../common/category.js" type="module" defer></script>
     <script src="../common/mypage-sidebar.js" type="module" defer></script>
 
     <script src="mypage.js" type="module" defer></script>
   </head>
 
   <body>
-    <div id="category-list-section"></div>
+    <hr class="mt-10 border-t border-gray-500 w-1200 opacity-25" />
     <div class="flex flex-row text-black">
       <!-- sidebar -->
       <div id="mypage-sidebar" class="flex flex-col"></div>
@@ -33,29 +32,27 @@
         class="flex flex-col m-auto mt-10"
       >
         <!-- 정보 수정 폼 -->
-        <div id="table-header" class="text-3xl font-bold mb-12">기본정보</div>
+        <div class="text-3xl font-bold mb-12">기본정보</div>
         <form class="flex flex-col" id="login-form">
           <div class="mb-4 flex flex-row">
             <label
               class="w-36 text-lg block text-gray-700 font-bold mb-2 mr-3"
-              for="email-input"
+              for="email-text-label"
             >
               이메일
             </label>
             <p
               style="height: 50px; font-size: 20px"
-              id="email-input"
+              id="email-text-value"
               type="email"
-            >
-              test@test.test
-            </p>
+            ></p>
           </div>
           <div class="mb-4 flex flex-row items-center">
             <label
               class="w-36 text-lg block text-gray-700 font-bold mb-2 mr-3"
-              for="email-input"
+              for="password-input"
             >
-              비밀번호
+              현재 비밀번호
             </label>
             <div
               id="password-inputs-container"
@@ -64,18 +61,40 @@
             >
               <input
                 style="height: 50px"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-[#69b766] focus:border-2 mb-2"
                 id="password-input"
                 type="password"
-                placeholder="비밀번호를 입력해주세요."
+                placeholder="현재 비밀번호를 입력해주세요."
+                autocomplete="on"
+              />
+            </div>
+          </div>
+          <div class="mb-4 flex flex-row items-center">
+            <label
+              class="w-36 text-lg block text-gray-700 font-bold mb-2 mr-3"
+              for="new-password-input"
+            >
+              새 비밀번호
+            </label>
+            <div
+              id="new-password-inputs-container"
+              class="flex flex-col"
+              style="width: 556px"
+            >
+              <input
+                style="height: 50px"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-[#69b766] focus:border-2 mb-2"
+                id="new-password-input"
+                type="password"
+                placeholder="새로운 비밀번호를 입력해주세요."
                 autocomplete="on"
               />
               <input
                 style="height: 50px"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
-                id="password-check-input"
-                type="password-check"
-                placeholder="비밀번호를 재입력해주세요."
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-[#69b766] focus:border-2 mb-2"
+                id="new-password-check-input"
+                type="password"
+                placeholder="새로운 비밀번호를 재입력해주세요."
                 autocomplete="on"
               />
             </div>
@@ -89,7 +108,7 @@
             </label>
             <input
               style="height: 50px"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-2"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-[#69b766] focus:border-2 mb-2"
               id="name-input"
               placeholder="홍길동"
               autocomplete="on"
@@ -98,7 +117,7 @@
 
           <button
             style="height: 52px"
-            class="shadow bg-green-500 hover:bg-green-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none mb-28"
+            class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none mb-28"
             id="submit-button"
             type="button"
           >

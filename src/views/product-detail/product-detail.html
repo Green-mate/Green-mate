@@ -16,14 +16,12 @@
     ></script>
     <!-- 커스텀 css, js -->
     <script src="../common/header-footer.js" type="module" defer></script>
-    <script src="../common/category.js" type="module" defer></script>
 
     <script src="product-detail.js" type="module" defer></script>
   </head>
 
   <body>
-    <div id="category-list-section" class="mb-20"></div>
-
+    <hr class="mt-10 mb-20 border-t border-gray-500 w-1200 opacity-25" />
     <!-- 단일 상품 정보 이미지, 가격, 바로구매, 장바구니 버튼-->
     <section id="product-detail-container" class="flex flex-row justify-center">
       <div id="product-img-container" class="mr-10">
@@ -110,7 +108,7 @@
             <button
               type="button"
               style="width: 400px"
-              class="shadow bg-green-500 hover:bg-green-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none"
+              class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none"
               id="order-button"
               data-bs-toggle="modal"
               data-bs-target="#modalLogin"
@@ -121,10 +119,10 @@
               type="button"
               style="width: 70px"
               id="cart-button"
-              class="shadow border rounded py-2 px-4 border-gray-200 hover:bg-gray-200"
+              class="shadow border rounded py-2 px-4 border-gray-200 hover:border-[#69b766] hover:border-2"
             >
               <span>
-                <i class="fas fa-cart-shopping text-green-500"></i>
+                <i class="fas fa-cart-shopping text-[#69b766]"></i>
               </span>
             </button>
           </div>
