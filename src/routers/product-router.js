@@ -1,7 +1,8 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { adminOnly, asyncHandler } from "../middlewares";
-import { productService, pagenate } from "../services";
+import { productService } from "../services";
+import { pagenate, krDate } from "../utils";
 import { logger } from "../../config/winston";
 
 const productRouter = Router();
@@ -81,15 +82,15 @@ productRouter.post(
     }
     const { productName, category, productPrice, productImage, stock } =
       req.body;
-
+    const date = krDate(); // 한국 시간대로 설정.
     const productObj = {
       productName,
       category,
       productPrice: Number(productPrice),
       productImage,
       stock: Number(stock),
+      createdDate: date,
     };
-
     const products = await productService.addProducts(productObj);
     logger.info(`추가한 상품:\n ${products}`);
 

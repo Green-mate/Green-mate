@@ -27,6 +27,10 @@ const ProductSchema = new Schema(
       default: 10,
       required: true,
     },
+    createdDate: {
+      type: String, // 꼭 스트링으로 설정. Date로 하면 에러남.
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
