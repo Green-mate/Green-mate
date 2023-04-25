@@ -5,6 +5,10 @@ const cards = document.querySelector('#item-cards-list');
 const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
 
+const urlParams = new URLSearchParams(window.location.search);
+const page = parseInt(urlParams.get('page')) || 1;
+const categoryPage = parseInt(urlParams.get('categoryPage')) || 1;
+
 function createCard(product) {
   return `
   <div id="card" style="width:350px; height:480px;" class="mb-5">
@@ -33,11 +37,25 @@ function createCard(product) {
 getProductList();
 
 async function getProductList() {
-  const response = await axios.get(`/api/products?page=1&perPage=92`);
+  const response = await axios.get(`/api/products?page=${page}&perPage=9`);
   const products = await response.data.pagenatedProducts.results;
   const productCount = await response.data.total;
+  const totalPages = Math.ceil(productCount / 9);
 
   productCounter.innerText = productCount;
+
+  const pageButtons = document.querySelector('#page-buttons');
+  pageButtons.innerHTML = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const link = document.createElement('a');
+    link.classList.add('mr-10', 'text-xl');
+    link.href = `?page=${i}`;
+    link.textContent = i;
+    if (i === page) {
+      link.classList.add('text-[#69b766]', 'font-semibold');
+    }
+    pageButtons.appendChild(link);
+  }
 
   // product 각 요소마다 createCard함수 호출하여 productList에 담음
   const productList = [];
@@ -83,6 +101,15 @@ function createCategory({ categoryName }) {
    */
   categoryElem.addEventListener('click', () => {
     sessionStorage.setItem('selectedCategory', categoryName);
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('page');
+    url.searchParams.delete('perPage');
+    // url.searchParams.delete('categoryPage');
+    url.searchParams.set('category', categoryName);
+    url.searchParams.set('categoryPage', 1);
+    window.history.replaceState(null, null, url.toString());
+
     categoryNameLabel.innerText = categoryName;
     const categoryLiList = document.querySelectorAll('#category');
     categoryLiList.forEach((categoryLi) => {
@@ -99,18 +126,36 @@ function createCategory({ categoryName }) {
 }
 
 /************카테고리별 상품 리스트 렌더링 함수 ************/
+// 카테고리 반환 값이 null or NaN이면, categoryPage에 기본적으로 1 할당
+
 async function categoryFilter() {
   const clickedCategoryName = sessionStorage.getItem('selectedCategory');
   const searchByCategoryProductList = [];
 
   const response = await axios.get(
-    `/api/products/categories?category=${clickedCategoryName}&page=1&perPage=39`,
+    `/api/products/categories?category=${clickedCategoryName}&page=${categoryPage}&perPage=9`,
   );
-
   const products = await response.data.pagenatedProducts.results;
   const productCount = await response.data.total;
+  const totalPages = Math.ceil(productCount / 9);
+
   productCounter.innerText = productCount;
-  console.log(products);
+
+  const pageButtons = document.querySelector('#page-buttons');
+  pageButtons.innerHTML = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const link = document.createElement('a');
+    link.classList.add('mr-10', 'text-xl');
+    link.href = `?category=${clickedCategoryName}&categoryPage=${i}`;
+
+    link.textContent = i;
+
+    if (i === categoryPage) {
+      link.classList.add('text-[#69b766]', 'font-semibold');
+    }
+    pageButtons.appendChild(link);
+    // window.location.href = link.href.toString();
+  }
 
   products.forEach((product) => {
     searchByCategoryProductList.push(product);
@@ -132,7 +177,7 @@ async function categoryFilter() {
 
 wholeCategory.addEventListener('click', () => {
   sessionStorage.setItem('selectedCategory', 'all');
-
+  categoryPage = 1;
   if (sessionStorage.getItem('selectedCategory') === 'all') {
     wholeCategory.classList.toggle('text-[#69b766]');
   }
