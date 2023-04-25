@@ -48,11 +48,11 @@ async function getProductList() {
   pageButtons.innerHTML = '';
   for (let i = 1; i <= totalPages; i++) {
     const link = document.createElement('a');
-    link.classList.add('mr-10', 'text-xl');
+    link.classList.add('mt-20', 'mb-10', 'mr-10', 'text-xl');
     link.href = `?page=${i}`;
     link.textContent = i;
     if (i === page) {
-      link.classList.add('text-[#69b766]', 'font-semibold');
+      link.classList.add('text-[#69b766]', 'font-bold');
     }
     pageButtons.appendChild(link);
   }
@@ -145,13 +145,13 @@ async function categoryFilter() {
   pageButtons.innerHTML = '';
   for (let i = 1; i <= totalPages; i++) {
     const link = document.createElement('a');
-    link.classList.add('mr-10', 'text-xl');
+    link.classList.add('mt-20', 'mb-10', 'mr-10', 'text-xl');
     link.href = `?category=${clickedCategoryName}&categoryPage=${i}`;
 
     link.textContent = i;
 
     if (i === categoryPage) {
-      link.classList.add('text-[#69b766]', 'font-semibold');
+      link.classList.add('text-[#69b766]', 'font-bold');
     }
     pageButtons.appendChild(link);
     // window.location.href = link.href.toString();
