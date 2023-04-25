@@ -34,8 +34,8 @@ export class ProductService {
   // 카테고리별 상품 조회
   async getProducts(category) {
     const products = await this.productModel.findAllByCategory(category);
-    if (!products) {
-      throw new Error("해당하는 카테고리가 없습니다.");
+    if (products === null) {
+      throw new Error("상품 목록을 불러올 수 없습니다.");
     }
     return products;
   }
