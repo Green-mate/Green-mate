@@ -78,33 +78,28 @@ function createOrderCard(order) {
     <span class="text-xl font-bold mb-3">총 결제 금액</span>
     <span class="mb-4 border-b-2 border-grey-100">${TOTALPRICE}</span>
     <span class="text-xl font-bold mb-3">받는 사람</span>
-    <input id="recipient-name" class="rounded mb-4 border-2 border-grey-100" value="${recipient}"></input>
+    <span id="recipient-name" class="rounded mb-4 border-b-2 border-grey-100">${recipient}</span>
     <span class="text-xl font-bold mb-3">연락처</span>
-    <input id="phone-number" class="rounded mb-4 border-2 border-grey-100" value="${phoneNumber}"></input>
+    <span id="phone-number" class="rounded mb-4 border-b-2 border-grey-100">${phoneNumber}</span>
     <div class="flex flex-row mb-3 items-center">
        <span class="text-xl font-bold">주소</span>
-       <button
-        class="search-address border rounded w-20 ml-3 bg-[#f6f6f6]"
-        id="search-address-button"
-      > 주소 재검색
-      </button>
     </div>
 
-    <input id="postal-code" class="rounded border-2 border-grey-100" value="${zipCode}"></input>
-    <input id="address1-input" class="rounded border-2 border-grey-100" value="${address1}"></input>
-    <input id="address2-input" class="rounded mb-4 border-2 border-grey-100" value="${address2}"></input>
+    <span id="zipcode-address1-address2" class="rounded mb-4 border-b-2 border-grey-100">(${zipCode}) ${address1} ${address2}</span>
     <span class="text-xl font-bold mb-3">배송 요청사항</span>
-    <input id="shipping-msg" class="rounded mb-4 border-2 border-grey-100" value="${shippingMessage}"></input>
+    <span id="shipping-msg" class="rounded mb-4 border-b-2 border-grey-100">${shippingMessage}</span>
 
     <div class="flex flex-row m-10">
-      <button
-        style="height: 52px; width: 200px"
-        class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
-        id="edit-order-info-submit-btn"
-        type="button"
-      >
-        주문정보수정
-      </button>
+      <a href="/mypage-shipping-edit?${_id}" class="mb-5 mx-auto">
+        <button
+          style="height: 52px; width: 200px"
+          class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
+          id="edit-order-info-submit-btn"
+          type="button"
+        >
+          주문정보수정
+        </button>
+      </a>
 
       <button
         style="height: 52px; width: 200px"
@@ -123,34 +118,10 @@ function createOrderCard(order) {
 /***************************주문 수정작업과 삭제 작업을 하기 위해서 주문 정보가 입력된 dom요소를 가져와야 하는데 가져와지지가 않음**************************/
 
 document.addEventListener('DOMContentLoaded', () => {
-  let postalCodeInput = document.getElementById('postal-code');
-  let addressMainInput = document.getElementById('address1-input');
-  let addressSubInput = document.getElementById('address2-input');
-  let recipientNameInput = document.getElementById('recipient-name');
-  let phoneNumberInput = document.getElementById('phone-number');
-  let shippingMsgInput = document.getElementById('shipping-msg');
-
-  let postalCodeVal = postalCodeInput.value;
-  console.log(postalCodeVal);
-  const EditOrderSubmitBtn = document.querySelector(
-    '#edit-order-info-submit-btn',
-  );
   const deleteOrderBtn = document.querySelector('#delete-order-btn');
 });
 
 window.onload = function () {
-  let postalCodeInput = document.getElementById('postal-code');
-  let addressMainInput = document.getElementById('address1-input');
-  let addressSubInput = document.getElementById('address2-input');
-  let recipientNameInput = document.getElementById('recipient-name');
-  let phoneNumberInput = document.getElementById('phone-number');
-  let shippingMsgInput = document.getElementById('shipping-msg');
-
-  let postalCodeVal = postalCodeInput.value;
-  console.log(postalCodeVal);
-  const EditOrderSubmitBtn = document.querySelector(
-    '#edit-order-info-submit-btn',
-  );
   const deleteOrderBtn = document.querySelector('#delete-order-btn');
 };
 

@@ -50,26 +50,28 @@
                     </button>
                   </div>
 
-                  <input id="postal-code" class="rounded border-2 border-grey-100" ></input>
+                  <input id="postal-code" class="rounded border-2 border-grey-100" placeholder="주소 재검색 버튼을 눌러주세요."></input>
                   <input id="address1-input" class="rounded border-2 border-grey-100"></input>
                   <input id="address2-input" class="rounded mb-4 border-2 border-grey-100"></input>
                   <span class="text-xl font-bold mb-3">배송 요청사항</span>
                   <input id="shipping-msg" class="rounded mb-4 border-2 border-grey-100"></input>
 
                   <div class="flex flex-row m-10">
-                    <button
-                      style="height: 52px; width: 200px"
-                      class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
-                      id="edit-order-info-submit-btn"
-                      type="button"
-                    >
-                      닫기
-                    </button>
+                    <a href="/mypage-shipping" class=" mb-5 mx-auto">
+                      <button
+                        style="height: 52px; width: 200px"
+                        class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
+                        id="edit-order-info-submit-btn"
+                        type="button"
+                      >
+                        취소
+                      </button>
+                    </a>
 
                     <button
                       style="height: 52px; width: 200px"
                       class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
-                      id="delete-order-btn"
+                      id="submit-order-edit-btn"
                       type="button"
                     >
                       확인
