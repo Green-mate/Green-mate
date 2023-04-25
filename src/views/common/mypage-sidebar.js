@@ -60,28 +60,6 @@ export function renderCategoryBar() {
   secessionBtn.addEventListener('click', handleSecession);
 }
 
-// renderCategoryBar();
-
-// let pathname = window.location.pathname;
-// pathname = pathname.substring(1, pathname.length - 1);
-
-// // 요소(element), input 혹은 상수
-// const profileLink = document.getElementById('profile-manage-link');
-// const userOrderLink = document.getElementById('user-order-manage-link');
-// const secessionBtn = document.getElementById('secession-btn');
-
-// // 초기 주문관리 선택
-
-// if (pathname === 'mypage') {
-//   profileLink.classList.toggle('bg-[#CDDEBA]');
-// } else if (pathname === 'mypage-shipping' || 'mypage-shipping-edit') {
-//   userOrderLink.classList.toggle('bg-[#CDDEBA]');
-// } else {
-//   secessionBtn.classList.toggle('bg-[#CDDEBA]');
-// }
-
-// secessionBtn.addEventListener('click', handleSecession);
-
 // /api/users/delete/:uid/
 async function handleSecession() {
   const secessionAnswer = confirm(
