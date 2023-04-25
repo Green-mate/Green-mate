@@ -33,15 +33,13 @@ function createCard(product) {
 }
 
 getProductList();
+
 async function getProductList() {
-  const response = await axios.get(
-    `/api/products?category=all&page=1&perPage=9`,
-  );
-  console.log(response);
-  const products = await response.data.products;
-  console.log(products.length);
-  productCounter.innerText = products.length;
-  console.log(products);
+  const response = await axios.get(`/api/products?page=1&perPage=92`);
+  const products = await response.data.pagenatedProducts.results;
+  const productCount = await response.data.total;
+
+  productCounter.innerText = productCount;
 
   // product 각 요소마다 createCard함수 호출하여 productList에 담음
   const productList = [];
@@ -52,12 +50,6 @@ async function getProductList() {
   }
   return productList;
 }
-
-// 상품 전체 조회:
-// /api  /   products?category=${}&page=${}&perPage=9
-
-// 상품 카테고리별 조회
-// /api/products   /    categories?category&page=1&perPage=9
 
 /************카악퉤고리***********/
 const categoryBar = document.querySelector('#category-menu-navbar');
@@ -108,14 +100,21 @@ function createCategory({ categoryName }) {
   categoryBar.appendChild(categoryElem);
 }
 
-/************카테고리 필터 함수 -> 카테고리 중복 검사 ************/
+/************카테고리별 상품 리스트 렌더링 함수 ************/
 async function categoryFilter() {
   const clickedCategoryName = sessionStorage.getItem('selectedCategory');
   const searchByCategoryProductList = [];
 
-  const productList = await getProductList();
+  const response = await axios.get(
+    `/api/products/categories?category=${clickedCategoryName}&page=1&perPage=39`,
+  );
+  console.log(response);
+  const products = await response.data.pagenatedProducts.results;
+  const productCount = await response.data.total;
+  productCounter.innerText = productCount;
 
-  productList.forEach((product) => {
+  products.forEach((product) => {
+    searchByCategoryProductList.push(product);
     if (
       product.category.includes(clickedCategoryName) ||
       clickedCategoryName === 'all'
@@ -124,14 +123,10 @@ async function categoryFilter() {
     }
   });
 
-  console.log(searchByCategoryProductList);
-
-  productCounter.innerText = searchByCategoryProductList.length;
-
   if (searchByCategoryProductList.length === 0) {
     cards.innerHTML = `
     <div></div>
-      <div id="empty-product-list">상품이 없습니다.</div>
+      <div id="empty-product-list" >상품이 없습니다.</div>
     `;
   } else {
     cards.innerHTML = '';
