@@ -1,4 +1,5 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
+const token = localStorage.getItem('token');
 
 const nextPageBtn = document.getElementById('next_page_btn');
 const previousPageBtn = document.getElementById('previous_page_btn');
