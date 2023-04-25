@@ -4,7 +4,6 @@ const orderCardComponent = document.querySelector('#order-card-component');
 const uid = localStorage.getItem('userId');
 const DELIVERY_CHARGE = 3000;
 let TOTALPRICE = DELIVERY_CHARGE;
-const editOrderInfo = {};
 
 getOrdersLists();
 
@@ -23,16 +22,6 @@ async function getOrdersLists() {
     orderCardComponent.insertAdjacentHTML('beforeend', newOrderCard);
   }
 }
-
-// 주문 수정 시 보낼 내용
-// {
-//   "recipient" : "엘리스",
-//   "phoneNumber" : "01012341234",
-//   "zipCode" : "12345",
-//   "address1" : "서울시 성수성수 ",
-//   "address2" : "성수낙낙 너무 조아",
-//   "shippingMessage" : "매니저님께 맡겨주세요."
-//   }
 
 function createOrderCard(order) {
   const {
@@ -119,10 +108,16 @@ function createOrderCard(order) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const deleteOrderBtn = document.querySelector('#delete-order-btn');
+  deleteOrderBtn.addEventListener('click', () => {
+    alert('버튼 눌림!!!!!!!!!!!!!!!!!!');
+  });
 });
 
 window.onload = function () {
   const deleteOrderBtn = document.querySelector('#delete-order-btn');
+  deleteOrderBtn.addEventListener('click', () => {
+    alert('버튼 눌림!!!!!!!!!!!!!!!!!!');
+  });
 };
 
 /***********************************************************************************************************************************/

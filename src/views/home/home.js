@@ -2,10 +2,8 @@ import * as API from '../api.js';
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 
 const cards = document.querySelector('#item-cards-list');
-const card = document.querySelector('#cards');
 const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
-const searchByCategoryProduct = [];
 
 function createCard(product) {
   return `
@@ -108,19 +106,14 @@ async function categoryFilter() {
   const response = await axios.get(
     `/api/products/categories?category=${clickedCategoryName}&page=1&perPage=39`,
   );
-  console.log(response);
+
   const products = await response.data.pagenatedProducts.results;
   const productCount = await response.data.total;
   productCounter.innerText = productCount;
+  console.log(products);
 
   products.forEach((product) => {
     searchByCategoryProductList.push(product);
-    if (
-      product.category.includes(clickedCategoryName) ||
-      clickedCategoryName === 'all'
-    ) {
-      searchByCategoryProductList.push(product);
-    }
   });
 
   if (searchByCategoryProductList.length === 0) {
