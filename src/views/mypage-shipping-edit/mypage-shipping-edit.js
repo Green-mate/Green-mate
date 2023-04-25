@@ -1,5 +1,6 @@
 import * as API from '../api.js';
 import { getUrlParams, blockBeforeLogin } from '/useful-functions.js';
+import { renderCategoryBar } from '../common/mypage-sidebar.js';
 
 let postalCodeInput = document.getElementById('postal-code');
 let addressMainInput = document.getElementById('address1-input');
@@ -17,6 +18,7 @@ const oid = Object.keys(getUrlParams())[0];
 console.log(oid);
 
 blockBeforeLogin();
+renderCategoryBar();
 
 // address
 function searchAddress(e) {

@@ -1,11 +1,30 @@
 import * as API from '../api.js';
+import { renderCategoryBar } from '../common/mypage-sidebar.js';
 
 const orderCardComponent = document.querySelector('#order-card-component');
 const uid = localStorage.getItem('userId');
 const DELIVERY_CHARGE = 3000;
 let TOTALPRICE = DELIVERY_CHARGE;
 
+renderCategoryBar();
 getOrdersLists();
+
+/******************주문 취소*****************/
+setTimeout(() => {
+  const deleteOrderBtns = document.getElementsByClassName('delete-order-btn');
+  for (let i = 0; i < deleteOrderBtns.length; i++) {
+    deleteOrderBtns[i].addEventListener('click', async (e) => {
+      const id = e.target.getAttribute('name');
+      try {
+        await API.delWithoutData('/api/orders', `?oid=${id}`);
+        alert('주문이 삭제되었습니다.');
+        window.location.href = '/mypage-shipping';
+      } catch (e) {
+        alert('배송전 상태만 주문 취소가 가능합니다.');
+      }
+    });
+  }
+}, 3000);
 
 async function getOrdersLists() {
   const orders = await API.get('/api/orders', `${uid}`);
@@ -91,8 +110,9 @@ function createOrderCard(order) {
       </a>
 
       <button
+        name="${_id}"
         style="height: 52px; width: 200px"
-        class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
+        class="delete-order-btn shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
         id="delete-order-btn"
         type="button"
       >
@@ -103,24 +123,6 @@ function createOrderCard(order) {
   </div>
   `;
 }
-
-/***************************주문 수정작업과 삭제 작업을 하기 위해서 주문 정보가 입력된 dom요소를 가져와야 하는데 가져와지지가 않음**************************/
-
-document.addEventListener('DOMContentLoaded', () => {
-  const deleteOrderBtn = document.querySelector('#delete-order-btn');
-  deleteOrderBtn.addEventListener('click', () => {
-    alert('버튼 눌림!!!!!!!!!!!!!!!!!!');
-  });
-});
-
-window.onload = function () {
-  const deleteOrderBtn = document.querySelector('#delete-order-btn');
-  deleteOrderBtn.addEventListener('click', () => {
-    alert('버튼 눌림!!!!!!!!!!!!!!!!!!');
-  });
-};
-
-/***********************************************************************************************************************************/
 
 function createProductCard(product) {
   const { productId, quantity } = product;
