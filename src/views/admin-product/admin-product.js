@@ -69,7 +69,8 @@ productPostBtn.addEventListener('click', async () => {
     category: addContentDiv.children[1].value,
     productPrice: addContentDiv.children[2].value,
     stock: addContentDiv.children[3].value,
-    productImage: newImg,
+    productImage:
+      'https://nongsaro.go.kr/cms_contents/301/15831_MF_REPR_ATTACH_01.jpg', // imageValue || newImg,
   };
 
   console.log(data);
