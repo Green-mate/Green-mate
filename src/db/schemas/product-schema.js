@@ -25,6 +25,7 @@ const ProductSchema = new Schema(
       type: Number,
       min: 0,
       default: 10,
+      required: true,
     },
   },
   {
