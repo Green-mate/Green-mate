@@ -24,6 +24,19 @@ setTimeout(() => {
       }
     });
   }
+
+  const editOrderInfoBtns = document.getElementsByClassName(
+    'edit-order-info-submit-btn',
+  );
+  for (let i = 0; i < editOrderInfoBtns.length; i++) {
+    editOrderInfoBtns[i].addEventListener('click', (e) => {
+      const shippingStatus = e.target.closest('#shipping-status');
+      if (!shippingStatus || shippingStatus.textContent.trim() !== '배송전') {
+        alert('배송전 상태만 주문 수정이 가능합니다.');
+        e.preventDefault();
+      }
+    });
+  }
 }, 3000);
 
 async function getOrdersLists() {
@@ -73,7 +86,7 @@ function createOrderCard(order) {
       <span class="float-left mt-3 mb-3">주문일&nbsp&nbsp&nbsp&nbsp${date}</span>
     </div>
 
-    <span class="float-left w-full py-4 text-3xl text-[#69b766] mt-3 mb-3 font-semibold">
+    <span class="shipping-status float-left w-full py-4 text-3xl text-[#69b766] mt-3 mb-3 font-semibold">
       ${shippingStatus}
     </span>
 
@@ -101,7 +114,7 @@ function createOrderCard(order) {
       <a href="/mypage-shipping-edit?${_id}" class="mb-5 mx-auto">
         <button
           style="height: 52px; width: 200px"
-          class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
+          class="edit-order-info-submit-btn shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
           id="edit-order-info-submit-btn"
           type="button"
         >
