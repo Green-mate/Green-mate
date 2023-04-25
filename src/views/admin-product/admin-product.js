@@ -1,6 +1,8 @@
 // newimg 변경
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 
+const token = localStorage.getItem('token');
+
 const addBtn = document.getElementById('addBtn');
 const addContentDiv = document.getElementById('add-content-div');
 const cancleBtn = document.getElementById('cancleBtn');
@@ -82,7 +84,7 @@ let productList = [];
 const adminGetProductAPI = async () => {
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
   try {
@@ -98,7 +100,7 @@ const adminGetProductAPI = async () => {
 const adminPostProductAPI = async (data) => {
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -116,13 +118,13 @@ const adminPutProductAPI = async (data, id) => {
   const encodedSearchID = hangulEncoder(id);
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
   try {
     await axios
-      .put(`/api/admin/products?items=${id}`, data, config)
+      .patch(`/api/admin/products?items=${encodedSearchID}`, data, config)
       .then((response) => {
         window.location.reload();
       });
@@ -135,14 +137,14 @@ const adminDeleteProductAPI = async (id) => {
   const encodedSearchID = hangulEncoder(id);
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
     },
   };
 
   try {
     await axios
-      .delete(`/api/admin/products/?item=${encodedSearchID}`, config)
+      .delete(`/api/admin/products?item=${encodedSearchID}`, config)
       .then((res) => {
         window.location.reload();
       });
@@ -198,7 +200,7 @@ for (let value of productUpdateBtn) {
 
     eachListDiv.innerHTML = `
 
-    <input class="w-1/5" id="${listID}put1" value=${eachListDiv.children[0].innerText}></input>
+    <input class="w-1/5" id="${listID}put1" value=${eachListDiv.children[0].innerText} disabled></input>
     <input class="w-1/5" id="${listID}put2" value=${eachListDiv.children[1].innerText}></input>
     <input class="w-1/5" id="${listID}put3" value=${eachListDiv.children[2].innerText}></input>
     <input class="w-1/5" id="${listID}put4" value=${eachListDiv.children[3].innerText}></input>
@@ -279,7 +281,8 @@ for (let value of productUpdateBtn) {
         category: categoryValue.value,
         productPrice: priceValue.value,
         stock: stockValue.value,
-        productImage: imageValue || newImg,
+        productImage:
+          'https://nongsaro.go.kr/cms_contents/301/15831_MF_REPR_ATTACH_01.jpg', // imageValue || newImg,
       };
       console.log(data);
       await adminPutProductAPI(data, nameValue.value);

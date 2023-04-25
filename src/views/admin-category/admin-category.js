@@ -30,7 +30,7 @@ const adminGetCategoryAPI = async () => {
 const adminPostCategoryAPI = async (data) => {
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -46,7 +46,7 @@ const adminPostCategoryAPI = async (data) => {
 const adminPutCategoryAPI = async (data, id) => {
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -64,7 +64,7 @@ const adminPutCategoryAPI = async (data, id) => {
 const adminDeleteCategoryAPI = async (id) => {
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
