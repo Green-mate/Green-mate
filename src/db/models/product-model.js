@@ -1,7 +1,7 @@
-import { model } from 'mongoose';
-import { ProductSchema } from '../schemas/product-schema';
+import { model } from "mongoose";
+import { ProductSchema } from "../schemas/product-schema";
 
-const Product = model('products', ProductSchema);
+const Product = model("products", ProductSchema);
 
 export class ProductModel {
   async countDocumentsAll() {
@@ -27,15 +27,9 @@ export class ProductModel {
     const products = await Product.findOne({ category });
     return products;
   }
-
   // shortId를 이용해서 상품을 찾아옵니다.
   async findByShortId(shortId) {
     const product = await Product.findOne({ shortId });
-    return product;
-  }
-
-  async findById(productId) {
-    const product = await Product.find({ _id: productId });
     return product;
   }
 
@@ -49,42 +43,23 @@ export class ProductModel {
     return newProducts;
   }
 
-  async update({ product, updateObj }) {
-    const filter = { productName: product };
+  async update({ item, updateObj }) {
+    const filter = { productName: item };
     const option = { returnOriginal: false };
-    console.log(product);
+
     const updatedProduct = await Product.findOneAndUpdate(
       filter,
       updateObj,
-      option,
+      option
     );
-    console.log(
-      "🚀 ~ file: product-model.js:55 ~ ProductModel ~ update ~ updatedProduct:",
-      filter,
-      updateObj,
-      updatedProduct
-    );
-    return updatedProduct;
-  }
-
-  async updateById({ productId, count }) {
-    const filter = { _id: productId };
-    const option = { returnOriginal: false };
-    const updatedProduct = await Product.findOneAndUpdate(
-      filter,
-      { $inc: { stock: count } },
-      option,
-    );
-
     return updatedProduct;
   }
 
   async updateStock(shortId, stock, count) {
     const updatedStock = await Product.updateOne(
       { shortId, stock },
-      { $inc: { stock: count } },
+      { $inc: { stock: count } }
     );
-
     return updatedStock;
   }
 
