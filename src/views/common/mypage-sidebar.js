@@ -20,20 +20,20 @@ function renderCategoryBar() {
     <a
       href="/mypage"
       id="profile-manage-link"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#CDDEBA] hover:text-white"
     >
       <span class="mx-3 font-semibold">회원정보수정</span>
     </a>
     <a
       href="/mypage-shipping"
       id="user-order-manage-link"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#CDDEBA] hover:text-white"
     >
       <span class="mx-3 font-semibold">주문/배송조회</span>
     </a>
     <button
       id="secession-btn"
-      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#69b766] hover:text-white"
+      class="my-2 px-2 py-1 flex items-center rounded-lg hover:bg-[#CDDEBA] hover:text-white"
     >
       <span class="mx-3 font-semibold">회원탈퇴</span>
     </button>
@@ -54,11 +54,11 @@ const secessionBtn = document.getElementById('secession-btn');
 // 초기 주문관리 선택
 
 if (pathname === 'mypage') {
-  profileLink.classList.toggle('bg-[#69b766]');
-} else if (pathname === 'mypage-shipping') {
-  userOrderLink.classList.toggle('bg-[#69b766]');
+  profileLink.classList.toggle('bg-[#CDDEBA]');
+} else if (pathname === 'mypage-shipping' || 'mypage-shipping-edit') {
+  userOrderLink.classList.toggle('bg-[#CDDEBA]');
 } else {
-  secessionBtn.classList.toggle('bg-[#69b766]');
+  secessionBtn.classList.toggle('bg-[#CDDEBA]');
 }
 
 secessionBtn.addEventListener('click', handleSecession);

@@ -2,15 +2,15 @@ import * as API from '../api.js';
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 
 const cards = document.querySelector('#item-cards-list');
+const card = document.querySelector('#cards');
 const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
 const searchByCategoryProduct = [];
 
-console.log('cards', cards);
 function createCard(product) {
   return `
   <div id="card" style="width:350px; height:480px;" class="mb-5">
-    <a id="card-link" href="/product-detail">
+    <a id="card-link" href="/product-detail?pid=${product.id}">
       <img
         src="${product.productImage}"
         id="card-img-top"
@@ -31,12 +31,14 @@ function createCard(product) {
     </a>
   </div>`;
 }
+
 getProductList();
 async function getProductList() {
-  ///api/products?category=분재&page=1&perPage=9
-  // const productList = await API.getWithoutToken('/api/products', `category=${categoryName}&page=${currentPage}&perPage=9`);
-  const response = await axios.get('./productDummy.json');
-  const products = await response.data;
+  const response = await axios.get(
+    `/api/products?category=all&page=1&perPage=9`,
+  );
+  console.log(response);
+  const products = await response.data.products;
   console.log(products.length);
   productCounter.innerText = products.length;
   console.log(products);
@@ -50,6 +52,12 @@ async function getProductList() {
   }
   return productList;
 }
+
+// 상품 전체 조회:
+// /api  /   products?category=${}&page=${}&perPage=9
+
+// 상품 카테고리별 조회
+// /api/products   /    categories?category&page=1&perPage=9
 
 /************카악퉤고리***********/
 const categoryBar = document.querySelector('#category-menu-navbar');
