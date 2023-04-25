@@ -50,6 +50,7 @@ function createOrderCard(order) {
 
   const date = createdAt.split('T')[0];
   console.log(productList);
+
   let productCardsHTML = ``; // 빈 문자열로 초기화
   TOTALPRICE = DELIVERY_CHARGE;
   for (const product of productList) {
@@ -88,6 +89,7 @@ function createOrderCard(order) {
       > 주소 재검색
       </button>
     </div>
+
     <input id="postal-code" class="rounded border-2 border-grey-100" value="${zipCode}"></input>
     <input id="address1-input" class="rounded border-2 border-grey-100" value="${address1}"></input>
     <input id="address2-input" class="rounded mb-4 border-2 border-grey-100" value="${address2}"></input>
@@ -113,6 +115,7 @@ function createOrderCard(order) {
         주문 취소
       </button>
     </div>
+
   </div>
   `;
 }

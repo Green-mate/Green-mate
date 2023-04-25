@@ -55,7 +55,7 @@ const secessionBtn = document.getElementById('secession-btn');
 
 if (pathname === 'mypage') {
   profileLink.classList.toggle('bg-[#CDDEBA]');
-} else if (pathname === 'mypage-shipping') {
+} else if (pathname === 'mypage-shipping' || 'mypage-shipping-edit') {
   userOrderLink.classList.toggle('bg-[#CDDEBA]');
 } else {
   secessionBtn.classList.toggle('bg-[#CDDEBA]');
