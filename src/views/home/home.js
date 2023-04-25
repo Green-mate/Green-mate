@@ -12,7 +12,7 @@ const categoryPage = parseInt(urlParams.get('categoryPage')) || 1;
 function createCard(product) {
   return `
   <div id="card" style="width:350px; height:480px;" class="mb-5">
-    <a id="card-link" href="/product-detail?pid=${product.id}">
+    <a id="card-link" href="/product-detail?pid=${product.shortId}">
       <img
         src="${product.productImage}"
         id="card-img-top"
@@ -41,7 +41,7 @@ async function getProductList() {
   const products = await response.data.pagenatedProducts.results;
   const productCount = await response.data.total;
   const totalPages = Math.ceil(productCount / 9);
-
+  // console.log(products);
   productCounter.innerText = productCount;
 
   const pageButtons = document.querySelector('#page-buttons');
