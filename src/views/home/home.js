@@ -6,8 +6,8 @@ const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
 
 const urlParams = new URLSearchParams(window.location.search);
-const page = parseInt(urlParams.get('page')) || 1;
-const categoryPage = parseInt(urlParams.get('categoryPage')) || 1;
+let page = parseInt(urlParams.get('page')) || 1;
+let categoryPage = parseInt(urlParams.get('categoryPage')) || 1;
 
 function createCard(product) {
   return `
@@ -109,7 +109,9 @@ function createCategory({ categoryName }) {
     // url.searchParams.delete('categoryPage');
     url.searchParams.set('category', categoryName);
     url.searchParams.set('categoryPage', 1);
-    window.history.replaceState(null, null, url.toString());
+    categoryPage = 1;
+
+    window.history.pushState(null, null, url.toString());
 
     categoryNameLabel.innerText = categoryName;
     const categoryLiList = document.querySelectorAll('#category');
@@ -155,7 +157,6 @@ async function categoryFilter() {
       link.classList.add('text-[#69b766]', 'font-bold');
     }
     pageButtons.appendChild(link);
-    // window.location.href = link.href.toString();
   }
 
   products.forEach((product) => {
