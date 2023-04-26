@@ -1,4 +1,7 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
+import { blockAdminPage } from '/useful-functions.js';
+blockAdminPage();
+
 const token = localStorage.getItem('token');
 
 const nextPageBtn = document.getElementById('next_page_btn');

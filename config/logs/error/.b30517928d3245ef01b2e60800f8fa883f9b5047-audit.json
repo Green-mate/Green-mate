@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 14
+    },
+    "auditLog": "/Users/shinhayeong/Desktop/green-mate/config/logs/error/.b30517928d3245ef01b2e60800f8fa883f9b5047-audit.json",
+    "files": [
+        {
+            "date": 1682493550866,
+            "name": "/Users/shinhayeong/Desktop/green-mate/config/logs/error/2023-04-26.error.log",
+            "hash": "96c0b7a1fb31849637201e1e425b2fbdc943d4c3c1662c1aae8ae62420316293"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,4 +1,5 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
+import { blockAdminPage } from '/useful-functions.js';
 const token = localStorage.getItem('token');
 
 const addBtn = document.getElementById('addBtn');
@@ -16,6 +17,7 @@ const categoryDeleteBtn = document.getElementsByClassName(
 
 let categoryList = [];
 
+blockAdminPage();
 // 정의 파트
 
 const adminGetCategoryAPI = async () => {

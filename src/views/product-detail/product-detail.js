@@ -63,6 +63,7 @@ async function getProductDetail() {
   /* 장바구니 및 바로 구매 기능 */
   const orderBtn = document.getElementById('order-button');
   const cartBtn = document.getElementById('cart-button');
+  const cartIcon = document.getElementById('cart-icon');
 
   cartBtn.addEventListener('click', async () => {
     try {
@@ -88,6 +89,20 @@ async function getProductDetail() {
       console.log(err);
     }
   });
+
+  /** stock 0 이하일 때 렌더 **/
+  //bg-[#69b766] hover:bg-green-700
+  if (stock <= 0) {
+    orderBtn.innerText = '품절된 상품입니다.';
+    orderBtn.disabled = true;
+    orderBtn.classList.remove('bg-[#69b766]', 'hover:bg-green-700');
+    orderBtn.classList.add('bg-gray-400');
+    cartBtn.disabled = true;
+    cartIcon.classList.remove('text-[#69b766]');
+    cartBtn.classList.remove('hover:border-[#69b766]', 'hover:border-2');
+
+    cartBtn.classList.add('text-gray-400');
+  }
 }
 
 async function insertCart(product) {

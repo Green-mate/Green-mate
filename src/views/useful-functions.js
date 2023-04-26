@@ -53,6 +53,15 @@ export const blockBeforeLogin = () => {
   }
 };
 
+export const blockAdminPage = () => {
+  const role = localStorage.getItem('role');
+
+  if (role !== 'admin') {
+    alert('관리자만 접근 가능한 페이지입니다.');
+    window.location.replace('/');
+  }
+};
+
 // 이메일 형식인지 확인 (true 혹은 false 반환)
 export const validateEmail = (email) => {
   return String(email)

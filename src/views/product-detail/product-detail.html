@@ -24,13 +24,11 @@
     <hr class="mt-10 mb-20 border-t border-gray-500 w-1200 opacity-25" />
     <!-- 단일 상품 정보 이미지, 가격, 바로구매, 장바구니 버튼-->
     <section id="product-detail-container" class="flex flex-row justify-center">
-      <div id="product-img-container" class="mr-10" style="height: 394">
+      <div id="product-img-container" class="w-[525px] h-[430px] mr-10">
         <img
           src="#"
           id="card-img-top"
-          class="rounded-lg"
-          width="525"
-          height="394"
+          class="rounded-lg w-full h-full object-fill"
         />
       </div>
 
@@ -120,7 +118,10 @@
               class="shadow border rounded py-2 px-4 border-gray-200 hover:border-[#69b766] hover:border-2"
             >
               <span>
-                <i class="fas fa-cart-shopping text-[#69b766]"></i>
+                <i
+                  id="cart-icon"
+                  class="fas fa-cart-shopping text-[#69b766]"
+                ></i>
               </span>
             </button>
           </div>
