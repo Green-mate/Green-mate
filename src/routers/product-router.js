@@ -5,6 +5,7 @@ import { productService } from '../services';
 import { pagenate, krDate } from '../utils';
 import { logger } from '../../config/winston';
 import { productImageUpload } from '../middlewares/multer';
+
 const productRouter = Router();
 
 // 상품 전체 조회: /api/products?page=1&perPage=9
@@ -70,7 +71,7 @@ productRouter.get(
   }),
 );
 
-// // 관리자 상품 추가: /api/admin/products
+// 관리자 상품 추가: /api/admin/products
 productRouter.post(
   '/admin/products',
   adminOnly,
@@ -84,17 +85,15 @@ productRouter.post(
     const { productName, category, productPrice, stock } = req.body;
     const date = krDate(); // 한국 시간대로 설정.
 
-    if (!req.file) {
-      throw new Error('이미지는 필수요소입니다.');
-    }
     const productObj = {
       productName,
       category,
       productPrice: Number(productPrice),
-      productImage: '/views/dist/product-images/' + req.file.filename,
+      productImage: '../../views/dist/product-images/' + req.file.filename,
       stock: Number(stock),
       createdDate: date,
     };
+
     const products = await productService.addProducts(productObj);
     logger.info(`추가한 상품:\n ${products}`);
 

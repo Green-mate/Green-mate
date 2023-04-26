@@ -138,3 +138,135 @@
   updatedAt: 2023-04-25T17:30:23.743Z,
   __v: 0
 }
+2023-04-26 18:03:20 info: undefined
+2023-04-26 18:05:18 info: undefined
+2023-04-26 18:07:20 info: undefined
+2023-04-26 18:12:23 info: [object Object]
+2023-04-26 18:12:24 info: 추가한 상품:
+ {
+  productName: 'dddd',
+  category: '관목',
+  productPrice: 12000,
+  productImage: '/views/dist/product-images/164a05d123ca99c1eb6150bf268957e4',
+  stock: 2,
+  createdDate: '2023-04-26 18:12:23',
+  _id: new ObjectId("6448eaf7fe59feb3b5bc864b"),
+  shortId: 'kOCXiF',
+  createdAt: 2023-04-26T09:12:23.819Z,
+  updatedAt: 2023-04-26T09:12:23.819Z,
+  __v: 0
+}
+2023-04-26 20:27:47 info: [object Object]
+2023-04-26 20:27:48 info: 추가한 상품:
+ {
+  productName: 'dfs',
+  category: '관목',
+  productPrice: 12000,
+  productImage: '/views/dist/product-images/7b36afde486f53ed9c566ee98ad6ef97',
+  stock: 2,
+  createdDate: '2023-04-26 20:27:47',
+  _id: new ObjectId("64490ab4d18aca775f018210"),
+  shortId: '18XWoc',
+  createdAt: 2023-04-26T11:27:48.212Z,
+  updatedAt: 2023-04-26T11:27:48.212Z,
+  __v: 0
+}
+2023-04-26 20:29:31 info: 삭제한 상품:
+ {
+  _id: new ObjectId("64490ab4d18aca775f018210"),
+  productName: 'dfs',
+  category: '관목',
+  productPrice: 12000,
+  productImage: '/views/dist/product-images/7b36afde486f53ed9c566ee98ad6ef97',
+  stock: 2,
+  createdDate: '2023-04-26 20:27:47',
+  shortId: '18XWoc',
+  createdAt: 2023-04-26T11:27:48.212Z,
+  updatedAt: 2023-04-26T11:27:48.212Z,
+  __v: 0
+}
+2023-04-26 20:29:33 info: 삭제한 상품:
+ {
+  _id: new ObjectId("6448f1fe7cd89e8e2982db29"),
+  productName: 'test',
+  category: 'test',
+  productPrice: 1000,
+  productImage: '/views/dist/product-images/ac2b4e62fcf844ef5829d84d91d2dcff',
+  stock: 10,
+  createdDate: '2023-04-26 18:42:22',
+  shortId: '_nkDZg',
+  createdAt: 2023-04-26T09:42:22.573Z,
+  updatedAt: 2023-04-26T09:42:22.573Z,
+  __v: 0
+}
+2023-04-26 20:29:35 info: 삭제한 상품:
+ {
+  _id: new ObjectId("6448eaf7fe59feb3b5bc864b"),
+  productName: 'dddd',
+  category: '관목',
+  productPrice: 12000,
+  productImage: '/views/dist/product-images/164a05d123ca99c1eb6150bf268957e4',
+  stock: 2,
+  createdDate: '2023-04-26 18:12:23',
+  shortId: 'kOCXiF',
+  createdAt: 2023-04-26T09:12:23.819Z,
+  updatedAt: 2023-04-26T09:12:23.819Z,
+  __v: 0
+}
+2023-04-26 20:31:20 info: [object Object]
+2023-04-26 20:31:21 info: 추가한 상품:
+ {
+  productName: 'dfs',
+  category: '관목',
+  productPrice: 12000,
+  productImage: '../../views/dist/product-imagesfc4016c8b1123f6d8c23f12b26b38692',
+  stock: 2,
+  createdDate: '2023-04-26 20:31:20',
+  _id: new ObjectId("64490b8801aff86dd40fdab6"),
+  shortId: 'CQNtv5',
+  createdAt: 2023-04-26T11:31:20.849Z,
+  updatedAt: 2023-04-26T11:31:20.849Z,
+  __v: 0
+}
+2023-04-26 20:58:21 info: 추가한 상품:
+ {
+  productName: '테스',
+  category: '관목',
+  productPrice: 12000,
+  productImage: '../../views/dist/product-images3fc1cb5beec2f0b9647ce8ff763bac65',
+  stock: 2,
+  createdDate: '2023-04-26 20:58:21',
+  _id: new ObjectId("644911dd3017bcd863b20776"),
+  shortId: '8hh-TM',
+  createdAt: 2023-04-26T11:58:21.510Z,
+  updatedAt: 2023-04-26T11:58:21.510Z,
+  __v: 0
+}
+2023-04-26 21:34:34 info: 추가한 상품:
+ {
+  productName: '테스트합니',
+  category: '관목',
+  productPrice: 12000,
+  productImage: '../../views/dist/product-imagesd37884cd8e20a53087cd0685146552dd',
+  stock: 2,
+  createdDate: '2023-04-26 21:34:34',
+  _id: new ObjectId("64491a5a97a0a19ba6490d47"),
+  shortId: 'g1ICox',
+  createdAt: 2023-04-26T12:34:34.316Z,
+  updatedAt: 2023-04-26T12:34:34.316Z,
+  __v: 0
+}
+2023-04-26 21:56:59 info: 추가한 상품:
+ {
+  productName: '3455',
+  category: '관목',
+  productPrice: 12000,
+  productImage: '../../views/dist/product-images/bc93eb4d40387233eb7f94053604999b',
+  stock: 2,
+  createdDate: '2023-04-26 21:56:59',
+  _id: new ObjectId("64491f9b6b0a7e0eb519b786"),
+  shortId: 'a0KafG',
+  createdAt: 2023-04-26T12:56:59.322Z,
+  updatedAt: 2023-04-26T12:56:59.322Z,
+  __v: 0
+}
