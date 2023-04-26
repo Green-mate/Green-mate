@@ -1,4 +1,5 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
+const token = localStorage.getItem('token');
 
 const nextPageBtn = document.getElementById('next_page_btn');
 const previousPageBtn = document.getElementById('previous_page_btn');
@@ -24,7 +25,7 @@ const adminGetOrderAPI = async () => {
 
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
   try {
@@ -41,7 +42,7 @@ const adminGetOrderAPI = async () => {
 const adminStatusGetOrderAPI = async () => {
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
   try {
@@ -61,7 +62,7 @@ const adminStatusGetOrderAPI = async () => {
 const adminPutOrderAPI = async (data, id) => {
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -79,7 +80,7 @@ const adminPutOrderAPI = async (data, id) => {
 const adminDeleteOrderAPI = async (id) => {
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDQwYTUxNDNlZjRjZjlkNGEyMDE4ZjAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODIxNDAxMjV9.pfKeseBdzQafcW9-Dl_XBHWRmYQheQTzh1TzXpNA_XY`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
     },
   };
