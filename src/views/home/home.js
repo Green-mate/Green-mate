@@ -156,6 +156,14 @@ async function categoryFilter() {
     if (i === categoryPage) {
       link.classList.add('text-[#69b766]', 'font-bold');
     }
+
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      categoryPage = i;
+      link.href = `?category=${clickedCategoryName}&categoryPage=${categoryPage}`;
+      categoryFilter();
+    });
+
     pageButtons.appendChild(link);
   }
 
