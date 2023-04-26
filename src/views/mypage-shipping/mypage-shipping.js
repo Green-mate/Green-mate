@@ -9,8 +9,22 @@ let TOTALPRICE = DELIVERY_CHARGE;
 renderCategoryBar();
 getOrdersLists();
 
-/******************주문 취소*****************/
-setTimeout(() => {
+async function getOrdersLists() {
+  const orders = await API.get('/api/orders', `${uid}`);
+  console.log('orders : ', orders);
+
+  if (orders.length === 0) {
+    orderCardComponent.innerHTML += `
+    <div class="flex justify-center items-center pt-28 text-2xl font-bold text-gray-500">주문 내역이 없습니다.</div>
+    `;
+  }
+
+  for (const order of orders) {
+    const newOrderCard = createOrderCard(order);
+    orderCardComponent.insertAdjacentHTML('beforeend', newOrderCard);
+  }
+
+  /******************주문 취소 및 수정 *****************/
   const deleteOrderBtns = document.getElementsByClassName('delete-order-btn');
   for (let i = 0; i < deleteOrderBtns.length; i++) {
     deleteOrderBtns[i].addEventListener('click', async (e) => {
@@ -36,22 +50,6 @@ setTimeout(() => {
         e.preventDefault();
       }
     });
-  }
-}, 3000);
-
-async function getOrdersLists() {
-  const orders = await API.get('/api/orders', `${uid}`);
-  console.log('orders : ', orders);
-
-  if (orders.length === 0) {
-    orderCardComponent.innerHTML += `
-    <div class="flex justify-center items-center pt-28 text-2xl font-bold text-gray-500">주문 내역이 없습니다.</div>
-    `;
-  }
-
-  for (const order of orders) {
-    const newOrderCard = createOrderCard(order);
-    orderCardComponent.insertAdjacentHTML('beforeend', newOrderCard);
   }
 }
 
