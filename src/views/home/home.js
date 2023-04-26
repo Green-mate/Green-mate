@@ -6,8 +6,8 @@ const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
 
 const urlParams = new URLSearchParams(window.location.search);
-const page = parseInt(urlParams.get('page')) || 1;
-const categoryPage = parseInt(urlParams.get('categoryPage')) || 1;
+let page = parseInt(urlParams.get('page')) || 1;
+let categoryPage = parseInt(urlParams.get('categoryPage')) || 1;
 
 function createCard(product) {
   return `
@@ -82,6 +82,13 @@ categories.map((category) => {
   createCategory(category);
 });
 
+// 카테고리 클릭시 url업데이트
+function updateUrl(categoryPage) {
+  const clickedCategoryName = sessionStorage.getItem('selectedCategory');
+  const newUrl = `?category=${clickedCategoryName}&categoryPage=${categoryPage}`;
+  window.history.pushState(null, null, newUrl);
+}
+
 // 전체 상품 이외 생성될 카테고리
 function createCategory({ categoryName }) {
   const categoryElem = document.createElement('li');
@@ -102,14 +109,8 @@ function createCategory({ categoryName }) {
    */
   categoryElem.addEventListener('click', () => {
     sessionStorage.setItem('selectedCategory', categoryName);
-
-    const url = new URL(window.location.href);
-    url.searchParams.delete('page');
-    url.searchParams.delete('perPage');
-    // url.searchParams.delete('categoryPage');
-    url.searchParams.set('category', categoryName);
-    url.searchParams.set('categoryPage', 1);
-    window.history.replaceState(null, null, url.toString());
+    categoryPage = 1;
+    updateUrl(categoryPage);
 
     categoryNameLabel.innerText = categoryName;
     const categoryLiList = document.querySelectorAll('#category');
@@ -154,8 +155,15 @@ async function categoryFilter() {
     if (i === categoryPage) {
       link.classList.add('text-[#69b766]', 'font-bold');
     }
+
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      categoryPage = i;
+      updateUrl(categoryPage);
+      categoryFilter();
+    });
+
     pageButtons.appendChild(link);
-    // window.location.href = link.href.toString();
   }
 
   products.forEach((product) => {

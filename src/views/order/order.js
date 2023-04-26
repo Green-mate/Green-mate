@@ -1,6 +1,7 @@
 import * as API from '../api.js';
 import { convertToNumber, blockBeforeLogin } from '../useful-functions.js';
 import { getFromDb, deleteFromDb, putToDb } from '../indexed-DB.js';
+
 blockBeforeLogin();
 // 상품 카드
 const goodsDetail = document.querySelector('#goods-detail-section');
@@ -170,16 +171,6 @@ async function order() {
   }
 
   try {
-    // 전체 주문을 등록함
-    // - userId
-    // - productList (상품 리스트)
-    // - recipient (받는이)
-    // - phoneNumber
-    // - zipCode (배송 우편번호)
-    // - address1 (배송지 주소)
-    // - address2 (배송지 상세주소)
-    // - shippingMessage (배송요청 메시지)
-
     const data = {
       recipient: receiverName,
       userId,
@@ -194,7 +185,7 @@ async function order() {
 
     // indexedDB에서 해당 제품 관련 데이터를 제거함 -> 주문이 완료 되었으므로
     for (const productId of selectedIds) {
-      const totalPrice = await deleteFromDb('cart', productId);
+      await deleteFromDb('cart', productId);
       await putToDb('order', 'total-order', (data) => {
         data.ids = data.ids.filter((id) => id !== productId);
         data.selectedIds = data.selectedIds.filter((id) => id !== productId);

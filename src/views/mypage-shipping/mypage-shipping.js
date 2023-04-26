@@ -6,8 +6,20 @@ const uid = localStorage.getItem('userId');
 const DELIVERY_CHARGE = 3000;
 let TOTALPRICE = DELIVERY_CHARGE;
 
-renderCategoryBar();
 getOrdersLists();
+getUserInfo();
+
+async function getUserInfo() {
+  try {
+    const result = await API.get('/api/users', `${uid}`);
+    sessionStorage.setItem('userName', result.userName);
+    sessionStorage.setItem('userEmail', result.email);
+    renderCategoryBar();
+  } catch (err) {
+    console.error(err.stack);
+    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+  }
+}
 
 async function getOrdersLists() {
   const orders = await API.get('/api/orders', `${uid}`);

@@ -1,4 +1,9 @@
-import { getFromDb, deleteFromDb, openDatabase } from '../indexed-DB.js';
+import {
+  getFromDb,
+  putToDb,
+  deleteFromDb,
+  openDatabase,
+} from '../indexed-DB.js';
 
 const cardDeleteBtn = document.getElementsByClassName('delete-cart-btn');
 
@@ -7,6 +12,7 @@ const wholeGoodsPriceDiv = document.getElementById('whole-goods-price');
 const totalPriceDiv = document.getElementById('total-price');
 const cartContentDiv = document.getElementById('cart-content-div');
 const allDeleteBtn = document.getElementById('all-delete-btn');
+const orderButton = document.getElementById('order-button');
 const cartList = await getFromDb('cart');
 
 console.log(cartList);
@@ -58,7 +64,27 @@ for (let btn of cardDeleteBtn) {
 
   btn.addEventListener('click', async () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      await deleteFromDb('cart', cartID).then(() => {
+      await deleteFromDb('cart', cartID);
+      await putToDb('order', 'total-order', (data) => {
+        const leftProducts = data.productLists.filter(
+          (product) => product.productId !== cartID,
+        );
+
+        data.ids = data.ids.filter((id) => id !== cartID);
+        data.productLists = data.productLists.filter(
+          (product) => product.productId !== cartID,
+        );
+        data.productsCount = leftProducts.reduce(
+          (acc, cur) => acc + cur.quantity,
+          0,
+        );
+        data.productsTotalPrice = leftProducts.reduce(
+          (acc, cur) => acc + cur.totalPrice,
+          0,
+        );
+        data.selectedIds = data.selectedIds.filter((id) => id !== cartID);
+        return data;
+      }).then(() => {
         window.location.reload();
       });
     }
@@ -67,8 +93,18 @@ for (let btn of cardDeleteBtn) {
 
 allDeleteBtn.addEventListener('click', async () => {
   let database = await openDatabase();
-  const transaction = database.transaction(['cart'], 'readwrite');
-  const store = transaction.objectStore('cart');
+  const cartTransaction = database.transaction(['cart'], 'readwrite');
+  const orderTransaction = database.transaction(['order'], 'readwrite');
+  const cartStore = cartTransaction.objectStore('cart');
+  const orderStore = orderTransaction.objectStore('order');
+  if (window.confirm('정말 전체 삭제하시겠습니까?')) {
+    await cartStore.clear();
+    await orderStore.clear();
+    window.location.reload();
+    alert('장바구니가 비었습니다. \n식물 친구들을 담아주세요🪴');
+  }
+});
 
-  store.clear();
+orderButton.addEventListener('click', async () => {
+  window.location.href = '/order';
 });
