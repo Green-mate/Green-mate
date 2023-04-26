@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 14
+    },
+    "auditLog": "D:\\elice\\project\\green-mate\\config\\logs\\.680b1e7e169b0974d32b11a37c385ae6c9d92e09-audit.json",
+    "files": [
+        {
+            "date": 1682437579692,
+            "name": "D:\\elice\\project\\green-mate\\config\\logs\\2023-04-26.log",
+            "hash": "f112c59658092995f8b9102bc04a897e861bf16c7e0275c4fa28bdc05fc032df"
+        }
+    ],
+    "hashType": "sha256"
+}

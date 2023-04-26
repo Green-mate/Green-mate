@@ -48,7 +48,7 @@ const logger = winston.createLogger({
 });
 
 // production 환경이라면 최대한 자원을 안잡아 먹도록 출력 포맷 형식을 지정.
-// 배포 환경이 아닐 때만 콘솔에 로그 출력.
+// 개발환경일 때만 콘솔에 로그 출력.
 if (process.env.NODE_ENV !== "production") {
   logger.add(
     new winston.transports.Console({
