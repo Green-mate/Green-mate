@@ -1,11 +1,10 @@
 import * as API from '../api.js';
 
-const userName = sessionStorage.getItem('userName');
 const uid = localStorage.getItem('userId');
 
-function renderCategoryBar() {
+export function renderCategoryBar() {
   const categoryBar = document.querySelector('#mypage-sidebar');
-
+  const userName = sessionStorage.getItem('userName');
   categoryBar.innerHTML = `
   <div class="flex flex-col flex-shrink-0 w-64">
   <div
@@ -39,29 +38,27 @@ function renderCategoryBar() {
     </button>
   </div>
   </div>`;
+
+  let pathname = window.location.pathname;
+  pathname = pathname.substring(1, pathname.length - 1);
+
+  // 요소(element), input 혹은 상수
+  const profileLink = document.getElementById('profile-manage-link');
+  const userOrderLink = document.getElementById('user-order-manage-link');
+  const secessionBtn = document.getElementById('secession-btn');
+
+  // 초기 주문관리 선택
+
+  if (pathname === 'mypage') {
+    profileLink.classList.toggle('bg-[#CDDEBA]');
+  } else if (pathname === 'mypage-shipping' || 'mypage-shipping-edit') {
+    userOrderLink.classList.toggle('bg-[#CDDEBA]');
+  } else {
+    secessionBtn.classList.toggle('bg-[#CDDEBA]');
+  }
+
+  secessionBtn.addEventListener('click', handleSecession);
 }
-
-renderCategoryBar();
-
-let pathname = window.location.pathname;
-pathname = pathname.substring(1, pathname.length - 1);
-
-// 요소(element), input 혹은 상수
-const profileLink = document.getElementById('profile-manage-link');
-const userOrderLink = document.getElementById('user-order-manage-link');
-const secessionBtn = document.getElementById('secession-btn');
-
-// 초기 주문관리 선택
-
-if (pathname === 'mypage') {
-  profileLink.classList.toggle('bg-[#CDDEBA]');
-} else if (pathname === 'mypage-shipping' || 'mypage-shipping-edit') {
-  userOrderLink.classList.toggle('bg-[#CDDEBA]');
-} else {
-  secessionBtn.classList.toggle('bg-[#CDDEBA]');
-}
-
-secessionBtn.addEventListener('click', handleSecession);
 
 // /api/users/delete/:uid/
 async function handleSecession() {

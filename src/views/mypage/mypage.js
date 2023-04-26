@@ -1,5 +1,6 @@
 import * as API from '../api.js';
 import { blockBeforeLogin } from '/useful-functions.js';
+import { renderCategoryBar } from '../common/mypage-sidebar.js';
 
 const submitBtn = document.getElementById('submit-button');
 const emailValue = document.getElementById('email-text-value');
@@ -16,13 +17,7 @@ const uid = localStorage.getItem('userId');
 
 blockBeforeLogin();
 getUserInfo();
-addAllElements();
 addAllEvents();
-
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-async function addAllElements() {
-  emailValue.innerText = sessionStorage.getItem('userEmail');
-}
 
 // 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllEvents() {
@@ -33,8 +28,10 @@ async function getUserInfo() {
   try {
     const result = await API.get('/api/users', `${uid}`);
     nameInputVal.value = result.userName;
+    emailValue.innerText = result.email;
     sessionStorage.setItem('userName', result.userName);
     sessionStorage.setItem('userEmail', result.email);
+    renderCategoryBar();
   } catch (err) {
     console.error(err.stack);
     alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);

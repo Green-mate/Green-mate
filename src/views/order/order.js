@@ -1,7 +1,8 @@
 import * as API from '../api.js';
-import { convertToNumber } from '../useful-functions.js';
+import { convertToNumber, blockBeforeLogin } from '../useful-functions.js';
 ////////////////
 
+blockBeforeLogin();
 // 상품 카드
 const goodsDetail = document.querySelector('#goods-detail-section');
 

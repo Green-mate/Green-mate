@@ -1,11 +1,12 @@
 import * as API from '../api.js';
+import { renderCategoryBar } from '../common/mypage-sidebar.js';
 
 const orderCardComponent = document.querySelector('#order-card-component');
 const uid = localStorage.getItem('userId');
 const DELIVERY_CHARGE = 3000;
 let TOTALPRICE = DELIVERY_CHARGE;
-const editOrderInfo = {};
 
+renderCategoryBar();
 getOrdersLists();
 
 async function getOrdersLists() {
@@ -22,17 +23,35 @@ async function getOrdersLists() {
     const newOrderCard = createOrderCard(order);
     orderCardComponent.insertAdjacentHTML('beforeend', newOrderCard);
   }
-}
 
-// 주문 수정 시 보낼 내용
-// {
-//   "recipient" : "엘리스",
-//   "phoneNumber" : "01012341234",
-//   "zipCode" : "12345",
-//   "address1" : "서울시 성수성수 ",
-//   "address2" : "성수낙낙 너무 조아",
-//   "shippingMessage" : "매니저님께 맡겨주세요."
-//   }
+  /******************주문 취소 및 수정 *****************/
+  const deleteOrderBtns = document.getElementsByClassName('delete-order-btn');
+  for (let i = 0; i < deleteOrderBtns.length; i++) {
+    deleteOrderBtns[i].addEventListener('click', async (e) => {
+      const id = e.target.getAttribute('name');
+      try {
+        await API.delWithoutData('/api/orders', `?oid=${id}`);
+        alert('주문이 삭제되었습니다.');
+        window.location.href = '/mypage-shipping';
+      } catch (e) {
+        alert('배송전 상태만 주문 취소가 가능합니다.');
+      }
+    });
+  }
+
+  const editOrderInfoBtns = document.getElementsByClassName(
+    'edit-order-info-submit-btn',
+  );
+  for (let i = 0; i < editOrderInfoBtns.length; i++) {
+    editOrderInfoBtns[i].addEventListener('click', (e) => {
+      const shippingStatus = e.target.closest('#shipping-status');
+      if (!shippingStatus || shippingStatus.textContent.trim() !== '배송전') {
+        alert('배송전 상태만 주문 수정이 가능합니다.');
+        e.preventDefault();
+      }
+    });
+  }
+}
 
 function createOrderCard(order) {
   const {
@@ -65,7 +84,7 @@ function createOrderCard(order) {
       <span class="float-left mt-3 mb-3">주문일&nbsp&nbsp&nbsp&nbsp${date}</span>
     </div>
 
-    <span class="float-left w-full py-4 text-3xl text-[#69b766] mt-3 mb-3 font-semibold">
+    <span class="shipping-status float-left w-full py-4 text-3xl text-[#69b766] mt-3 mb-3 font-semibold">
       ${shippingStatus}
     </span>
 
@@ -93,7 +112,7 @@ function createOrderCard(order) {
       <a href="/mypage-shipping-edit?${_id}" class="mb-5 mx-auto">
         <button
           style="height: 52px; width: 200px"
-          class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
+          class="edit-order-info-submit-btn shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
           id="edit-order-info-submit-btn"
           type="button"
         >
@@ -102,8 +121,9 @@ function createOrderCard(order) {
       </a>
 
       <button
+        name="${_id}"
         style="height: 52px; width: 200px"
-        class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
+        class="delete-order-btn shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
         id="delete-order-btn"
         type="button"
       >
@@ -114,18 +134,6 @@ function createOrderCard(order) {
   </div>
   `;
 }
-
-/***************************주문 수정작업과 삭제 작업을 하기 위해서 주문 정보가 입력된 dom요소를 가져와야 하는데 가져와지지가 않음**************************/
-
-document.addEventListener('DOMContentLoaded', () => {
-  const deleteOrderBtn = document.querySelector('#delete-order-btn');
-});
-
-window.onload = function () {
-  const deleteOrderBtn = document.querySelector('#delete-order-btn');
-};
-
-/***********************************************************************************************************************************/
 
 function createProductCard(product) {
   const { productId, quantity } = product;
