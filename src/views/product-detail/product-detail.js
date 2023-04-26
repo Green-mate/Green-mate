@@ -107,8 +107,13 @@ async function getProductDetail() {
 
 async function insertCart(product) {
   const { _id: id, shortId, productPrice } = product;
+  console.log(product, 'product');
 
-  await addToDb('cart', { ...product, quantity: 1 }, id);
+  await addToDb(
+    'cart',
+    { ...product, quantity: parseInt(totalAmount.innerText) },
+    id,
+  );
 
   await putToDb('order', 'total-order', (data) => {
     const totalCount = data.productsCount;
