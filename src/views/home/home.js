@@ -82,6 +82,13 @@ categories.map((category) => {
   createCategory(category);
 });
 
+// 카테고리 클릭시 url업데이트
+function updateUrl(categoryPage) {
+  const clickedCategoryName = sessionStorage.getItem('selectedCategory');
+  const newUrl = `?category=${clickedCategoryName}&categoryPage=${categoryPage}`;
+  window.history.pushState(null, null, newUrl);
+}
+
 // 전체 상품 이외 생성될 카테고리
 function createCategory({ categoryName }) {
   const categoryElem = document.createElement('li');
@@ -102,16 +109,8 @@ function createCategory({ categoryName }) {
    */
   categoryElem.addEventListener('click', () => {
     sessionStorage.setItem('selectedCategory', categoryName);
-
-    const url = new URL(window.location.href);
-    url.searchParams.delete('page');
-    url.searchParams.delete('perPage');
-    // url.searchParams.delete('categoryPage');
-    url.searchParams.set('category', categoryName);
-    url.searchParams.set('categoryPage', 1);
     categoryPage = 1;
-
-    window.history.pushState(null, null, url.toString());
+    updateUrl(categoryPage);
 
     categoryNameLabel.innerText = categoryName;
     const categoryLiList = document.querySelectorAll('#category');
@@ -160,7 +159,7 @@ async function categoryFilter() {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       categoryPage = i;
-      link.href = `?category=${clickedCategoryName}&categoryPage=${categoryPage}`;
+      updateUrl(categoryPage);
       categoryFilter();
     });
 
