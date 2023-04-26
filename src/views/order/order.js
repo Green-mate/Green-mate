@@ -185,7 +185,7 @@ async function order() {
 
     // indexedDB에서 해당 제품 관련 데이터를 제거함 -> 주문이 완료 되었으므로
     for (const productId of selectedIds) {
-      const totalPrice = await deleteFromDb('cart', productId);
+      await deleteFromDb('cart', productId);
       await putToDb('order', 'total-order', (data) => {
         data.ids = data.ids.filter((id) => id !== productId);
         data.selectedIds = data.selectedIds.filter((id) => id !== productId);
