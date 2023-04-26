@@ -116,9 +116,8 @@ async function insertCart(product, productAmountNum) {
     const totalCount = data.productsCount;
     const totalPrice = data.productsTotalPrice;
     const ids = data.ids;
-    const shortIds = data.shortId;
     const selectedIds = data.selectedIds;
-    const productList = data.productList || [];
+    const productLists = data.productLists || [];
 
     data.productsCount = totalCount
       ? totalCount + productAmountNum
@@ -128,7 +127,6 @@ async function insertCart(product, productAmountNum) {
       : productPrice * productAmountNum;
 
     data.ids = ids ? [...ids, id] : [id];
-    data.shortIds = shortIds ? [...shortIds, shortId] : [shortId];
     data.selectedIds = selectedIds ? [...selectedIds, id] : [id];
 
     const productData = {
@@ -137,8 +135,9 @@ async function insertCart(product, productAmountNum) {
       productPrice,
       productImage,
       productName,
+      totalPrice: productAmountNum * productPrice,
     };
-    productList.push(productData);
-    data.productList = productList;
+    productLists.push(productData);
+    data.productLists = productLists;
   });
 }

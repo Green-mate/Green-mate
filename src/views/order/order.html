@@ -180,7 +180,10 @@
           </div>
           <div class="selected-price flex justify-between mx-7 mt-2">
             <p class="font-light">총 상품금액</p>
-            <p>50,000원</p>
+            <div class="flex flex-row">
+              <p id="product-total-price"></p>
+              <p>원</p>
+            </div>
           </div>
           <div class="delivery-fee flex justify-between mx-7 mt-3">
             <p class="font-light">배송비</p>
@@ -191,9 +194,13 @@
           </div>
           <div class="whole-price flex justify-between mx-7">
             <p class="text-lg font-semibold text-[#145f37]">총 금액</p>
-            <p class="text-lg font-semibold text-[#145f37]" id="total-price">
-              52,000원
-            </p>
+            <div class="flex flex-row">
+              <p
+                class="text-lg font-semibold text-[#145f37]"
+                id="total-price"
+              ></p>
+              <p class="text-lg font-semibold text-[#145f37]">원</p>
+            </div>
           </div>
           <div class="text-center w-full mt-6">
             <button
