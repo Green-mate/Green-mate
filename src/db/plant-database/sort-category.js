@@ -2,9 +2,10 @@ const express = require('express');
 const convert = require('xml-js');
 const request = require('request');
 const getPlantData = require('./use-plantlist');
+import { SERVICE_KEY } from './service-key';
 
 const HOST = 'http://api.nongsaro.go.kr/service/garden/gardenDtl';
-const SERVICE_KEY = '20230421LJQ8SWJCLQVQU9AUCMTXKW';
+const service_key = SERVICE_KEY;
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.get('/', (req, res) => {
         const cntntsNo = data['product_code'];
         const pageNo = 1;
         const numOfRows = 100;
-        const requestUrl = `${HOST}?apiKey=${SERVICE_KEY}&cntntsNo=${cntntsNo}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
+        const requestUrl = `${HOST}?apiKey=${service_key}&cntntsNo=${cntntsNo}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
 
         return new Promise((resolve, reject) => {
           request.get(requestUrl, (err, response, body) => {

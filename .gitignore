@@ -4,3 +4,4 @@ yarn.lock
 package-lock.json
 .env
 src/views/dist/output.css
+src/db/plant-database/service-key.js
