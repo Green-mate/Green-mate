@@ -36,6 +36,7 @@ function createCard(product) {
 
 getProductList();
 
+/********************* 전체상품 조회 && 페이지네이션 **********************/
 async function getProductList() {
   const response = await axios.get(`/api/products?page=${page}&perPage=9`);
   const products = await response.data.pagenatedProducts.results;
@@ -125,7 +126,7 @@ function createCategory({ categoryName }) {
   categoryBar.appendChild(categoryElem);
 }
 
-/************카테고리별 상품 리스트 렌더링 함수 ************/
+/************카테고리별 상품 리스트 렌더링 함수 && 페이지네이션 ************/
 // 카테고리 반환 값이 null or NaN이면, categoryPage에 기본적으로 1 할당
 
 async function categoryFilter() {
