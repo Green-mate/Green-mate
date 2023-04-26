@@ -1,6 +1,5 @@
 import * as API from '../api.js';
 import { convertToNumber, blockBeforeLogin } from '../useful-functions.js';
-////////////////
 
 blockBeforeLogin();
 // 상품 카드
@@ -27,18 +26,13 @@ function createCard() {
   );
 }
 
-for (let i = 0; i < 5; i++) {
-  createCard();
-}
-
-//////////////////
-
 // 다음 주소 API
 const postalCodeInput = document.querySelector('#postal-code');
 const searchAddressButton = document.querySelector('#search-address-button');
 const addressMainInput = document.querySelector('#address-main');
 const addressSubInput = document.querySelector('#address-sub');
 
+/* 다음 주소 API */
 function searchAddress(e) {
   e.preventDefault(e);
 
@@ -77,8 +71,6 @@ function searchAddress(e) {
 
 searchAddressButton.addEventListener('click', searchAddress);
 
-///////////////
-
 const requestSelectBox = document.querySelector('#request-select-box');
 const customRequestContainer = document.querySelector(
   '#custom-request-container',
@@ -115,9 +107,7 @@ const totalPriceContainer = document.querySelector('#total-price');
 const doOrderButton = document.querySelector('#order-button');
 doOrderButton.addEventListener('click', order);
 
-// 주문 작성 (동작안합니다)
-// 엘리스 솔루션 코드 참고 했습니다.
-// 오히려 헷갈릴 수도 있으니 그냥 다 지우고 하시는 것도 좋을 것 같습니다.
+// 주문 작성
 async function order() {
   const receiverName = nameInput.value;
   const receiverPhoneNumber = phoneNumberInput.value;
@@ -127,41 +117,49 @@ async function order() {
   const requestType = requestSelectBox.value;
   const customRequest = customRequestInput.value;
   const totalPrice = convertToNumber(totalPriceContainer.innerText);
-  const { selectedIds } = await getFromDb('order', 'summary');
+  const { selectedIds } = await getFromDb('order', 'total-order');
+  const userId = localStorage.getItem('userId');
 
   if (!receiverName || !receiverPhoneNumber || !postalCode || !address2) {
     return alert('배송지 정보를 모두 입력해 주세요.');
   }
 
   // 요청사항의 종류에 따라 request 문구가 달라짐
-  let request;
+  let shippingMessage;
 
   if (requestType === '0') {
-    request = '요청사항 없음.';
+    shippingMessage = '요청사항 없음.';
   } else if (requestType === '6') {
     if (!customRequest) {
       return alert('요청사항을 작성해 주세요.');
     }
-    request = customRequest;
+    shippingMessage = customRequest;
   } else {
-    request = requestOption[requestType];
+    shippingMessage = requestOption[requestType];
   }
-
-  const address = {
-    postalCode,
-    address1,
-    address2,
-    receiverName,
-    receiverPhoneNumber,
-  };
 
   try {
     // 전체 주문을 등록함
-    const orderData = await API.post('/api/order', {
-      totalPrice,
-      address,
-      request,
-    });
+    // - userId
+    // - productList (상품 리스트)
+    // - recipient (받는이)
+    // - phoneNumber
+    // - zipCode (배송 우편번호)
+    // - address1 (배송지 주소)
+    // - address2 (배송지 상세주소)
+    // - shippingMessage (배송요청 메시지)
+
+    // const data = {
+    //   recipient: receiverName,
+    //   userId,
+    //   phoneNumber: receiverPhoneNumber,
+    //   productList,
+    //   zipCode: postalCode,
+    //   address1,
+    //   address2,
+    //   shippingMessage,
+    // };
+    const orderData = await API.post('/api/new-order', data);
 
     const orderId = orderData._id;
 
@@ -179,7 +177,7 @@ async function order() {
 
       // indexedDB에서 해당 제품 관련 데이터를 제거함
       await deleteFromDb('cart', productId);
-      await putToDb('order', 'summary', (data) => {
+      await putToDb('order', 'total-order', (data) => {
         data.ids = data.ids.filter((id) => id !== productId);
         data.selectedIds = data.selectedIds.filter((id) => id !== productId);
         data.productsCount -= 1;

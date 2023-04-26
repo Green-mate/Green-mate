@@ -67,7 +67,7 @@ async function getProductDetail() {
 
   cartBtn.addEventListener('click', async () => {
     try {
-      await insertCart(response);
+      await insertCart(response, productAmountNum);
       alert('장바구니에 추가되었습니다!🧺');
     } catch (err) {
       if (err.message.includes('Key')) {
@@ -79,7 +79,7 @@ async function getProductDetail() {
 
   orderBtn.addEventListener('click', async () => {
     try {
-      await insertCart(response);
+      await insertCart(response, productAmountNum);
       window.location.replace('/order');
     } catch (err) {
       if (err.message.includes('Key')) {
@@ -105,24 +105,40 @@ async function getProductDetail() {
   }
 }
 
-async function insertCart(product) {
-  const { _id: id, shortId, productPrice } = product;
+async function insertCart(product, productAmountNum) {
+  const { _id: id, shortId, productPrice, productImage, productName } = product;
 
-  await addToDb('cart', { ...product, quantity: 1 }, id);
+  await addToDb('cart', { ...product, quantity: productAmountNum }, id);
 
+  // productAmountNum
   await putToDb('order', 'total-order', (data) => {
+    // 상품명, 상품 이미지 url, //수량, //단가, //총금액
     const totalCount = data.productsCount;
     const totalPrice = data.productsTotalPrice;
     const ids = data.ids;
-    const shortIds = data.shortIds;
+    const shortIds = data.shortId;
     const selectedIds = data.selectedIds;
+    const productList = data.productList || [];
 
-    data.productsCount = totalCount ? totalCount + 1 : 1;
+    data.productsCount = totalCount
+      ? totalCount + productAmountNum
+      : productAmountNum;
     data.productsTotalPrice = totalPrice
-      ? totalPrice + productPrice
-      : productPrice;
+      ? totalPrice + productPrice * productAmountNum
+      : productPrice * productAmountNum;
+
     data.ids = ids ? [...ids, id] : [id];
     data.shortIds = shortIds ? [...shortIds, shortId] : [shortId];
     data.selectedIds = selectedIds ? [...selectedIds, id] : [id];
+
+    const productData = {
+      productId: id,
+      quantity: productAmountNum,
+      productPrice,
+      productImage,
+      productName,
+    };
+    productList.push(productData);
+    data.productList = productList;
   });
 }
