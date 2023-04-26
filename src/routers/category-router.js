@@ -2,6 +2,7 @@ import { Router } from 'express';
 import is from '@sindresorhus/is';
 import { adminOnly } from '../middlewares';
 import { categoryService } from '../services';
+import { krDate } from '../utils';
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 
 const categoryRouter = Router();
@@ -39,8 +40,10 @@ categoryRouter.post('/admin/categories', adminOnly, async (req, res, next) => {
     }
 
     const categoryName = req.body.categoryName;
+    const date = krDate();
     const newCategory = await categoryService.addCategory({
       categoryName,
+      createdDate: date,
     });
     res.status(201).json(newCategory);
   } catch (error) {

@@ -1,16 +1,17 @@
 const convert = require('xml-js');
 const request = require('request');
 const express = require('express');
+import { SERVICE_KEY } from './service-key';
 
 const HOST = 'http://api.nongsaro.go.kr/service/garden/gardenList';
-const SERVICE_KEY = '20230421LJQ8SWJCLQVQU9AUCMTXKW';
+const service_key = SERVICE_KEY;
 
 const app = express();
 
 app.get('/', (req, res) => {
   const pageNo = req.query.pageNo || 1; // 페이지 번호, 기본값 1
   const numOfRows = req.query.numOfRows || 100; // 한 페이지당 데이터 수, 기본값 100
-  const $requestUrl = `${HOST}?apiKey=${SERVICE_KEY}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
+  const $requestUrl = `${HOST}?apiKey=${service_key}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
 
   request.get($requestUrl, (err, response, body) => {
     if (err) {
