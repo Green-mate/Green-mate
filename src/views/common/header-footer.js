@@ -155,7 +155,7 @@ function renderFooter() {
   <div class="max-w-6xl mx-auto flex justify-center items-center">
     <p class="text-gray-400 text-sm">© 2023 그린메이트</p>
     <span class="text-gray-400 text-sm mx-2">|</span>
-    <p class="text-gray-400 text-sm">FE : 김희삼 신하영 진호병</p>
+    <p class="text-gray-400 text-sm">FE : 신하영 진호병</p>
     <span class="text-gray-400 text-sm mx-2">|</span>
     <p class="text-gray-400 text-sm">BE : 김마리나 류이서 류한나</p>
   </div>

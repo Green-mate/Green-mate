@@ -9,16 +9,6 @@ const urlParams = new URLSearchParams(window.location.search);
 let page = parseInt(urlParams.get('page')) || 1;
 let categoryPage = parseInt(urlParams.get('categoryPage')) || 1;
 
-// function cardListsection() {
-//   return `
-//   <section
-//   id="item-cards-list"
-//   class="grid grid-cols-3 justify-items-center items-center mb-50"
-//   style="width: 1200px"
-// ></section>
-//   `;
-// }
-
 function createCard(product) {
   return `
   <div id="card" style="width:350px; height:480px;" class="mb-5">
@@ -90,6 +80,7 @@ async function getProductList() {
   return productList;
 }
 
+/** 스피너 재생성 -> 카테고리 별 스피너 달기 위함 **/
 const spinner = document.getElementById('spinner');
 spinner.innerHTML = `
   <i
@@ -168,15 +159,32 @@ function createCategory({ categoryName }) {
 // 카테고리 반환 값이 null or NaN이면, categoryPage에 기본적으로 1 할당
 
 async function categoryFilter() {
-  const clickedCategoryName = sessionStorage.getItem('selectedCategory');
-  const searchByCategoryProductList = [];
-
-  const response = await axios.get(
-    `/api/products/categories?category=${clickedCategoryName}&page=${categoryPage}&perPage=9`,
-  );
-
+  /** 스피너 재생성 -> 카테고리 별 스피너 달기 위함 **/
   const spinner = document.getElementById('spinner');
   spinner.innerHTML = `
+  <i
+    id="spinner-icon"
+    class="fa fa-spinner fa-spin"
+    style="
+      display: flex;
+      font-size: 250px;
+      justify-content: center;
+      color: gainsboro;
+      margin-top: 150px;
+      margin-bottom: 150px;
+    "
+  ></i>`;
+
+  const clickedCategoryName = sessionStorage.getItem('selectedCategory');
+  const searchByCategoryProductList = [];
+  let products = [];
+  try {
+    const response = await axios.get(
+      `/api/products/categories?category=${clickedCategoryName}&page=${categoryPage}&perPage=9`,
+    );
+
+    const spinner = document.getElementById('spinner');
+    spinner.innerHTML = `
   <section
   id="item-cards-list"
   class="grid grid-cols-3 justify-items-center items-center mb-50"
@@ -184,52 +192,63 @@ async function categoryFilter() {
 ></section>
   `;
 
-  const cards = document.querySelector('#item-cards-list');
+    const cards = document.querySelector('#item-cards-list');
 
-  const products = await response.data.pagenatedProducts.results;
-  const productCount = await response.data.total;
-  const totalPages = Math.ceil(productCount / 9);
+    products = await response.data.pagenatedProducts.results;
+    const productCount = await response.data.total;
+    const totalPages = Math.ceil(productCount / 9);
 
-  productCounter.innerText = productCount;
+    productCounter.innerText = productCount;
 
-  const pageButtons = document.querySelector('#page-buttons');
-  pageButtons.innerHTML = '';
-  for (let i = 1; i <= totalPages; i++) {
-    const link = document.createElement('a');
-    link.classList.add('mt-20', 'mb-10', 'mr-10', 'text-xl');
-    link.href = `?category=${clickedCategoryName}&categoryPage=${i}`;
+    const pageButtons = document.querySelector('#page-buttons');
+    pageButtons.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+      const link = document.createElement('a');
+      link.classList.add('mt-20', 'mb-10', 'mr-10', 'text-xl');
+      link.href = `?category=${clickedCategoryName}&categoryPage=${i}`;
 
-    link.textContent = i;
+      link.textContent = i;
 
-    if (i === categoryPage) {
-      link.classList.add('text-[#69b766]', 'font-bold');
+      if (i === categoryPage) {
+        link.classList.add('text-[#69b766]', 'font-bold');
+      }
+
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        categoryPage = i;
+        updateUrl(categoryPage);
+        categoryFilter();
+      });
+
+      pageButtons.appendChild(link);
     }
 
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      categoryPage = i;
-      updateUrl(categoryPage);
-      categoryFilter();
+    products.forEach((product) => {
+      searchByCategoryProductList.push(product);
     });
 
-    pageButtons.appendChild(link);
-  }
-
-  products.forEach((product) => {
-    searchByCategoryProductList.push(product);
-  });
-
-  if (searchByCategoryProductList.length === 0) {
-    cards.innerHTML = `
-    <div></div>
-      <div id="empty-product-list" >상품이 없습니다.</div>
+    if (searchByCategoryProductList.length === 0) {
+      cards.innerHTML = `
+    <div class="col-start-1 col-end-4 pt-[150px] pb-[170px]" style="margin:0 auto">
+      <div class="col-start-1 col-end-4 text-2xl font-semibold text-gray-500" id="empty-product-list" >상품이 없습니다.</div>
+    </div>
     `;
-  } else {
-    cards.innerHTML = '';
-    searchByCategoryProductList.forEach((product) => {
-      const newCard = createCard(product);
-      cards.innerHTML += newCard;
-    });
+    } else {
+      cards.innerHTML = '';
+      searchByCategoryProductList.forEach((product) => {
+        const newCard = createCard(product);
+        cards.innerHTML += newCard;
+      });
+    }
+  } catch (err) {
+    const cards = document.querySelector('#item-cards-list');
+    cards.innerHTML = `
+    <div class="col-start-1 col-end-4 pt-[150px] pb-[170px]" style="margin:0 auto">
+      <div class="col-start-1 col-end-4 text-2xl font-semibold text-gray-500" id="empty-product-list" >상품이 없습니다.</div>
+    </div>
+    `;
+    const pageButtons = document.querySelector('#page-buttons');
+    pageButtons.innerHTML = '';
   }
 }
 
