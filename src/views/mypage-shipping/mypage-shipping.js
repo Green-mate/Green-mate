@@ -6,8 +6,20 @@ const uid = localStorage.getItem('userId');
 const DELIVERY_CHARGE = 3000;
 let TOTALPRICE = DELIVERY_CHARGE;
 
-renderCategoryBar();
 getOrdersLists();
+getUserInfo();
+
+async function getUserInfo() {
+  try {
+    const result = await API.get('/api/users', `${uid}`);
+    sessionStorage.setItem('userName', result.userName);
+    sessionStorage.setItem('userEmail', result.email);
+    renderCategoryBar();
+  } catch (err) {
+    console.error(err.stack);
+    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+  }
+}
 
 async function getOrdersLists() {
   const orders = await API.get('/api/orders', `${uid}`);
@@ -33,7 +45,8 @@ async function getOrdersLists() {
         await API.delWithoutData('/api/orders', `?oid=${id}`);
         alert('주문이 삭제되었습니다.');
         window.location.href = '/mypage-shipping';
-      } catch (e) {
+      } catch (err) {
+        console.log(err);
         alert('배송전 상태만 주문 취소가 가능합니다.');
       }
     });
@@ -44,8 +57,10 @@ async function getOrdersLists() {
   );
   for (let i = 0; i < editOrderInfoBtns.length; i++) {
     editOrderInfoBtns[i].addEventListener('click', (e) => {
-      const shippingStatus = e.target.closest('#shipping-status');
-      if (!shippingStatus || shippingStatus.textContent.trim() !== '배송전') {
+      // const shippingStatus = e.target.closest('.shipping-status');
+      const shippingStatus = e.target.getAttribute('name');
+      console.log(shippingStatus);
+      if (shippingStatus.trim() !== '배송전') {
         alert('배송전 상태만 주문 수정이 가능합니다.');
         e.preventDefault();
       }
@@ -111,6 +126,7 @@ function createOrderCard(order) {
     <div class="flex flex-row m-10">
       <a href="/mypage-shipping-edit?${_id}" class="mb-5 mx-auto">
         <button
+          name="${shippingStatus}"
           style="height: 52px; width: 200px"
           class="edit-order-info-submit-btn shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
           id="edit-order-info-submit-btn"

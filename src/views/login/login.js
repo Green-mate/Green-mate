@@ -1,9 +1,5 @@
 import * as API from '../api.js';
-import {
-  blockAfterLogin,
-  getUrlParams,
-  validateEmail,
-} from '/useful-functions.js';
+import { blockAfterLogin, validateEmail } from '/useful-functions.js';
 
 // 요소(element), input 혹은 상수
 const emailInput = document.querySelector('#email-input');
@@ -56,14 +52,13 @@ async function handleSubmit(e) {
     localStorage.setItem('role', role);
     alert(`정상적으로 로그인되었습니다.`);
 
-    const { previousPage } = getUrlParams();
-    console.log('previousPage', previousPage);
-    if (previousPage) {
-      window.location.href = previousPage;
-      return;
+    const prevPageUrl = sessionStorage.getItem('prevPage');
+    if (prevPageUrl) {
+      window.location.href = prevPageUrl;
+    } else {
+      // 이전 페이지 URL이 없으면 홈페이지로 이동
+      window.location.href = '/';
     }
-    // 기본 페이지로 이동
-    window.location.href = '/';
   } catch (err) {
     console.error(err.stack);
     alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);

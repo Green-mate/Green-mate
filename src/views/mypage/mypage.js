@@ -53,6 +53,7 @@ async function handleUpdateUserInfo(e) {
     const result = await API.patch('/api/users', `${uid}`, data);
     console.log(result);
     alert('회원정보가 수정되었습니다!');
+    window.location.reload();
 
     // 수정 후에 input clear
     currentPasswordInputVal.value = '';

@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 14
+    },
+    "auditLog": "/Users/shinhayeong/Desktop/green-mate/config/logs/.0c8da87803be96c6acd412f3e036a3bfd4d0d792-audit.json",
+    "files": [
+        {
+            "date": 1682493550865,
+            "name": "/Users/shinhayeong/Desktop/green-mate/config/logs/2023-04-26.log",
+            "hash": "1023b75bda619584440b7ccce7f48762e7fce6256b0936ca4ce9c094ebf7664a"
+        },
+        {
+            "date": 1682521210463,
+            "name": "/Users/shinhayeong/Desktop/green-mate/config/logs/2023-04-27.log",
+            "hash": "69e53e819ee671c0a41c5c152a5d339e8ae4680bc7d4bb423f4f9bb5c2ef78ab"
+        }
+    ],
+    "hashType": "sha256"
+}

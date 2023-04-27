@@ -2,7 +2,7 @@ let database;
 
 // indexedDB에 연결하고, 연결 성공 시 데이터베이스 객체를
 // Promise로 감싸 반환함.
-const openDatabase = () => {
+export const openDatabase = () => {
   const db = new Promise((resolve, reject) => {
     const onRequest = indexedDB.open('GreenMateStorage', 1);
     onRequest.onupgradeneeded = () => {

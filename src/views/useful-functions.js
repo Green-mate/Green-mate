@@ -42,6 +42,8 @@ export const blockBeforeLogin = () => {
   const token = localStorage.getItem('token');
 
   if (!token) {
+    sessionStorage.setItem('prevPage', window.location.href);
+
     const response = confirm(
       '로그인한 사용자만 접근할 수 있는 페이지입니다.\n로그인 하시겠습니까?',
     );
@@ -50,6 +52,15 @@ export const blockBeforeLogin = () => {
     } else {
       window.location.replace('/');
     }
+  }
+};
+
+export const blockAdminPage = () => {
+  const role = localStorage.getItem('role');
+
+  if (role !== 'admin') {
+    alert('관리자만 접근 가능한 페이지입니다.');
+    window.location.replace('/');
   }
 };
 
