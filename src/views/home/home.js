@@ -159,6 +159,22 @@ function createCategory({ categoryName }) {
 // 카테고리 반환 값이 null or NaN이면, categoryPage에 기본적으로 1 할당
 
 async function categoryFilter() {
+  /** 스피너 재생성 -> 카테고리 별 스피너 달기 위함 **/
+  const spinner = document.getElementById('spinner');
+  spinner.innerHTML = `
+  <i
+    id="spinner-icon"
+    class="fa fa-spinner fa-spin"
+    style="
+      display: flex;
+      font-size: 250px;
+      justify-content: center;
+      color: gainsboro;
+      margin-top: 150px;
+      margin-bottom: 150px;
+    "
+  ></i>`;
+
   const clickedCategoryName = sessionStorage.getItem('selectedCategory');
   const searchByCategoryProductList = [];
   let products = [];
@@ -213,8 +229,8 @@ async function categoryFilter() {
 
     if (searchByCategoryProductList.length === 0) {
       cards.innerHTML = `
-    <div>
-      <div id="empty-product-list" >상품이 없습니다.</div>
+    <div class="col-start-1 col-end-4 pt-[150px] pb-[170px]" style="margin:0 auto">
+      <div class="col-start-1 col-end-4 text-2xl font-semibold text-gray-500" id="empty-product-list" >상품이 없습니다.</div>
     </div>
     `;
     } else {
