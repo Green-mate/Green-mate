@@ -185,11 +185,11 @@ async function categoryFilter() {
 
     const spinner = document.getElementById('spinner');
     spinner.innerHTML = `
-  <section
-  id="item-cards-list"
-  class="grid grid-cols-3 justify-items-center items-center mb-50"
-  style="width: 1200px"
-></section>
+      <section
+      id="item-cards-list"
+      class="grid grid-cols-3 justify-items-center items-center mb-50"
+      style="width: 1200px"
+    ></section>
   `;
 
     const cards = document.querySelector('#item-cards-list');
@@ -241,6 +241,15 @@ async function categoryFilter() {
       });
     }
   } catch (err) {
+    const spinner = document.getElementById('spinner');
+    spinner.innerHTML = `
+      <section
+      id="item-cards-list"
+      class="grid grid-cols-3 justify-items-center items-center mb-50"
+      style="width: 1200px"
+    ></section>
+  `;
+
     const cards = document.querySelector('#item-cards-list');
     cards.innerHTML = `
     <div class="col-start-1 col-end-4 pt-[150px] pb-[170px]" style="margin:0 auto">
