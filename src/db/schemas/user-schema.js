@@ -1,5 +1,4 @@
-import { Schema } from 'mongoose';
-
+import { Schema } from "mongoose";
 
 const UserSchema = new Schema(
   {
@@ -17,20 +16,24 @@ const UserSchema = new Schema(
     },
     role: {
       type: String,
-      default: 'basic-user', // admin, disabled
+      default: "basic-user", // admin, disabled
     },
     orderList: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Order',
+        ref: "Order",
         required: true,
       },
     ],
+    createdDate: {
+      type: String,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
-    collection: 'users',
-  },
+    collection: "users",
+  }
 );
 
 export { UserSchema };

@@ -1,4 +1,4 @@
-import { productModel } from "../db";
+import { productModel } from '../db';
 
 export class ProductService {
   constructor(productModel) {
@@ -8,7 +8,7 @@ export class ProductService {
   async getProductsCountAll() {
     const count = await this.productModel.countDocumentsAll();
     if (!count) {
-      throw new Error("상품 개수를 불러올 수 없습니다.");
+      throw new Error('상품 개수를 불러올 수 없습니다.');
     }
     return count;
   }
@@ -17,7 +17,7 @@ export class ProductService {
   async getProductsCount(category) {
     const count = await this.productModel.countDocumentsByCategory(category);
     if (!count) {
-      throw new Error("상품 개수를 불러올 수 없습니다.");
+      throw new Error('상품 개수를 불러올 수 없습니다.');
     }
     return count;
   }
@@ -26,7 +26,7 @@ export class ProductService {
   async getProductsAll() {
     const products = await this.productModel.findAll();
     if (!products) {
-      throw new Error("상품 목록을 불러올 수 없습니다.");
+      throw new Error('상품 목록을 불러올 수 없습니다.');
     }
     return products;
   }
@@ -35,7 +35,7 @@ export class ProductService {
   async getProducts(category) {
     const products = await this.productModel.findAllByCategory(category);
     if (products === null) {
-      throw new Error("상품 목록을 불러올 수 없습니다.");
+      throw new Error('상품 목록을 불러올 수 없습니다.');
     }
     return products;
   }
@@ -44,7 +44,7 @@ export class ProductService {
   async getProductById(shortId) {
     const products = await this.productModel.findByShortId(shortId);
     if (!products) {
-      throw new Error("해당하는 상품이 존재하지 않습니다.");
+      throw new Error('해당하는 상품이 존재하지 않습니다.');
     }
     return products;
   }
@@ -53,7 +53,7 @@ export class ProductService {
   async getProductByName(item) {
     const products = await this.productModel.findByProductName(item);
     if (!products) {
-      throw new Error("해당하는 상품이 존재하지 않습니다.");
+      throw new Error('해당하는 상품이 존재하지 않습니다.');
     }
     return products;
   }
@@ -62,7 +62,7 @@ export class ProductService {
   async getAdminProducts() {
     const products = await this.productModel.findAll({});
     if (!products) {
-      throw new Error("해당하는 상품이 존재하지 않습니다.");
+      throw new Error('해당하는 상품이 존재하지 않습니다.');
     }
     return products;
   }
@@ -71,10 +71,10 @@ export class ProductService {
   async addProducts(productObj) {
     const { productName } = productObj;
     const productNameInDB = await this.productModel.findByProductName(
-      productName
+      productName,
     );
     if (productNameInDB) {
-      throw new Error("이미 존재하는 상품입니다.");
+      throw new Error('이미 존재하는 상품입니다.');
     }
     const newProduct = await this.productModel.create(productObj);
     return newProduct;
@@ -84,7 +84,7 @@ export class ProductService {
   async updateProduct(item, updateObj) {
     const updateProduct = await this.productModel.update(item, updateObj);
     if (!updateProduct) {
-      throw new Error("해당 상품을 찾을 수 없어 수정할 수 없습니다.");
+      throw new Error('해당 상품을 찾을 수 없어 수정할 수 없습니다.');
     }
     return updateProduct;
   }
@@ -93,7 +93,7 @@ export class ProductService {
   async deleteProduct(item) {
     const deleteProduct = await this.productModel.delete(item);
     if (!deleteProduct) {
-      throw new Error("해당 상품을 찾을 수 없어 삭제에 실패했습니다.");
+      throw new Error('해당 상품을 찾을 수 없어 삭제에 실패했습니다.');
     }
     return deleteProduct;
   }
