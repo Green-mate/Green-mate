@@ -45,7 +45,8 @@ async function getOrdersLists() {
         await API.delWithoutData('/api/orders', `?oid=${id}`);
         alert('주문이 삭제되었습니다.');
         window.location.href = '/mypage-shipping';
-      } catch (e) {
+      } catch (err) {
+        console.log(err);
         alert('배송전 상태만 주문 취소가 가능합니다.');
       }
     });
@@ -56,8 +57,10 @@ async function getOrdersLists() {
   );
   for (let i = 0; i < editOrderInfoBtns.length; i++) {
     editOrderInfoBtns[i].addEventListener('click', (e) => {
-      const shippingStatus = e.target.closest('#shipping-status');
-      if (!shippingStatus || shippingStatus.textContent.trim() !== '배송전') {
+      // const shippingStatus = e.target.closest('.shipping-status');
+      const shippingStatus = e.target.getAttribute('name');
+      console.log(shippingStatus);
+      if (shippingStatus.trim() !== '배송전') {
         alert('배송전 상태만 주문 수정이 가능합니다.');
         e.preventDefault();
       }
@@ -123,6 +126,7 @@ function createOrderCard(order) {
     <div class="flex flex-row m-10">
       <a href="/mypage-shipping-edit?${_id}" class="mb-5 mx-auto">
         <button
+          name="${shippingStatus}"
           style="height: 52px; width: 200px"
           class="edit-order-info-submit-btn shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
           id="edit-order-info-submit-btn"

@@ -55,9 +55,9 @@ async function handleSubmit(e) {
     // 로그인 페이지 이동
     window.location.href = '/login';
   } catch (error) {
-    console.error(error.stack);
-    const { message } = error.response.data;
+    console.error(error);
+    // const { message } = error.response.data;
 
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${message}`);
+    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: \n${error}`);
   }
 }
