@@ -14,6 +14,11 @@
             "date": 1682521210463,
             "name": "/Users/shinhayeong/Desktop/green-mate/config/logs/error/2023-04-27.error.log",
             "hash": "554e79f2c64b9d922937ce515e0648fd83fbf6e309ac7600a0b22c987a8db59e"
+        },
+        {
+            "date": 1682607652450,
+            "name": "/Users/shinhayeong/Desktop/green-mate/config/logs/error/2023-04-28.error.log",
+            "hash": "98e7fc6d5458f6f7c274087937914257a9dd889d297e18ad579ae2b5b1b75f24"
         }
     ],
     "hashType": "sha256"

@@ -1,13 +1,23 @@
 import * as API from '../api.js';
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.3.6/+esm';
 
-const cards = document.querySelector('#item-cards-list');
+// const cards = document.querySelector('#item-cards-list');
 const categoryNameLabel = document.querySelector('#category-name-label');
 const productCounter = document.querySelector('#product-counter');
 
 const urlParams = new URLSearchParams(window.location.search);
 let page = parseInt(urlParams.get('page')) || 1;
 let categoryPage = parseInt(urlParams.get('categoryPage')) || 1;
+
+// function cardListsection() {
+//   return `
+//   <section
+//   id="item-cards-list"
+//   class="grid grid-cols-3 justify-items-center items-center mb-50"
+//   style="width: 1200px"
+// ></section>
+//   `;
+// }
 
 function createCard(product) {
   return `
@@ -44,9 +54,15 @@ async function getProductList() {
 
   /** 스피너 삭제 **/
   const spinner = document.getElementById('spinner');
-  const spinnerIcon = document.getElementById('spinner-icon');
-  spinner.removeChild(spinnerIcon);
+  spinner.innerHTML = `
+  <section
+  id="item-cards-list"
+  class="grid grid-cols-3 justify-items-center items-center mb-50"
+  style="width: 1200px"
+></section>
+  `;
 
+  const cards = document.querySelector('#item-cards-list');
   const totalPages = Math.ceil(productCount / 9);
   // console.log(products);
   productCounter.innerText = productCount;
@@ -73,6 +89,21 @@ async function getProductList() {
   }
   return productList;
 }
+
+const spinner = document.getElementById('spinner');
+spinner.innerHTML = `
+  <i
+    id="spinner-icon"
+    class="fa fa-spinner fa-spin"
+    style="
+      display: flex;
+      font-size: 250px;
+      justify-content: center;
+      color: gainsboro;
+      margin-top: 150px;
+      margin-bottom: 150px;
+    "
+  ></i>`;
 
 /************카악퉤고리***********/
 const categoryBar = document.querySelector('#category-menu-navbar');
@@ -143,6 +174,18 @@ async function categoryFilter() {
   const response = await axios.get(
     `/api/products/categories?category=${clickedCategoryName}&page=${categoryPage}&perPage=9`,
   );
+
+  const spinner = document.getElementById('spinner');
+  spinner.innerHTML = `
+  <section
+  id="item-cards-list"
+  class="grid grid-cols-3 justify-items-center items-center mb-50"
+  style="width: 1200px"
+></section>
+  `;
+
+  const cards = document.querySelector('#item-cards-list');
+
   const products = await response.data.pagenatedProducts.results;
   const productCount = await response.data.total;
   const totalPages = Math.ceil(productCount / 9);
