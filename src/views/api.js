@@ -189,6 +189,32 @@ async function del(endpoint, params = '', data = {}) {
   }
 }
 
+// DELETE with Authorization(token) && without data
+async function delWithoutData(endpoint, params = '') {
+  const apiUrl = `${endpoint}/${params}`;
+
+  console.log(`DELETE 요청 ${apiUrl}`);
+
+  try {
+    const response = await axios.delete(apiUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    const result = response.data;
+    return result;
+  } catch (error) {
+    if (error.response) {
+      const { reason } = error.response.data;
+      throw new Error(reason);
+    } else {
+      throw new Error('Network Error');
+    }
+  }
+}
+
 // 아래처럼 export하면, import * as Api 로 할 시 Api.get, Api.post 등으로 쓸 수 있음.
 export {
   getWithoutToken,
@@ -199,4 +225,5 @@ export {
   patchWithoutData,
   put,
   del as delete,
+  delWithoutData,
 };

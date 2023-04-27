@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Green Mate🪴</title>
+    <!-- import tailwind css -->
+    <link href="/dist/output.css" rel="stylesheet" />
+    <!-- 아이콘 -->
+    <link rel="icon" type="image/png" sizes="16X16" href="../dist/logo-2.png" />
+    <!-- 폰트 어썸: 아이콘 -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/9daa42bcef.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <hr class="mt-10 border-t border-gray-500 w-1200 opacity-25" />
+    <div class="flex h-screen text-black">
+      <!-- sidebar -->
+      <div id="mypage-sidebar"></div>
+      <!-- main content -->
+      <div class="flex-1 flex flex-col">
+        <div class="flex justify-center overflow-y-auto p-5">
+          <div
+            id="category-manage-content"
+            style="display: block"
+            class="m-auto mt-10"
+          >
+            <div class="flex justify-start overflow-y-auto">
+              <span class="font-bold text-3xl mb-12">주문수정</span>
+            </div>
+            <div class="container" style="width: 800px" id="category-list-div">
+              <div class="overflow-y-auto" id="edit-order-card-component">
+                <div id="order-card" class="flex flex-col w-full border border-grey-100 p-8 mb-14">
+
+                  <span class="text-xl font-bold mb-3">받는 사람</span>
+                  <input id="recipient-name" class="rounded mb-4 border-2 border-grey-100"></input>
+                  <span class="text-xl font-bold mb-3">연락처</span>
+                  <input id="phone-number" class="rounded mb-4 border-2 border-grey-100"></input>
+
+                  <div class="flex flex-row mb-3 items-center">
+                    <span class="text-xl font-bold">주소</span>
+                    <button
+                      class="search-address border rounded w-28 ml-3 bg-[#f6f6f6] hover:bg-gray-300"
+                      id="search-address-button"
+                    > 주소 재검색
+                    </button>
+                    <span class="text-xs ml-3 text-gray-500">※ 주소를 변경하시려면, 주소 재검색 버튼을 눌러주세요.</span>
+                  </div>
+
+                  <input id="postal-code" class="rounded border-2 border-grey-100"></input>
+                  <input id="address1-input" class="rounded border-2 border-grey-100"></input>
+                  <input id="address2-input" class="rounded mb-4 border-2 border-grey-100"></input>
+                  <span class="text-xl font-bold mb-3">배송 요청사항</span>
+                  <input id="shipping-msg" class="rounded mb-4 border-2 border-grey-100"></input>
+
+                  <div class="flex flex-row m-10">
+                    <a href="/mypage-shipping" class=" mb-5 mx-auto">
+                      <button
+                        style="height: 52px; width: 200px"
+                        class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none"
+                        id="edit-order-info-submit-btn"
+                        type="button"
+                      >
+                        취소
+                      </button>
+                    </a>
+
+                    <button
+                      style="height: 52px; width: 200px"
+                      class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 rounded focus:outline-none mb-5 mx-auto"
+                      id="submit-order-edit-btn"
+                      type="button"
+                    >
+                      확인
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 커스텀 css, js -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../common/header-footer.js" type="module" defer></script>
+    <script src="../common/mypage-sidebar.js" type="module" defer></script>
+    <script src="mypage-shipping-edit.js" type="module" defer></script>
+  </body>
+</html>

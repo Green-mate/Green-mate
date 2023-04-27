@@ -42,8 +42,14 @@ export const blockBeforeLogin = () => {
   const token = localStorage.getItem('token');
 
   if (!token) {
-    alert('로그인한 사용자만 접근할 수 있는 페이지입니다.');
-    window.location.replace('/');
+    const response = confirm(
+      '로그인한 사용자만 접근할 수 있는 페이지입니다.\n로그인 하시겠습니까?',
+    );
+    if (response) {
+      window.location.replace('/login');
+    } else {
+      window.location.replace('/');
+    }
   }
 };
 

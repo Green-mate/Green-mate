@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 14
+    },
+    "auditLog": "/Users/jennaryu/Desktop/elice/first_project/green-mate/config/logs/error/.ccafe7b1eb0e12f19aa908ef3cfc2f5398a3b4e2-audit.json",
+    "files": [
+        {
+            "date": 1682476073375,
+            "name": "/Users/jennaryu/Desktop/elice/first_project/green-mate/config/logs/error/2023-04-26.error.log",
+            "hash": "c452f303b46a751da2d8425d7d0b198347b773f7b040eba3ff6ffe112f769457"
+        }
+    ],
+    "hashType": "sha256"
+}
