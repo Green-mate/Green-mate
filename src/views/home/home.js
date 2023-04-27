@@ -41,6 +41,12 @@ async function getProductList() {
   const response = await axios.get(`/api/products?page=${page}&perPage=9`);
   const products = await response.data.pagenatedProducts.results;
   const productCount = await response.data.total;
+
+  /** 스피너 삭제 **/
+  const spinner = document.getElementById('spinner');
+  const spinnerIcon = document.getElementById('spinner-icon');
+  spinner.removeChild(spinnerIcon);
+
   const totalPages = Math.ceil(productCount / 9);
   // console.log(products);
   productCounter.innerText = productCount;
