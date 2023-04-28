@@ -90,7 +90,7 @@ productRouter.post(
       productName,
       category,
       productPrice: Number(productPrice),
-      productImage: '../dist/product-images/' + req.file.filename + '.jpg',
+      productImage: '../dist/product-images/' + req.file.filename,
       stock: Number(stock),
       createdDate: date,
     };

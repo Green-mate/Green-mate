@@ -104,7 +104,7 @@ const adminPostProductAPI = async (data) => {
       'Content-Type': 'multipart/form-data',
     },
   };
-
+  console.log(data);
   try {
     await axios.post(`/api/admin/products`, data, config).then((response) => {
       window.location.reload();
@@ -347,6 +347,11 @@ productPostBtn.addEventListener('click', async () => {
   formData.append('productPrice', postInput3.value);
   formData.append('productImage', newImg);
   formData.append('stock', postInput4.value);
-
+  console.log(formData);
+  console.log(postInput1.value);
+  console.log(postInput2.value);
+  console.log(postInput3.value);
+  console.log(postInput4.value);
+  console.log(newImg);
   await adminPostProductAPI(formData);
 });
