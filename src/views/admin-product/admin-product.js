@@ -21,10 +21,7 @@ const upload = document.getElementById(`upload`);
 function getImageFiles(e) {
   const files = e.currentTarget.files[0];
   console.log(typeof files, files);
-
-  // url로 변경
-  newImg = URL.createObjectURL(files);
-  console.log(newImg);
+  newImg = files;
 }
 
 upload.addEventListener('click', () => thumbnailInputUpload.click());
@@ -65,20 +62,20 @@ cancleBtn.addEventListener('click', () => {
   cancleBtn.style.display = 'none';
 });
 
-productPostBtn.addEventListener('click', async () => {
-  let data = {
-    productName: addContentDiv.children[0].value,
-    category: addContentDiv.children[1].value,
-    productPrice: addContentDiv.children[2].value,
-    stock: addContentDiv.children[3].value,
-    productImage:
-      'https://nongsaro.go.kr/cms_contents/301/15831_MF_REPR_ATTACH_01.jpg', // imageValue || newImg,
-  };
+// productPostBtn.addEventListener('click', async () => {
+//   let data = {
+//     productName: addContentDiv.children[0].value,
+//     category: addContentDiv.children[1].value,
+//     productPrice: addContentDiv.children[2].value,
+//     stock: addContentDiv.children[3].value,
+//     productImage:
+//       'https://nongsaro.go.kr/cms_contents/301/15831_MF_REPR_ATTACH_01.jpg', // imageValue || newImg,
+//   };
 
-  console.log(data);
+//   console.log(data);
 
-  await adminPostProductAPI(data);
-});
+//   await adminPostProductAPI(data);
+// });
 
 let productList = [];
 
@@ -104,6 +101,7 @@ const adminPostProductAPI = async (data) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
     },
   };
 
@@ -119,15 +117,17 @@ const adminPostProductAPI = async (data) => {
 
 const adminPutProductAPI = async (data, id) => {
   const encodedSearchID = hangulEncoder(id);
+  console.log(id);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
   };
 
   try {
     await axios
-      .patch(`/api/admin/products?items=${encodedSearchID}`, data, config)
+      .patch(`/api/admin/products?item=${encodedSearchID}`, data, config)
       .then((response) => {
         window.location.reload();
       });
@@ -279,16 +279,18 @@ for (let value of productUpdateBtn) {
 
     completeBtn.addEventListener('click', async () => {
       // axios 작동
-      let data = {
-        productName: nameValue.value,
-        category: categoryValue.value,
-        productPrice: priceValue.value,
-        stock: stockValue.value,
-        productImage:
-          'https://nongsaro.go.kr/cms_contents/301/15831_MF_REPR_ATTACH_01.jpg', // imageValue || newImg,
-      };
-      console.log(data);
-      await adminPutProductAPI(data, nameValue.value);
+
+      const formData = new FormData();
+      formData.append('productName', nameValue.value);
+      formData.append('category', categoryValue.value);
+      formData.append('productPrice', priceValue.value);
+      formData.append(
+        'productImage',
+        'https://nongsaro.go.kr/cms_contents/301/19457_MF_ATTACH_01.jpg',
+      );
+      formData.append('stock', stockValue.value);
+
+      await adminPutProductAPI(formData, nameValue.value);
     });
 
     cancelBtn.addEventListener('click', () => {
@@ -307,49 +309,44 @@ for (let value of productDeleteBtn) {
   });
 }
 
-// productPostBtn.addEventListener('click', async () => {
-//   let newImg = '';
-//   const thumbnailInputUpload = document.getElementById(`thumbnail-input`);
-//   const upload = document.getElementById(`upload`);
+productPostBtn.addEventListener('click', async () => {
+  // let newImg;
+  const thumbnailInputUpload = document.getElementById(`thumbnail-input`);
+  const upload = document.getElementById(`upload`);
 
-//   const postInput1 = document.getElementById('post-input1');
-//   const postInput2 = document.getElementById('post-input2');
-//   const postInput3 = document.getElementById('post-input3');
-//   const postInput4 = document.getElementById('post-input4');
+  const postInput1 = document.getElementById('post-input1');
+  const postInput2 = document.getElementById('post-input2');
+  const postInput3 = document.getElementById('post-input3');
+  const postInput4 = document.getElementById('post-input4');
 
-//   function getImageFiles(e) {
-//     const files = e.currentTarget.files[0];
-//     console.log(typeof files, files);
-//     newImg = files;
-//   }
+  // function getImageFiles(e) {
+  //   const files = e.currentTarget.files[0];
+  //   console.log(typeof files, files);
+  //   newImg = files;
+  // }
 
-//   upload.addEventListener('click', () => thumbnailInputUpload.click());
-//   thumbnailInputUpload.addEventListener('change', getImageFiles);
+  // upload.addEventListener('click', () => thumbnailInputUpload.click());
+  // thumbnailInputUpload.addEventListener('change', getImageFiles);
 
-//   thumbnailInputUpload.addEventListener('change', () => {
-//     console.log('dsfaf');
-//     if (thumbnailInputUpload.files && thumbnailInputUpload.files[0]) {
-//       const reader = new FileReader();
+  // thumbnailInputUpload.addEventListener('change', () => {
+  //   console.log('dsfaf');
+  //   if (thumbnailInputUpload.files && thumbnailInputUpload.files[0]) {
+  //     const reader = new FileReader();
 
-//       reader.onload = (e) => {
-//         upload.src = e.target.result;
-//       };
+  //     reader.onload = (e) => {
+  //       upload.src = e.target.result;
+  //     };
 
-//       reader.readAsDataURL(thumbnailInputUpload.files[0]);
-//     }
-//   });
+  //     reader.readAsDataURL(thumbnailInputUpload.files[0]);
+  //   }
+  // });
 
-//   // console.log(postInput1.value);
-//   // console.log(postInput2.value);
-//   // console.log(postInput3.value);
-//   // console.log(postInput4.value);
+  const formData = new FormData();
+  formData.append('productName', postInput1.value);
+  formData.append('category', postInput2.value);
+  formData.append('productPrice', postInput3.value);
+  formData.append('productImage', newImg);
+  formData.append('stock', postInput4.value);
 
-//   let data = {
-//     productName: postInput1.value,
-//     category: postInput2.value,
-//     productPrice: parseInt(postInput3.value),
-//     productImage: 'newImg',
-//     stock: parseInt(postInput4.value),
-//   };
-//   await adminPostProductAPI(data);
-// });
+  await adminPostProductAPI(formData);
+});
