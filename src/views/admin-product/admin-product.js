@@ -175,7 +175,7 @@ for (var value of productList) {
           <div class="w-1/5">${value.category}</div>
           <div class="w-1/5">${value.productPrice}</div>
           <div class="w-1/5 ml-6">${value.stock}</div>
-          <img src=${value.productImage} class="w-20 h-20" >
+          <img src="${value.productImage}" class="w-20 h-20" >
           <div class="flex flex-row items-center">
         <button
           class="product-update-btn w-10 h-10 border border-slate-500 bg-white  rounded-lg"
