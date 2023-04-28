@@ -228,6 +228,7 @@ async function categoryFilter() {
     });
 
     if (searchByCategoryProductList.length === 0) {
+      productCounter.innerText = 0;
       cards.innerHTML = `
     <div class="col-start-1 col-end-4 pt-[150px] pb-[170px]" style="margin:0 auto">
       <div class="col-start-1 col-end-4 text-2xl font-semibold text-gray-500" id="empty-product-list" >상품이 없습니다.</div>
@@ -258,6 +259,7 @@ async function categoryFilter() {
     `;
     const pageButtons = document.querySelector('#page-buttons');
     pageButtons.innerHTML = '';
+    productCounter.innerText = 0;
   }
 }
 
