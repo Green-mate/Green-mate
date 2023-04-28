@@ -127,7 +127,7 @@ const adminPutProductAPI = async (data, id) => {
 
   try {
     await axios
-      .patch(`/api/admin/products?items=${encodedSearchID}`, data, config)
+      .patch(`/api/admin/products?item=${encodedSearchID}`, data, config)
       .then((response) => {
         window.location.reload();
       });
