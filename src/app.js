@@ -5,6 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { logger } from '../config/winston';
 import express from 'express';
+
 import {
   viewsRouter,
   userRouter,
@@ -16,7 +17,6 @@ import { errorHandler } from './middlewares';
 
 const app = express();
 
-// CORS 에러 방지
 app.use(cors());
 
 // Content-Type: application/json 형태의 데이터를 인식하고 핸들링할 수 있게 함.
