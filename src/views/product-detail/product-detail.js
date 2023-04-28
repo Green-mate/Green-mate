@@ -229,6 +229,7 @@ async function getProductDetail() {
     cartBtn.classList.remove('hover:border-[#69b766]', 'hover:border-2');
 
     cartBtn.classList.add('text-gray-400');
+    productAmountInfo.innerText = '0';
   }
 }
 

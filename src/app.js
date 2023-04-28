@@ -1,23 +1,22 @@
-import cors from "cors";
-import morgan from "morgan";
-import { logger } from "../config/winston";
-import express from "express";
+import cors from 'cors';
+import morgan from 'morgan';
+import { logger } from '../config/winston';
+import express from 'express';
 import {
   viewsRouter,
   userRouter,
   productRouter,
   categoryRouter,
   orderRouter,
-  testRouter,
-} from "./routers";
-import { errorHandler } from "./middlewares";
+} from './routers';
+import { errorHandler } from './middlewares';
 
 const app = express();
 
 app.use(
-  morgan(":method :status :url :response-time ms", {
+  morgan(':method :status :url :response-time ms', {
     stream: logger.stream.write,
-  })
+  }),
 );
 
 // CORS 에러 방지
@@ -33,11 +32,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(viewsRouter);
 
 // api 라우팅
-app.use("/api", userRouter);
-app.use("/api", productRouter);
-app.use("/api", categoryRouter);
-app.use("/api", orderRouter);
-app.use("/test", testRouter);
+app.use('/api', userRouter);
+app.use('/api', productRouter);
+app.use('/api', categoryRouter);
+app.use('/api', orderRouter);
 
 // 그래야, 에러가 났을 때 next(error) 했을 때 여기로 오게 됨
 app.use(errorHandler);
