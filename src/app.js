@@ -1,5 +1,8 @@
+<<<<<<< Updated upstream
 import helmet from "helmet";
 import hpp from "hpp";
+=======
+>>>>>>> Stashed changes
 import "dotenv/config";
 import cors from "cors";
 import morgan from "morgan";
@@ -17,6 +20,8 @@ import { errorHandler } from "./middlewares";
 
 const app = express();
 
+<<<<<<< Updated upstream
+=======
 if (process.env.NODE_ENV !== "production") {
   app.use(
     morgan(":method :status :url :response-time ms", {
@@ -31,6 +36,7 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
+>>>>>>> Stashed changes
 // CORS 에러 방지
 app.use(cors());
 
