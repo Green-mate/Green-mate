@@ -1,3 +1,5 @@
+import helmet from "helmet";
+import hpp from "hpp";
 import "dotenv/config";
 import cors from "cors";
 import morgan from "morgan";
@@ -38,6 +40,22 @@ app.use(express.json());
 // Content-Type: application/x-www-form-urlencoded 형태의 데이터를 인식하고 핸들링할 수 있게 함.
 app.use(express.urlencoded({ extended: false }));
 
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    morgan(":method :status :url :response-time ms", {
+      stream: logger.stream.write,
+    })
+  );
+} else {
+  app.use(
+    morgan("combined", {
+      stream: logger.stream.write,
+    })
+  );
+  app.use(hpp());
+  app.use(helmet({ contentSecurityPolicy: false }));
+}
+
 // html, css, js 라우팅
 app.use(viewsRouter);
 
@@ -49,5 +67,5 @@ app.use("/api", orderRouter);
 
 // 그래야, 에러가 났을 때 next(error) 했을 때 여기로 오게 됨
 app.use(errorHandler);
-
+//
 export { app };
