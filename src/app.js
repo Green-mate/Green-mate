@@ -1,7 +1,15 @@
+<<<<<<< Updated upstream
 import cors from 'cors';
 import morgan from 'morgan';
 import { logger } from '../config/winston';
 import express from 'express';
+=======
+import "dotenv/config";
+import cors from "cors";
+import morgan from "morgan";
+import { logger } from "../config/winston";
+import express from "express";
+>>>>>>> Stashed changes
 import {
   viewsRouter,
   userRouter,
@@ -13,11 +21,27 @@ import { errorHandler } from './middlewares';
 
 const app = express();
 
+<<<<<<< Updated upstream
 app.use(
   morgan(':method :status :url :response-time ms', {
     stream: logger.stream.write,
   }),
 );
+=======
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    morgan(":method :status :url :response-time ms", {
+      stream: logger.stream.write,
+    })
+  );
+} else {
+  app.use(
+    morgan("combined", {
+      stream: logger.stream.write,
+    })
+  );
+}
+>>>>>>> Stashed changes
 
 // CORS 에러 방지
 app.use(cors());
