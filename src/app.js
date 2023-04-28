@@ -1,33 +1,20 @@
-<<<<<<< Updated upstream
-import cors from 'cors';
-import morgan from 'morgan';
-import { logger } from '../config/winston';
-import express from 'express';
-=======
 import "dotenv/config";
 import cors from "cors";
 import morgan from "morgan";
 import { logger } from "../config/winston";
 import express from "express";
->>>>>>> Stashed changes
+
 import {
   viewsRouter,
   userRouter,
   productRouter,
   categoryRouter,
   orderRouter,
-} from './routers';
-import { errorHandler } from './middlewares';
+} from "./routers";
+import { errorHandler } from "./middlewares";
 
 const app = express();
 
-<<<<<<< Updated upstream
-app.use(
-  morgan(':method :status :url :response-time ms', {
-    stream: logger.stream.write,
-  }),
-);
-=======
 if (process.env.NODE_ENV !== "production") {
   app.use(
     morgan(":method :status :url :response-time ms", {
@@ -41,7 +28,6 @@ if (process.env.NODE_ENV !== "production") {
     })
   );
 }
->>>>>>> Stashed changes
 
 // CORS 에러 방지
 app.use(cors());
@@ -56,10 +42,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(viewsRouter);
 
 // api 라우팅
-app.use('/api', userRouter);
-app.use('/api', productRouter);
-app.use('/api', categoryRouter);
-app.use('/api', orderRouter);
+app.use("/api", userRouter);
+app.use("/api", productRouter);
+app.use("/api", categoryRouter);
+app.use("/api", orderRouter);
 
 // 그래야, 에러가 났을 때 next(error) 했을 때 여기로 오게 됨
 app.use(errorHandler);
