@@ -15,6 +15,10 @@
 # Features
 
 # Directory Structure
+- 프론트: src/views 폴더
+- 백: src/views 이외 폴더 전체
+- 실행: 프론트, 백 동시에, express로 실행
+<img width="745" alt="image" src="https://user-images.githubusercontent.com/70371342/235345484-b145a882-7d1b-47da-bb75-160219f28b86.png">
 
 
 # Convention
