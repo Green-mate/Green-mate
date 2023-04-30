@@ -12,7 +12,7 @@
 - HTML
 - tailwindCSS
 - Vanilla js
-- Ajax
+- axios
 ### BACK-END
 - node.js
 - express.js
