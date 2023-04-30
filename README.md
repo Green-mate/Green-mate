@@ -44,7 +44,7 @@
 | 신하영 | FE, 팀장 | 페이지 레이아웃, 회원가입/로그인/회원정보 수정,탈퇴 기능, 홈화면/카테고리/상품 상세보기 기능, IndexedDB 주문 기능, 주문정보조회/수정/삭제 기능, 페이지네이션, 스피너 |
 | 진호병 | FE | 내용 |
 | 김마리나 | BE | 상품 스키마 및 모델 구현, 상품 restAPI 설계 및 CRUD 기능 구현, 페이지네이션 기능 구현, 한글 인코더-디코더 유틸 작성, Logger 기능 구현, MongoDB 한국시간대 추가 |
-| 류한나 | BE | 유저, 주문 스키마 및 모델 구현, rest API 설계 및 CRUD 기능 구현, async handling middleware 구현 |
+| 류한나 | BE | 유저, 주문 스키마 및 모델 구현, 유저 / 주문 rest API 설계 및 CRUD 기능 구현, async handling middleware 구현 |
 | 류이서 | BE | 내용 |
 
 
