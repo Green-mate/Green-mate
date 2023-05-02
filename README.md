@@ -37,7 +37,7 @@
 
 ### HOSTING
 
--Google Cloud
+- Google Cloud
 
 # Collaboration Tools
 
@@ -58,7 +58,83 @@
 
 # Infra Structure
 
+<img width="1156" alt="Screenshot 2023-05-02 at 4 07 15 PM" src="https://user-images.githubusercontent.com/77577434/235643520-accdfe18-5e58-4a61-8859-49e988ef8a7d.png">
+
 # Features
+<details>
+<summary>회원가입 및 로그인</summary>
+<div markdown="1">       
+
+![회원가입 및 로그인](https://user-images.githubusercontent.com/77577434/235638563-15830100-d3c0-427d-bace-ccb30d4a6b57.gif)
+
+</div>
+</details>
+
+<details>
+<summary>회원정보 수정 및 탈퇴</summary>
+<div markdown="1">       
+
+
+![회원정보 수정 및 탈퇴](https://user-images.githubusercontent.com/77577434/235638618-e46682b4-1ebe-4aee-b417-3ae4eb2a302e.gif)
+
+</div>
+</details>
+
+
+<details>
+<summary>관리자</summary>
+<div markdown="1">       
+
+
+![관리자](https://user-images.githubusercontent.com/77577434/235637989-18d5e717-4006-4674-8a93-46f1f0071fa2.gif)
+
+</div>
+</details>
+
+
+<details>
+<summary>카테고리 별 페이지</summary>
+<div markdown="1">       
+
+
+![페이지네이션 3](https://user-images.githubusercontent.com/77577434/235640812-0fcb5154-3bd2-4821-beb1-3f93a2f5e359.gif)
+
+
+</div>
+</details>
+
+
+
+<details>
+<summary>장바구니 기능</summary>
+<div markdown="1">       
+
+![장바구니](https://user-images.githubusercontent.com/77577434/235642285-72da6e19-321e-46ab-88c0-d675b2c85830.gif)
+
+</div>
+</details>
+
+
+<details>
+<summary>제품 구매 기능</summary>
+<div markdown="1">       
+
+![제품 구매 기능](https://user-images.githubusercontent.com/77577434/235642957-be4286f1-1ff7-4e93-acad-afa9b01b3584.gif)
+
+</div>
+</details>
+
+
+<details>
+<summary>주문 수정 및 삭제</summary>
+<div markdown="1">       
+
+![주문 수정 및 삭제](https://user-images.githubusercontent.com/77577434/235643110-9fbd6974-53fe-4dde-a2eb-8c53cd13d1c7.gif)
+
+
+</div>
+</details>
+
 
 # Directory Structure
 
