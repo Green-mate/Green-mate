@@ -10,9 +10,9 @@ const addContentDiv = document.getElementById('add-content-div');
 const cancleBtn = document.getElementById('cancleBtn');
 
 const productListDiv = document.getElementById('product-list-div');
-const productPostBtn = document.getElementById('post-product-btn');
-const productUpdateBtn = document.getElementsByClassName('product-update-btn');
-const productDeleteBtn = document.getElementsByClassName('product-delete-btn');
+const productPostBtn = document.getElementById('post-product-btn'); // 등록 버튼 -> HTML
+const productUpdateBtn = document.getElementsByClassName('product-update-btn'); // -> 동적 상품 수정 버튼
+const productDeleteBtn = document.getElementsByClassName('product-delete-btn'); // -> 동적 상품 삭제 버튼
 
 let newImg = '';
 const thumbnailInputUpload = document.getElementById(`thumbnail-input`);
@@ -25,8 +25,11 @@ function getImageFiles(e) {
 }
 
 upload.addEventListener('click', () => thumbnailInputUpload.click());
-thumbnailInputUpload.addEventListener('change', getImageFiles);
+thumbnailInputUpload.addEventListener('change', (e) => {
+  getImageFiles(e);
+});
 
+// 이미지 미리보기 이벤트 핸들러
 thumbnailInputUpload.addEventListener('change', () => {
   if (thumbnailInputUpload.files && thumbnailInputUpload.files[0]) {
     const reader = new FileReader();
@@ -39,16 +42,16 @@ thumbnailInputUpload.addEventListener('change', () => {
   }
 });
 
-function hangulEncoder(queryParams) {
-  const kor_reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글인지 식별해주기 위한 정규표현식
+// function hangulEncoder(queryParams) {
+//   const kor_reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글인지 식별해주기 위한 정규표현식
 
-  if (queryParams.match(kor_reg)) {
-    const encodeQuery = encodeURI(queryParams);
-    return encodeQuery;
-  } else {
-    return queryParams;
-  }
-}
+//   if (queryParams.match(kor_reg)) {
+//     const encodeQuery = encodeURI(queryParams);
+//     return encodeQuery;
+//   } else {
+//     return queryParams;
+//   }
+// }
 
 addBtn.addEventListener('click', () => {
   addContentDiv.style.display = '';
@@ -61,21 +64,6 @@ cancleBtn.addEventListener('click', () => {
   addBtn.style.display = '';
   cancleBtn.style.display = 'none';
 });
-
-// productPostBtn.addEventListener('click', async () => {
-//   let data = {
-//     productName: addContentDiv.children[0].value,
-//     category: addContentDiv.children[1].value,
-//     productPrice: addContentDiv.children[2].value,
-//     stock: addContentDiv.children[3].value,
-//     productImage:
-//       'https://nongsaro.go.kr/cms_contents/301/15831_MF_REPR_ATTACH_01.jpg', // imageValue || newImg,
-//   };
-
-//   console.log(data);
-
-//   await adminPostProductAPI(data);
-// });
 
 let productList = [];
 
@@ -100,8 +88,8 @@ const adminGetProductAPI = async () => {
 const adminPostProductAPI = async (data) => {
   const config = {
     headers: {
-      Authorization: `Bearer ${token}`,
       'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
     },
   };
   console.log(data);
@@ -116,18 +104,18 @@ const adminPostProductAPI = async (data) => {
 };
 
 const adminPutProductAPI = async (data, id) => {
-  const encodedSearchID = hangulEncoder(id);
-  console.log(id);
+  // const encodedSearchID = id;
+  // console.log(id);
   const config = {
     headers: {
+      'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
     },
   };
 
   try {
     await axios
-      .patch(`/api/admin/products?item=${encodedSearchID}`, data, config)
+      .patch(`/api/admin/products?item=${id}`, data, config)
       .then((response) => {
         window.location.reload();
       });
@@ -137,20 +125,17 @@ const adminPutProductAPI = async (data, id) => {
 };
 
 const adminDeleteProductAPI = async (id) => {
-  const encodedSearchID = hangulEncoder(id);
+  // const encodedSearchID = id;
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
     },
   };
 
   try {
-    await axios
-      .delete(`/api/admin/products?item=${encodedSearchID}`, config)
-      .then((res) => {
-        window.location.reload();
-      });
+    await axios.delete(`/api/admin/products?item=${id}`, config).then((res) => {
+      window.location.reload();
+    });
   } catch (error) {
     console.error(error);
   }
@@ -161,6 +146,7 @@ const adminDeleteProductAPI = async (id) => {
 await adminGetProductAPI();
 
 for (var value of productList) {
+  // console.log(value.productName);
   //value.title 이런식으로 넣기
   // 각div에 아이디 + 이름으로 id 설정하기
   // 버튼 두개에 name으로 id 넘기기
@@ -169,7 +155,7 @@ for (var value of productList) {
     ` <div class="container mx-auto" id="product-list-div">
         <div
           class="bg-gray-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
-          id=${value._id}
+          id="${value._id}"
         >
           <div class="w-1/5">${value.productName}</div>
           <div class="w-1/5">${value.category}</div>
@@ -179,13 +165,13 @@ for (var value of productList) {
           <div class="flex flex-row items-center">
         <button
           class="product-update-btn w-10 h-10 border border-slate-500 bg-white  rounded-lg"
-          name=${value._id}
+          name="${value._id}"
         >
           수정
         </button>
         <button
           class="product-delete-btn w-10 h-10 border border-slate-500 bg-white  rounded-lg"
-          name=${value.productName}
+          name="${value.productName}"
         >
           삭제
         </button>
@@ -193,14 +179,12 @@ for (var value of productList) {
         </div>      `,
   );
 }
-//     <input type="file" class="w-1/5"       id="${listID}put5" ></input>
+
 for (let value of productUpdateBtn) {
-  let listID = value.name;
+  let listID = value.getAttribute('name');
   const eachListDiv = document.getElementById(listID);
 
   value.addEventListener('click', () => {
-    // console.log(listID, '각 요소의 id값');
-
     eachListDiv.innerHTML = `
 
     <input class="w-1/5" id="${listID}put1" value=${eachListDiv.children[0].innerText} disabled></input>
@@ -272,7 +256,7 @@ for (let value of productUpdateBtn) {
     const categoryValue = document.getElementById(`${listID}put2`);
     const priceValue = document.getElementById(`${listID}put3`);
     const stockValue = document.getElementById(`${listID}put4`);
-    const imageValue = document.getElementById(`${listID}put5`);
+    // const imageValue = document.getElementById(`${listID}put5`);
 
     const completeBtn = document.getElementById(`${listID}complete`);
     const cancelBtn = document.getElementById(`${listID}cancel`);
@@ -284,10 +268,7 @@ for (let value of productUpdateBtn) {
       formData.append('productName', nameValue.value);
       formData.append('category', categoryValue.value);
       formData.append('productPrice', priceValue.value);
-      formData.append(
-        'productImage',
-        'https://nongsaro.go.kr/cms_contents/301/19457_MF_ATTACH_01.jpg',
-      );
+      formData.append('productImage', newImg);
       formData.append('stock', stockValue.value);
 
       await adminPutProductAPI(formData, nameValue.value);
@@ -301,45 +282,21 @@ for (let value of productUpdateBtn) {
 
 //삭제 버튼
 for (let value of productDeleteBtn) {
-  let listID = value.name;
-
-  value.addEventListener('click', async () => {
-    await adminDeleteProductAPI(listID);
-    // window.location.reload();
+  value.addEventListener('click', async (e) => {
+    let listID = e.target.getAttribute('name');
+    console.log(listID);
+    const answer = confirm('진짜로 삭제하시겠습니까?');
+    if (answer) {
+      await adminDeleteProductAPI(listID);
+    }
   });
 }
 
 productPostBtn.addEventListener('click', async () => {
-  // let newImg;
-  const thumbnailInputUpload = document.getElementById(`thumbnail-input`);
-  const upload = document.getElementById(`upload`);
-
   const postInput1 = document.getElementById('post-input1');
   const postInput2 = document.getElementById('post-input2');
   const postInput3 = document.getElementById('post-input3');
   const postInput4 = document.getElementById('post-input4');
-
-  // function getImageFiles(e) {
-  //   const files = e.currentTarget.files[0];
-  //   console.log(typeof files, files);
-  //   newImg = files;
-  // }
-
-  // upload.addEventListener('click', () => thumbnailInputUpload.click());
-  // thumbnailInputUpload.addEventListener('change', getImageFiles);
-
-  // thumbnailInputUpload.addEventListener('change', () => {
-  //   console.log('dsfaf');
-  //   if (thumbnailInputUpload.files && thumbnailInputUpload.files[0]) {
-  //     const reader = new FileReader();
-
-  //     reader.onload = (e) => {
-  //       upload.src = e.target.result;
-  //     };
-
-  //     reader.readAsDataURL(thumbnailInputUpload.files[0]);
-  //   }
-  // });
 
   const formData = new FormData();
   formData.append('productName', postInput1.value);
@@ -347,11 +304,6 @@ productPostBtn.addEventListener('click', async () => {
   formData.append('productPrice', postInput3.value);
   formData.append('productImage', newImg);
   formData.append('stock', postInput4.value);
-  console.log(formData);
-  console.log(postInput1.value);
-  console.log(postInput2.value);
-  console.log(postInput3.value);
-  console.log(postInput4.value);
-  console.log(newImg);
+  console.log('Img', newImg);
   await adminPostProductAPI(formData);
 });
