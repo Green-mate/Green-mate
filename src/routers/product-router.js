@@ -82,7 +82,8 @@ productRouter.post(
         'headers의 Content-Type이 application/json으로 설정되지 않았습니다.',
       );
     }
-    const imgName = `http://localhost:3000/static/${req.file.filename}`;
+    const imgName = `http://kdt-sw-4-team08.elicecoding.com/static/${req.file.filename}`;
+    //도메인 바뀌면 바꿔주기
     const { productName, category, productPrice, stock } = req.body;
     const date = krDate(); // 한국 시간대로 설정.
 
