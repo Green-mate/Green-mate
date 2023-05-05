@@ -201,7 +201,7 @@ for (let value of productUpdateBtn) {
       />
 
       <img
-        src="../dist/uploadimg.png"
+        src="/static/uploadimg.png"
         id="${listID}upload"
         class="rounded-xl shadow focus:outline-none"
         style="width: 100px; height: 100px"
@@ -305,12 +305,12 @@ productPostBtn.addEventListener('click', async () => {
   formData.append('stock', postInput4.value);
 
   formData.append('productImage', newImg);
-   console.log(formData);
-   console.log(postInput1.value);
-   console.log(postInput2.value);
-   console.log(postInput3.value);
-   console.log(postInput4.value);
-   console.log(newImg);
+  console.log(formData);
+  console.log(postInput1.value);
+  console.log(postInput2.value);
+  console.log(postInput3.value);
+  console.log(postInput4.value);
+  console.log(newImg);
 
   console.log('Img', newImg);
 
