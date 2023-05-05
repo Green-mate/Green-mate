@@ -46,6 +46,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(viewsRouter);
 
 // api 라우팅
+app.use('/static', express.static('public')); //정적파일 관리 경로
 app.use('/api', userRouter);
 app.use('/api', productRouter);
 app.use('/api', categoryRouter);

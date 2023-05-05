@@ -5,7 +5,7 @@ import { productService } from '../services';
 import { pagenate, krDate } from '../utils';
 import { logger } from '../../config/winston';
 import { productImageUpload } from '../middlewares/multer';
-
+const fs = require('fs');
 const productRouter = Router();
 
 // 상품 전체 조회: /api/products?page=1&perPage=9
@@ -75,22 +75,22 @@ productRouter.get(
 productRouter.post(
   '/admin/products',
   adminOnly,
-  productImageUpload.single('productImage'),
+  productImageUpload,
   asyncHandler(async (req, res, next) => {
     if (is.emptyObject(req.body)) {
       throw new Error(
         'headers의 Content-Type이 application/json으로 설정되지 않았습니다.',
       );
     }
-    const { productName, category, productPrice, productImage, stock } =
-      req.body;
+    const imgName = `http://localhost:3000/static/${req.file.filename}`;
+    const { productName, category, productPrice, stock } = req.body;
     const date = krDate(); // 한국 시간대로 설정.
 
     const productObj = {
       productName,
       category,
       productPrice: Number(productPrice),
-      productImage: '../dist/product-images/' + req.file.filename,
+      productImage: imgName,
       stock: Number(stock),
       createdDate: date,
     };
