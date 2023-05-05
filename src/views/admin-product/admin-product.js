@@ -302,8 +302,17 @@ productPostBtn.addEventListener('click', async () => {
   formData.append('productName', postInput1.value);
   formData.append('category', postInput2.value);
   formData.append('productPrice', postInput3.value);
-  formData.append('productImage', newImg);
   formData.append('stock', postInput4.value);
+
+  formData.append('productImage', newImg);
+   console.log(formData);
+   console.log(postInput1.value);
+   console.log(postInput2.value);
+   console.log(postInput3.value);
+   console.log(postInput4.value);
+   console.log(newImg);
+
   console.log('Img', newImg);
+
   await adminPostProductAPI(formData);
 });
