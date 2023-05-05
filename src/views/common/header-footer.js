@@ -57,7 +57,7 @@ function renderBasicHeader() {
   </nav>
   <div id="navbar-logo" class="mt-5 flex justify-center items-center">
     <a class="navbar-item" href="/">
-      <img src="../dist/logo-1.png" width="150" height="150" />
+      <img src="/static/logo-1.png" width="150" height="150" />
     </a>
   </div>
 </header>
@@ -99,7 +99,7 @@ function renderAdminHeader() {
   </nav>
   <div id="navbar-logo" class="mt-5 flex justify-center items-center">
     <a class="navbar-item" href="/">
-      <img src="../dist/logo-1.png" width="150" height="150" />
+      <img src="/static/logo-1.png" width="150" height="150" />
     </a>
   </div>
 </header>
@@ -139,7 +139,7 @@ function renderHeader() {
   </nav>
   <div id="navbar-logo" class="mt-5 flex justify-center items-center">
     <a class="navbar-item" href="/">
-      <img src="../dist/logo-1.png" width="150" height="150" alt="product-image"/>
+      <img src="/static/logo-1.png" width="150" height="150"/>
     </a>
   </div>
 </header>

@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
-    "dev": "tailwindcss -i ./src/input.css -o ./src/views/dist/output.css --watch"
+    "dev": "tailwindcss -i ./src/input.css -o ./public/output.css --watch"
   },
   "dependencies": {
     "@sindresorhus/is": "^4.6.0",
