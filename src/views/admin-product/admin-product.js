@@ -70,6 +70,60 @@ cancleBtn.addEventListener('click', () => {
   cancleBtn.style.display = 'none';
 });
 
+/************** 체크박스 드롭다운 ***************/
+const dropdown = document.getElementById('category-dropdown');
+const options = document.getElementById('category-options');
+const confirmBtn = document.getElementById('category-confirm');
+const checkboxListItem = document.getElementById('checkbox-list');
+
+const getSessionCategoryList = sessionStorage
+  .getItem('categoryList')
+  .split(',');
+
+for (const item of getSessionCategoryList) {
+  checkboxListItem.innerHTML += `
+      <label class="flex items-center py-2 px-3">
+          <input type="checkbox" class="form-checkbox" value="${item}">
+          <span class="ml-2 text-sm font-medium">${item}</span>
+      </label>`;
+}
+
+dropdown.addEventListener('click', function () {
+  options.classList.toggle('hidden');
+});
+
+confirmBtn.addEventListener('click', function () {
+  options.classList.add('hidden');
+});
+
+document.addEventListener('click', function (event) {
+  const isClickInsideDropdown = options.contains(event.target);
+  const isClickInsideButton = dropdown.contains(event.target);
+  if (!isClickInsideDropdown && !isClickInsideButton) {
+    options.classList.add('hidden');
+  }
+});
+
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+const selectedValues = [];
+
+checkboxes.forEach(function (checkbox) {
+  checkbox.addEventListener('change', function () {
+    if (this.checked) {
+      selectedValues.push(this.value);
+    } else {
+      const index = selectedValues.indexOf(this.value);
+      if (index > -1) {
+        selectedValues.splice(index, 1);
+      }
+    }
+    dropdown.textContent =
+      selectedValues.length > 0 ? selectedValues.join(', ') : '카테고리 없음';
+  });
+});
+
+/*****************************/
+
 let productList = [];
 
 // 정의 파트
@@ -371,23 +425,18 @@ for (let value of productDeleteBtn) {
 
 productPostBtn.addEventListener('click', async () => {
   const postInput1 = document.getElementById('post-input1');
+  // 카테고리가 input2
   const postInput2 = document.getElementById('post-input2');
   const postInput3 = document.getElementById('post-input3');
   const postInput4 = document.getElementById('post-input4');
 
   const formData = new FormData();
   formData.append('productName', postInput1.value);
-  formData.append('category', postInput2.value);
+  formData.append('category', selectedValues[0]);
   formData.append('productPrice', postInput3.value);
   formData.append('stock', postInput4.value);
 
   formData.append('productImage', newImg);
-  console.log(formData);
-  console.log(postInput1.value);
-  console.log(postInput2.value);
-  console.log(postInput3.value);
-  console.log(postInput4.value);
-  console.log(newImg);
 
   console.log('Img', newImg);
 
