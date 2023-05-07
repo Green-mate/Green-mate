@@ -330,7 +330,7 @@ for (let value of productUpdateBtn) {
 
     // 5개 만들기
     const nameValue = document.getElementById(`${listID}put1`);
-    const categoryValue = document.getElementById(`${listID}put2`);
+    // const categoryValue = document.getElementById(`${listID}put2`);
     const priceValue = document.getElementById(`${listID}put3`);
     const stockValue = document.getElementById(`${listID}put4`);
     // const imageValue = document.getElementById(`${listID}put5`);
@@ -340,10 +340,10 @@ for (let value of productUpdateBtn) {
 
     completeBtn.addEventListener('click', async () => {
       // axios 작동
-
+      // console.log('selected', selectedValues[0]);
       const formData = new FormData();
       formData.append('productName', nameValue.value);
-      formData.append('category', categoryValue.value);
+      formData.append('category', selectedValues[0]);
       formData.append('productPrice', priceValue.value);
       formData.append('productImage', newImg);
       formData.append('stock', stockValue.value);
