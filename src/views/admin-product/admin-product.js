@@ -32,10 +32,7 @@ const adminGetCategoryAPI = async () => {
       for (const item of categoryList) {
         sessionCategoryList.push(item.categoryName);
       }
-      sessionStorage.setItem(
-        'categoryList',
-        JSON.stringify(sessionCategoryList),
-      );
+      sessionStorage.setItem('categoryList', sessionCategoryList);
     });
   } catch (error) {
     console.error(error);
@@ -60,17 +57,6 @@ thumbnailInputUpload.addEventListener('change', () => {
     reader.readAsDataURL(thumbnailInputUpload.files[0]);
   }
 });
-
-// function hangulEncoder(queryParams) {
-//   const kor_reg = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글인지 식별해주기 위한 정규표현식
-
-//   if (queryParams.match(kor_reg)) {
-//     const encodeQuery = encodeURI(queryParams);
-//     return encodeQuery;
-//   } else {
-//     return queryParams;
-//   }
-// }
 
 addBtn.addEventListener('click', () => {
   addContentDiv.style.display = '';
@@ -123,8 +109,6 @@ const adminPostProductAPI = async (data) => {
 };
 
 const adminPutProductAPI = async (data, id) => {
-  // const encodedSearchID = id;
-  // console.log(id);
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -144,7 +128,6 @@ const adminPutProductAPI = async (data, id) => {
 };
 
 const adminDeleteProductAPI = async (id) => {
-  // const encodedSearchID = id;
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -206,18 +189,37 @@ for (let value of productUpdateBtn) {
   value.addEventListener('click', () => {
     eachListDiv.innerHTML = `
 
-    <input class="w-1/5" id="${listID}put1" value=${eachListDiv.children[0].innerText}></input>
-    <input class="w-1/5" id="${listID}put2" value=${eachListDiv.children[1].innerText}></input>
-    <input class="w-1/5" id="${listID}put3" value=${eachListDiv.children[2].innerText}></input>
-    <input class="w-1/5" id="${listID}put4" value=${eachListDiv.children[3].innerText}></input>
+    <input name="productName" class="w-1/5" id="${listID}put1" value=${eachListDiv.children[0].innerText}></input>
+
+
+    <div class="relative inline-flex w-1/5" name="categoryName" id="${listID}put2" value=${eachListDiv.children[1].innerText}>
+    <button id="category-dropdown" class="py-2 text-left bg-white shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-offset-1">
+      카테고리 선택
+    </button>
+    <div class="absolute right-0 z-10 mt-2 w-48 shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" id="category-options">
+      <div id="checkbox-list" class="py-1">
+      </div>
+      <div class="flex justify-end px-2 py-2">
+        <button id="category-confirm" class="px-4 py-2 text-sm font-medium text-white bg-lime-500 rounded-md hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-lime-600">
+         저장
+        </button>
+      </div>
+    </div>
+    </div>
+
+
+    <input name="price" class="w-1/5" id="${listID}put3" value=${eachListDiv.children[2].innerText}></input>
+    <input name="stock" class="w-1/5" id="${listID}put4" value=${eachListDiv.children[3].innerText}></input>
     
+
     <div class="flex flex-col justify-center items-center w-1/5 h-10">
       <input
         style="display: none"
         class="hadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-5"
         id="${listID}thumbnail-input"
-
-        type="file"
+        type="file" 
+        name="img" 
+        accept="image/jpeg, image/png"
       />
 
       <img
@@ -270,6 +272,61 @@ for (let value of productUpdateBtn) {
         reader.readAsDataURL(thumbnailInputUpload.files[0]);
       }
     });
+
+    /************** 체크박스 드롭다운 ***************/
+    const dropdown = document.getElementById('category-dropdown');
+    const options = document.getElementById('category-options');
+    const confirmBtn = document.getElementById('category-confirm');
+    const checkboxListItem = document.getElementById('checkbox-list');
+
+    const getSessionCategoryList = sessionStorage
+      .getItem('categoryList')
+      .split(',');
+
+    for (const item of getSessionCategoryList) {
+      checkboxListItem.innerHTML += `
+      <label class="flex items-center py-2 px-3">
+          <input type="checkbox" class="form-checkbox" value="${item}">
+          <span class="ml-2 text-sm font-medium">${item}</span>
+      </label>`;
+    }
+
+    dropdown.addEventListener('click', function () {
+      options.classList.toggle('hidden');
+    });
+
+    confirmBtn.addEventListener('click', function () {
+      options.classList.add('hidden');
+    });
+
+    document.addEventListener('click', function (event) {
+      const isClickInsideDropdown = options.contains(event.target);
+      const isClickInsideButton = dropdown.contains(event.target);
+      if (!isClickInsideDropdown && !isClickInsideButton) {
+        options.classList.add('hidden');
+      }
+    });
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const selectedValues = [];
+
+    checkboxes.forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        if (this.checked) {
+          selectedValues.push(this.value);
+        } else {
+          const index = selectedValues.indexOf(this.value);
+          if (index > -1) {
+            selectedValues.splice(index, 1);
+          }
+        }
+        dropdown.textContent =
+          selectedValues.length > 0
+            ? selectedValues.join(', ')
+            : '카테고리 없음';
+      });
+    });
+    /********************************************************/
 
     // 5개 만들기
     const nameValue = document.getElementById(`${listID}put1`);
