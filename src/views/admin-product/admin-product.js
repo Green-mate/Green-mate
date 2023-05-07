@@ -24,6 +24,25 @@ function getImageFiles(e) {
   newImg = files;
 }
 
+const adminGetCategoryAPI = async () => {
+  try {
+    await axios.get(`/api/admin/categories`).then((response) => {
+      const categoryList = response.data;
+      const sessionCategoryList = [];
+      for (const item of categoryList) {
+        sessionCategoryList.push(item.categoryName);
+      }
+      sessionStorage.setItem(
+        'categoryList',
+        JSON.stringify(sessionCategoryList),
+      );
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+await adminGetCategoryAPI();
+
 upload.addEventListener('click', () => thumbnailInputUpload.click());
 thumbnailInputUpload.addEventListener('change', (e) => {
   getImageFiles(e);
@@ -187,10 +206,11 @@ for (let value of productUpdateBtn) {
   value.addEventListener('click', () => {
     eachListDiv.innerHTML = `
 
-    <input class="w-1/5" id="${listID}put1" value=${eachListDiv.children[0].innerText} disabled></input>
+    <input class="w-1/5" id="${listID}put1" value=${eachListDiv.children[0].innerText}></input>
     <input class="w-1/5" id="${listID}put2" value=${eachListDiv.children[1].innerText}></input>
     <input class="w-1/5" id="${listID}put3" value=${eachListDiv.children[2].innerText}></input>
     <input class="w-1/5" id="${listID}put4" value=${eachListDiv.children[3].innerText}></input>
+    
     <div class="flex flex-col justify-center items-center w-1/5 h-10">
       <input
         style="display: none"
