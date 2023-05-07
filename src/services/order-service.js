@@ -36,7 +36,22 @@ class OrderService {
       shippingStatus,
     };
 
+    for (let i = 0; i < productList.length; i++) {
+      const productId = productList[i].productId;
+      const product = await this.productModel.findById(productId);
+      const count = Number(productList[i].quantity);
+      if (product.stock < count) {
+        throw new Error('상품 주문 개수가 현재 재고 수보다 많습니다. ');
+      }
+
+      const updatedProduct = await this.productModel.updateById({
+        productId,
+        count: -count,
+      });
+    }
+
     const createdOrder = await this.orderModel.create(newOrderInfo);
+
     return createdOrder;
   }
 
