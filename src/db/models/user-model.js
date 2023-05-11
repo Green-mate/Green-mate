@@ -1,5 +1,6 @@
 import { model } from 'mongoose';
 import { UserSchema } from '../schemas/user-schema';
+
 const User = model('User', UserSchema);
 
 export class UserModel {
@@ -33,6 +34,37 @@ export class UserModel {
 
     const updatedUser = await User.findOneAndUpdate(filter, update, option);
     return updatedUser;
+  }
+
+  // 상품 좋아요 추가 기능
+  async likeProduct(userId, productId) {
+    const user = await User.findById(userId);
+
+    if (!user.likedProducts.includes(productId)) {
+      user.likedProducts.push(productId);
+      await user.save();
+    }
+
+    return user;
+  }
+
+  // 상품 좋아요 삭제 기능
+  async unlikeProduct(userId, productId) {
+    const user = await User.findById(userId);
+
+    if (user.likedProducts.includes(productId)) {
+      user.likedProducts = user.likedProducts.filter((id) => id !== productId);
+      await user.save();
+    }
+
+    return user;
+  }
+
+  // 유저가 좋아요한 상품 리스트 반환 기능 -> 마이페이지에서 사용할 것임
+  async getUserLikedProducts(userId) {
+    const user = await User.findById(userId).populate('likedProducts');
+    const likedProducts = user.likedProducts;
+    return likedProducts;
   }
 }
 const userModel = new UserModel();

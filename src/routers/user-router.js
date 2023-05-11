@@ -1,17 +1,17 @@
-import { Router } from "express";
-import is from "@sindresorhus/is";
-import { errorHandler, loginRequired, asyncHandler } from "../middlewares";
-import { userService } from "../services";
-import { krDate } from "../utils";
+import { Router } from 'express';
+import is from '@sindresorhus/is';
+import { errorHandler, loginRequired, asyncHandler } from '../middlewares';
+import { userService } from '../services';
+import { krDate } from '../utils';
 
 const userRouter = Router();
 
 userRouter.post(
-  "/users/join",
+  '/users/join',
   asyncHandler(async (req, res, next) => {
     if (is.emptyObject(req.body)) {
       throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
+        'headers의 Content-Type을 application/json으로 설정해주세요',
       );
     }
     const { userName, email, password, role } = req.body;
@@ -25,16 +25,16 @@ userRouter.post(
     });
     // 물론 프론트에서 안 쓸 수도 있지만, 편의상 일단 보내 줌
     res.status(201).json(newUser);
-  })
+  }),
 );
 
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/users/login로 요청해야 함.)
 userRouter.post(
-  "/users/login",
+  '/users/login',
   asyncHandler(async function (req, res) {
     if (is.emptyObject(req.body)) {
       throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
+        'headers의 Content-Type을 application/json으로 설정해주세요',
       );
     }
 
@@ -46,29 +46,29 @@ userRouter.post(
     });
     // jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
     res.status(200).json(userInfoWithUserToken);
-  })
+  }),
 );
 
 // uid에 해당하는 유저 개인의 목록을 가져옴 (단일)
 userRouter.get(
-  "/users/:uid",
+  '/users/:uid',
   loginRequired,
   asyncHandler(async function (req, res, next) {
     const userId = req.params.uid;
     const user = await userService.getUser(userId);
 
     res.status(200).json(user);
-  })
+  }),
 );
 
 // 사용자 정보 수정
 userRouter.patch(
-  "/users/:uid",
+  '/users/:uid',
   loginRequired,
   asyncHandler(async function (req, res, next) {
     if (is.emptyObject(req.body)) {
       throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
+        'headers의 Content-Type을 application/json으로 설정해주세요',
       );
     }
 
@@ -88,22 +88,56 @@ userRouter.patch(
     // 사용자 정보를 업데이트함.
     const updatedUserInfo = await userService.setUser(
       userInfoRequired,
-      toUpdate
+      toUpdate,
     );
 
     res.status(200).json(updatedUserInfo);
-  })
+  }),
 );
 
 //유저 role disabled로 변경 (회원탈퇴)
 userRouter.patch(
-  "/users/delete/:uid",
+  '/users/delete/:uid',
   loginRequired,
   asyncHandler(async (req, res, next) => {
     const userId = req.params.uid;
     const deletedUserInfo = await userService.deleteUser(userId);
     res.status(200).json(deletedUserInfo);
-  })
+  }),
+);
+
+// 특정 유저의 게시물에 대한 좋아요
+userRouter.post(
+  '/users/like/:uid/:postId',
+  loginRequired,
+  asyncHandler(async function (req, res, next) {
+    const userId = req.params.uid;
+    const postId = req.params.postId;
+    const liked = await userService.likeProduct(userId, postId);
+    res.status(200).json(liked);
+  }),
+);
+
+userRouter.delete(
+  '/users/like/:uid/:postId',
+  loginRequired,
+  asyncHandler(async function (req, res, next) {
+    const userId = req.params.uid;
+    const postId = req.params.postId;
+    const unliked = await userService.unlikeProduct(userId, postId);
+    res.status(200).json(unliked);
+  }),
+);
+
+// 특정 유저의 좋아요한 상품 리스트
+userRouter.get(
+  '/users/likedproducts/:uid',
+  loginRequired,
+  asyncHandler(async (req, res) => {
+    const userId = req.params.uid;
+    const likedProducts = await userService.getLikedProducts(userId);
+    res.status(200).json(likedProducts);
+  }),
 );
 
 export { userRouter };

@@ -85,6 +85,32 @@ export class ProductModel {
     const deletedProducts = await Product.deleteOne({ productName: item });
     return deletedProducts;
   }
+
+  // 좋아요 추가
+  // async addLike(productId, userId) {
+  //   const updatedProduct = await Product.findOneAndUpdate(
+  //     { _id: productId },
+  //     {
+  //       $inc: { likes: 1 },
+  //       $push: { likedUsers: userId },
+  //     },
+  //     { new: true },
+  //   );
+  //   return updatedProduct;
+  // }
+
+  // 좋아요 삭제
+  // async removeLike(productId, userId) {
+  //   const updatedProduct = await Product.findOneAndUpdate(
+  //     { _id: productId },
+  //     {
+  //       $inc: { likes: -1 },
+  //       $pull: { likedUsers: userId },
+  //     },
+  //     { new: true },
+  //   );
+  //   return updatedProduct;
+  // }
 }
 
 const productModel = new ProductModel();
