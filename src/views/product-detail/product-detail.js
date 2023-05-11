@@ -94,7 +94,7 @@ async function getProductDetail() {
         >
           <button
             type="button"
-            style="width: 400px"
+            style="width: 380px"
             class="shadow bg-[#69b766] hover:bg-green-700 text-white text-lg font-bold py-2 px-4 rounded focus:outline-none"
             id="order-button"
             data-bs-toggle="modal"
@@ -104,7 +104,7 @@ async function getProductDetail() {
           </button>
           <button
             type="button"
-            style="width: 70px"
+            style="width: 50px"
             id="cart-button"
             class="shadow border rounded py-2 px-4 border-gray-200 hover:border-[#69b766] hover:border-2"
           >
@@ -115,6 +115,20 @@ async function getProductDetail() {
               ></i>
             </span>
           </button>
+          <button
+            type="button"
+            style="width: 50px"
+            id="heart-button"
+            class="shadow border rounded py-2 px-4 border-gray-200 hover:border-[#69b766] hover:border-2"
+          >
+            <span>
+              <i
+                id="heart-icon"
+                class="far fa-light fa-heart text-red-600" data-empty-heart="far" data-filled-heart="fas"
+              ></i>
+            </span>
+          </button>
+
         </div>
       </div>
     </div>
@@ -137,6 +151,15 @@ async function getProductDetail() {
     </table>
   </section>
   `;
+
+  //heart icon hover
+  const heartButton = document.querySelector('#heart-button');
+  const heartIcon = document.querySelector('#heart-icon');
+
+  heartButton.addEventListener('click', () => {
+    heartIcon.classList.toggle(heartIcon.dataset.emptyHeart);
+    heartIcon.classList.toggle(heartIcon.dataset.filledHeart);
+  });
 
   let productAmount = document.getElementById('product-amount');
   let productAmountNum = parseInt(productAmount.textContent);
