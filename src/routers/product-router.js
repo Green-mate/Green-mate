@@ -157,23 +157,12 @@ productRouter.delete(
   }),
 );
 
-// 상품 상세 조회: /api/products/:shortId
-productRouter.get(
-  '/products/:productId',
-  asyncHandler(async (req, res, next) => {
-    const productId = req.params.productId;
-    const product = await productService.getProductById(productId);
-
-    res.status(200).json(product);
-  }),
-);
-
 // 상품 좋아요 토글: /api/products/like/:shortId
 productRouter.post(
-  '/products/like',
+  '/products/like/:productId',
   loginRequired,
   asyncHandler(async (req, res, next) => {
-    const productId = req.body.productId;
+    const productId = req.params.productId;
     const userId = req.body.userId; // 클라이언트에서 유저 ID 전달
 
     const product = await productService.toggleLike(productId, userId); // toggleLike 메서드 호출

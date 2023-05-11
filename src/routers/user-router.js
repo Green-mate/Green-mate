@@ -108,23 +108,23 @@ userRouter.patch(
 
 // 특정 유저의 게시물에 대한 좋아요
 userRouter.post(
-  '/users/like/:uid/:postId',
+  '/users/like/:uid/:productId',
   loginRequired,
   asyncHandler(async function (req, res, next) {
     const userId = req.params.uid;
-    const postId = req.params.postId;
-    const liked = await userService.likeProduct(userId, postId);
+    const productId = req.params.productId;
+    const liked = await userService.likeProduct(userId, productId);
     res.status(200).json(liked);
   }),
 );
 
 userRouter.delete(
-  '/users/like/:uid/:postId',
+  '/users/like/:uid/:productId',
   loginRequired,
   asyncHandler(async function (req, res, next) {
     const userId = req.params.uid;
-    const postId = req.params.postId;
-    const unliked = await userService.unlikeProduct(userId, postId);
+    const productId = req.params.productId;
+    const unliked = await userService.unlikeProduct(userId, productId);
     res.status(200).json(unliked);
   }),
 );

@@ -104,16 +104,19 @@ export class ProductService {
 
   // 좋아요 토글 기능 -> 추가, 삭제 한꺼번에 하는 함수
   async toggleLike(productId, userId) {
-    const product = await this.productModel.findById(productId);
-    const likedUsers = product.likedUsers?.map((userId) => userId.toString());
+    const product = await this.productModel.findByShortId(productId);
+    if (!product) {
+      throw new Error('Product not found');
+    }
+    const likedUsers = product.likedUsers.map((userId) => userId.toString());
 
     // 이미 배열에 있으면 삭제하고, 해당 id를 제외한 배열로 업데이트
-    if (likedUsers?.includes(userId)) {
+    if (likedUsers.includes(userId)) {
       product.likes--;
       product.likedUsers = product.likedUsers.filter(
         (user) => user.toString() !== userId,
       );
-    } else {
+    } else if (!likedUsers.includes(userId)) {
       product.likes++;
       product.likedUsers.push(userId);
     }

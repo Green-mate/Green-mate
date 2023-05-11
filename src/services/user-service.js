@@ -175,7 +175,7 @@ class UserService {
       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
 
-    const product = await this.productModel.findById(productId);
+    const product = await this.productModel.findByShortId(productId);
     if (!product) {
       throw new Error('게시물이 존재하지 않습니다.');
     }
@@ -205,7 +205,7 @@ class UserService {
       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
 
-    const product = await this.productModel.findById(productId);
+    const product = await this.productModel.findByShortId(productId);
     if (!product) {
       throw new Error('게시물이 존재하지 않습니다.');
     }
