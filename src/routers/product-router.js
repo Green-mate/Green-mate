@@ -159,11 +159,11 @@ productRouter.delete(
 
 // 상품 좋아요 토글: /api/products/like/:shortId
 productRouter.post(
-  '/products/like/:productId',
+  '/products/like/:userId/:productId',
   loginRequired,
   asyncHandler(async (req, res, next) => {
+    const userId = req.params.userId; // 클라이언트에서 유저 ID 전달
     const productId = req.params.productId;
-    const userId = req.body.userId; // 클라이언트에서 유저 ID 전달
 
     const product = await productService.toggleLike(productId, userId); // toggleLike 메서드 호출
 

@@ -135,41 +135,7 @@ class UserService {
     return user;
   }
 
-  // 유저가 좋아요한 상품 리스트 -> 마이페이지 조회시
-
-  // async addLike(userId, productId) {
-  //   // 해당 userId의 유저정보 조회
-  //   const user = await this.userModel.findById(userId);
-  //   if (!user) {
-  //     throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
-  //   }
-
-  //   // 유저가 좋아요를 누른 상품 조회
-  //   const likedProducts = user.likedProducts || [];
-
-  //   // 이미 좋아요를 눌렀던 상품인지 확인
-  //   if (likedProducts.includes(productId)) {
-  //     throw new Error('이미 좋아요를 누른 상품입니다.');
-  //   }
-
-  //   // 좋아요 추가
-  //   likedProducts.push(productId);
-
-  //   // 해당 상품의 likeCount 증가
-  //   const product = await this.productModel.findById(productId);
-  //   if (!product) {
-  //     throw new Error('상품 정보를 찾을 수 없습니다.');
-  //   }
-  //   product.likeCount = (product.likeCount || 0) + 1;
-  //   await product.save();
-
-  //   // 유저정보 업데이트
-  //   user.likedProducts = likedProducts;
-  //   await user.save();
-
-  //   return { message: '좋아요 추가 완료' };
-  // }
-  async likeProduct(userId, productId) {
+  async toggleUserLikedProducts(userId, productId) {
     const user = await this.userModel.findById(userId);
     if (!user) {
       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
@@ -180,54 +146,21 @@ class UserService {
       throw new Error('게시물이 존재하지 않습니다.');
     }
 
-    // 좋아요를 누른 게시물 목록에 이미 존재하는 경우에는, 중복 처리하지 않음.
-    const likedProductIds = user.likedProducts.map((product) =>
-      product.productId.toString(),
-    );
-    if (likedProductIds.includes(productId.toString())) {
-      return user;
-    }
+    const newUser = await this.userModel.userLikedProducts(userId, productId);
 
-    // 좋아요 추가
-    user.likedProducts.push({ productId });
-    await user.save();
-
-    // 좋아요 개수 증가
-    product.likes++;
-    await product.save();
-
-    return user;
+    return newUser;
   }
 
-  async unlikeProduct(userId, productId) {
+  // 좋아요한 상품 리스트 리턴
+  async getUserLikedProductList(userId) {
     const user = await this.userModel.findById(userId);
     if (!user) {
       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
     }
 
-    const product = await this.productModel.findByShortId(productId);
-    if (!product) {
-      throw new Error('게시물이 존재하지 않습니다.');
-    }
+    const likedProducts = await this.userModel.getUserLikedProducts(userId);
 
-    // 좋아요를 누른 게시물 목록에서 제거
-    const likedProductIds = user.likedProducts.map((product) =>
-      product.productId.toString(),
-    );
-    const index = likedProductIds.indexOf(productId.toString());
-    if (index === -1) {
-      // 이미 좋아요를 누르지 않은 게시물이면 중복 처리하지 않음.
-      return user;
-    }
-
-    user.likedProducts.splice(index, 1);
-    await user.save();
-
-    // 좋아요 개수 감소
-    product.likes--;
-    await product.save();
-
-    return user;
+    return likedProducts;
   }
 }
 

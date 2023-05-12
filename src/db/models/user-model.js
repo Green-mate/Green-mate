@@ -36,26 +36,21 @@ export class UserModel {
     return updatedUser;
   }
 
-  // 상품 좋아요 추가 기능
-  async likeProduct(userId, productId) {
+  // 상품 좋아요 추가/삭제 토글 기능
+  async userLikedProducts(userId, productId) {
+    const toStringProductId = productId.toString();
     const user = await User.findById(userId);
+    const likedProducts = user.likedProducts || [];
 
-    if (!user.likedProducts.includes(productId)) {
-      user.likedProducts.push(productId);
+    if (!likedProducts.includes(toStringProductId)) {
+      likedProducts.push(toStringProductId);
+      await user.save();
+    } else if (likedProducts.includes(toStringProductId)) {
+      likedProducts.splice(likedProducts.indexOf(toStringProductId), 1);
       await user.save();
     }
 
-    return user;
-  }
-
-  // 상품 좋아요 삭제 기능
-  async unlikeProduct(userId, productId) {
-    const user = await User.findById(userId);
-
-    if (user.likedProducts.includes(productId)) {
-      user.likedProducts = user.likedProducts.filter((id) => id !== productId);
-      await user.save();
-    }
+    user.likedProducts = likedProducts;
 
     return user;
   }
@@ -63,7 +58,28 @@ export class UserModel {
   // 유저가 좋아요한 상품 리스트 반환 기능 -> 마이페이지에서 사용할 것임
   async getUserLikedProducts(userId) {
     const user = await User.findById(userId).populate('likedProducts');
-    const likedProducts = user.likedProducts;
+    const likedProducts = user.likedProducts.map((product) => {
+      const {
+        shortId,
+        productName,
+        category,
+        productPrice,
+        productImage,
+        stock,
+        likes,
+        likedUsers,
+      } = product;
+      return {
+        shortId,
+        productName,
+        category,
+        productPrice,
+        productImage,
+        stock,
+        likes,
+        likedUsers,
+      };
+    });
     return likedProducts;
   }
 }

@@ -108,7 +108,10 @@ export class ProductService {
     if (!product) {
       throw new Error('Product not found');
     }
-    const likedUsers = product.likedUsers.map((userId) => userId.toString());
+
+    const likedUsers = product.likedUsers
+      .filter((id) => id !== null)
+      .map((id) => id.toString());
 
     // 이미 배열에 있으면 삭제하고, 해당 id를 제외한 배열로 업데이트
     if (likedUsers.includes(userId)) {

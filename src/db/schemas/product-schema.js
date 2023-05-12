@@ -23,7 +23,6 @@ const ProductSchema = new Schema(
     stock: {
       //0이면 주문 불가능
       type: Number,
-      min: 0,
       default: 10,
       required: true,
     },
