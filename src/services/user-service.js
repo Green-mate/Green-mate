@@ -1,5 +1,4 @@
-import { userModel } from '../db';
-import { orderModel } from '../db';
+import { userModel, orderModel, productModel } from '../db';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -8,6 +7,7 @@ class UserService {
   constructor(userModel) {
     this.userModel = userModel;
     this.orderModel = orderModel;
+    this.productModel = productModel;
   }
 
   // 회원가입
@@ -133,6 +133,34 @@ class UserService {
     }
 
     return user;
+  }
+
+  async toggleUserLikedProducts(userId, productId) {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+    }
+
+    const product = await this.productModel.findByShortId(productId);
+    if (!product) {
+      throw new Error('게시물이 존재하지 않습니다.');
+    }
+
+    const newUser = await this.userModel.userLikedProducts(userId, productId);
+
+    return newUser;
+  }
+
+  // 좋아요한 상품 리스트 리턴
+  async getUserLikedProductList(userId) {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+    }
+
+    const likedProducts = await this.userModel.getUserLikedProducts(userId);
+
+    return likedProducts;
   }
 }
 

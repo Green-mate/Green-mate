@@ -1,5 +1,6 @@
 import { model } from 'mongoose';
 import { UserSchema } from '../schemas/user-schema';
+
 const User = model('User', UserSchema);
 
 export class UserModel {
@@ -33,6 +34,53 @@ export class UserModel {
 
     const updatedUser = await User.findOneAndUpdate(filter, update, option);
     return updatedUser;
+  }
+
+  // 상품 좋아요 추가/삭제 토글 기능
+  async userLikedProducts(userId, productId) {
+    const toStringProductId = productId.toString();
+    const user = await User.findById(userId);
+    const likedProducts = user.likedProducts || [];
+
+    if (!likedProducts.includes(toStringProductId)) {
+      likedProducts.push(toStringProductId);
+      await user.save();
+    } else if (likedProducts.includes(toStringProductId)) {
+      likedProducts.splice(likedProducts.indexOf(toStringProductId), 1);
+      await user.save();
+    }
+
+    user.likedProducts = likedProducts;
+
+    return user;
+  }
+
+  // 유저가 좋아요한 상품 리스트 반환 기능 -> 마이페이지에서 사용할 것임
+  async getUserLikedProducts(userId) {
+    const user = await User.findById(userId).populate('likedProducts');
+    const likedProducts = user.likedProducts.map((product) => {
+      const {
+        shortId,
+        productName,
+        category,
+        productPrice,
+        productImage,
+        stock,
+        likes,
+        likedUsers,
+      } = product;
+      return {
+        shortId,
+        productName,
+        category,
+        productPrice,
+        productImage,
+        stock,
+        likes,
+        likedUsers,
+      };
+    });
+    return likedProducts;
   }
 }
 const userModel = new UserModel();
