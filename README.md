@@ -4,7 +4,7 @@
 
 # Description
 
-[그린메이트](http://kdt-sw-4-team08.elicecoding.com/)
+[그린메이트](http://ec2-3-39-190-152.ap-northeast-2.compute.amazonaws.com/)
 
 # Tech Stack
 
