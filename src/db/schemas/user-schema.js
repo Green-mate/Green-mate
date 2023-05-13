@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema } from 'mongoose';
 
 const UserSchema = new Schema(
   {
@@ -8,7 +8,6 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     userName: {
       type: String,
@@ -16,12 +15,12 @@ const UserSchema = new Schema(
     },
     role: {
       type: String,
-      default: "basic-user", // admin, disabled
+      default: 'basic-user', // admin, disabled
     },
     orderList: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Order",
+        ref: 'Order',
         required: true,
       },
     ],
@@ -32,8 +31,8 @@ const UserSchema = new Schema(
   },
   {
     timestamps: true,
-    collection: "users",
-  }
+    collection: 'users',
+  },
 );
 
 export { UserSchema };

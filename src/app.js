@@ -6,7 +6,6 @@ import morgan from 'morgan';
 import { logger } from '../config/winston';
 import express from 'express';
 import passport from 'passport';
-import session from 'express-session';
 
 import {
   viewsRouter,
