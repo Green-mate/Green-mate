@@ -159,7 +159,9 @@ class UserService {
     }
 
     const likedProducts = await this.userModel.getUserLikedProducts(userId);
-
+    if (likedProducts.length === 0) {
+      throw new Error('찜한 상품이 없습니다.');
+    }
     return likedProducts;
   }
 }

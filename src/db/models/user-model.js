@@ -1,6 +1,8 @@
 import { model } from 'mongoose';
 import { UserSchema } from '../schemas/user-schema';
+import { ProductSchema } from '../schemas/product-schema';
 
+const Product = model('products', ProductSchema);
 const User = model('User', UserSchema);
 
 export class UserModel {
@@ -56,31 +58,19 @@ export class UserModel {
   }
 
   // 유저가 좋아요한 상품 리스트 반환 기능 -> 마이페이지에서 사용할 것임
+  // 유저가 좋아요한 상품 리스트 반환 기능 -> 마이페이지에서 사용할 것임
+  // shortId로 상품 리스트 반환하는 방법 -> shortId로 조회하는 방법 찾아보기
   async getUserLikedProducts(userId) {
-    const user = await User.findById(userId).populate('likedProducts');
-    const likedProducts = user.likedProducts.map((product) => {
-      const {
-        shortId,
-        productName,
-        category,
-        productPrice,
-        productImage,
-        stock,
-        likes,
-        likedUsers,
-      } = product;
-      return {
-        shortId,
-        productName,
-        category,
-        productPrice,
-        productImage,
-        stock,
-        likes,
-        likedUsers,
-      };
-    });
-    return likedProducts;
+    const user = await User.findById(userId);
+    const likedProductShortIdList = user.likedProducts;
+    const likedProductList = [];
+    for (const shortId of likedProductShortIdList) {
+      const product = await Product.findOne({ shortId });
+      if (product) {
+        likedProductList.push(product);
+      }
+    }
+    return likedProductList;
   }
 }
 const userModel = new UserModel();
