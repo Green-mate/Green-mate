@@ -153,6 +153,7 @@ class UserService {
 
   // 좋아요한 상품 리스트 리턴
   async getUserLikedProductList(userId) {
+    const result = {};
     const user = await this.userModel.findById(userId);
     if (!user) {
       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
@@ -162,7 +163,9 @@ class UserService {
     if (likedProducts.length === 0) {
       throw new Error('찜한 상품이 없습니다.');
     }
-    return likedProducts;
+
+    result.likedProductList = likedProducts;
+    return result;
   }
 }
 
