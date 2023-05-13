@@ -5,6 +5,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { logger } from '../config/winston';
 import express from 'express';
+import passport from 'passport';
+import session from 'express-session';
 
 import {
   viewsRouter,
@@ -44,6 +46,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 // html, css, js 라우팅
 app.use(viewsRouter);
+//passport 사용
+app.use(passport.initialize());
 
 // api 라우팅
 app.use('/static', express.static('public')); //정적파일 관리 경로
