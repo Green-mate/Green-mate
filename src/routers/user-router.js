@@ -142,4 +142,29 @@ userRouter.patch(
   }),
 );
 
+// 특정 유저의 게시물에 대한 좋아요 토글
+userRouter.post(
+  '/users/like/:userId/:productId',
+  loginRequired,
+  asyncHandler(async function (req, res, next) {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+
+    const user = await userService.toggleUserLikedProducts(userId, productId);
+
+    res.status(200).json(user);
+  }),
+);
+
+// 특정 유저의 좋아요한 상품 리스트
+userRouter.get(
+  '/users/likedproducts/:userId',
+  loginRequired,
+  asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    const likedProducts = await userService.getUserLikedProductList(userId);
+    res.status(200).json(likedProducts);
+  }),
+);
+
 export { userRouter };

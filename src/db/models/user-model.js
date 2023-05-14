@@ -1,5 +1,8 @@
 import { model } from 'mongoose';
 import { UserSchema } from '../schemas/user-schema';
+import { ProductSchema } from '../schemas/product-schema';
+
+const Product = model('products', ProductSchema);
 const User = model('User', UserSchema);
 
 export class UserModel {
@@ -33,6 +36,41 @@ export class UserModel {
 
     const updatedUser = await User.findOneAndUpdate(filter, update, option);
     return updatedUser;
+  }
+
+  // 상품 좋아요 추가/삭제 토글 기능
+  async userLikedProducts(userId, productId) {
+    const toStringProductId = productId.toString();
+    const user = await User.findById(userId);
+    const likedProducts = user.likedProducts || [];
+
+    if (!likedProducts.includes(toStringProductId)) {
+      likedProducts.push(toStringProductId);
+      await user.save();
+    } else if (likedProducts.includes(toStringProductId)) {
+      likedProducts.splice(likedProducts.indexOf(toStringProductId), 1);
+      await user.save();
+    }
+
+    user.likedProducts = likedProducts;
+
+    return user;
+  }
+
+  // 유저가 좋아요한 상품 리스트 반환 기능 -> 마이페이지에서 사용할 것임
+  // 유저가 좋아요한 상품 리스트 반환 기능 -> 마이페이지에서 사용할 것임
+  // shortId로 상품 리스트 반환하는 방법 -> shortId로 조회하는 방법 찾아보기
+  async getUserLikedProducts(userId) {
+    const user = await User.findById(userId);
+    const likedProductShortIdList = user.likedProducts;
+    const likedProductList = [];
+    for (const shortId of likedProductShortIdList) {
+      const product = await Product.findOne({ shortId });
+      if (product) {
+        likedProductList.push(product);
+      }
+    }
+    return likedProductList;
   }
 }
 const userModel = new UserModel();

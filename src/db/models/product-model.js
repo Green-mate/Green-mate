@@ -33,6 +33,11 @@ export class ProductModel {
     return product;
   }
 
+  // async findAllByShortId(shortId) {
+  //   const product = await Product.find({ shortId });
+  //   return product;
+  // }
+
   async findByProductName(productName) {
     const products = await Product.findOne({ productName });
     return products;
