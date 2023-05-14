@@ -30,59 +30,53 @@ class UserService {
   }
 
   //구글 로그인
-  async addUserByGoogleAuth() {
-    passport.use(
-      new GoogleStrategy(
-        {
-          clientID: process.env.GOOGLE_ID, // 구글 로그인에서 발급받은 REST API 키
-          clientSecret: process.env.GOOGLE_KEY,
-          callbackURL: '/users/google/callback', // 구글 로그인 Redirect URI 경로
-        },
-        async (accessToken, refreshToken, profile, done) => {
-          console.log('google profile : ', profile);
-          try {
-            const exUser = await this.userModel.findByEmail({
-              // 구글 플랫폼에서 로그인 했고 & snsId필드에 구글 아이디가 일치할경우
-              email: profile?.email[0].value,
-            });
-            // 이미 가입된 구글 프로필이면 성공
-            if (exUser) {
-              const userInfoWithUserToken = {};
-              const token = jwt.sign(
-                { userId: exUser._id, role: exUser.role },
-                secretKey,
-              );
-              userInfoWithUserToken.token = token;
-              userInfoWithUserToken.userId = exUser._id;
-              userInfoWithUserToken.role = exUser.role;
-              done(null, exUser, userInfoWithUserToken);
-            } else {
-              // 가입되지 않는 유저면 회원가입 시키고 로그인을 시킨다
-              const newUser = await this.userModel.create({
-                email: profile?.email[0].value,
-                userName: profile.displayName,
-                provider: 'google',
-              });
-              const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
-              const token = jwt.sign(
-                { userId: newUser._id, role: newUser.role },
-                secretKey,
-              );
-              const userInfoWithUserToken = {};
-              userInfoWithUserToken.token = token;
-              userInfoWithUserToken.userId = newUser._id;
-              userInfoWithUserToken.role = newUser.role;
-              done(null, newUser, userInfoWithUserToken);
-            }
-          } catch (error) {
-            console.error(error);
-            done(error);
-          }
-        },
-      ),
-    );
-  }
+  async getUserTokenByGoogle(profile) {
+    try {
+      const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
+      const exUser = await this.userModel.findByEmail(
+        // 구글 플랫폼에서 로그인 했고 & snsId필드에 구글 아이디가 일치할경우
+        profile.emails[0].value.toString(),
+      );
+      // 이미 가입된 구글 프로필이면 성공
+      if (exUser) {
+        if (exUser.role === 'disabled') {
+          throw new Error(
+            '해당 계정은 탈퇴처리된 계정입니다. 관리자에게 문의하세요.',
+          );
+        }
+        const userInfoWithUserToken = {};
+        const token = jwt.sign(
+          { userId: exUser._id, role: exUser.role },
+          secretKey,
+        );
+        userInfoWithUserToken.token = token;
+        userInfoWithUserToken.userId = exUser._id;
+        userInfoWithUserToken.role = exUser.role;
+        console.log('기 회원가입 로그인 토큰 : ', userInfoWithUserToken);
 
+        return userInfoWithUserToken;
+      } else {
+        // 가입되지 않는 유저면 회원가입 시키고 로그인을 시킨다
+        const newUser = await this.userModel.create({
+          email: profile.emails[0].value.toString(),
+          userName: profile.displayName,
+          provider: 'google',
+        });
+        const token = jwt.sign(
+          { userId: newUser._id, role: newUser.role },
+          secretKey,
+        );
+        const userInfoWithUserToken = {};
+        userInfoWithUserToken.token = token;
+        userInfoWithUserToken.userId = newUser._id;
+        userInfoWithUserToken.role = newUser.role;
+        console.log('회원가입 후 로그인 토큰 : ', userInfoWithUserToken);
+        return userInfoWithUserToken;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
   // 로그인
   async getUserToken(loginInfo) {
     const { email, password } = loginInfo;

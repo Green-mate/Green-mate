@@ -5,10 +5,23 @@ import { userService } from '../services';
 import { krDate } from '../utils';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import jwt from 'jsonwebtoken';
 
 const userRouter = Router();
 
-userService.addUserByGoogleAuth();
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_ID, // 구글 로그인에서 발급받은 REST API 키
+      clientSecret: process.env.GOOGLE_KEY,
+      callbackURL: '/api/users/google/callback', // 구글 로그인 Redirect URI 경로
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      console.log('google profile : ', profile);
+      userService.getUserTokenByGoogle(profile);
+    },
+  ),
+);
 
 //일반 회원가입
 userRouter.post(
@@ -44,7 +57,11 @@ userRouter.get(
 
 userRouter.get(
   '/users/google/callback',
-  passport.authenticate('google', { failureRedirect: '/', session: false }),
+  passport.authenticate('google', {
+    session: false,
+    successRedirect: '/',
+    failureRedirect: '/login',
+  }),
 );
 
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/users/login로 요청해야 함.)
