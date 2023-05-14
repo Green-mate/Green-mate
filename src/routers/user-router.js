@@ -18,7 +18,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log('google profile : ', profile);
-      userService.getUserTokenByGoogle(profile, done);
+      userService.getUserTokenByGoogle(profile);
     },
   ),
 );
@@ -57,16 +57,13 @@ userRouter.get(
 
 userRouter.get(
   '/users/google/callback',
-  passport.authenticate('google', { session: false }),
-  async (req, res) => {
-    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
-    const token = jwt.sign(
-      { userId: req.user._id, role: req.user.role },
-      secretKey,
-    );
-    res.json({ token });
-  },
+  passport.authenticate('google', {
+    session: false,
+    successRedirect: '/',
+    failureRedirect: '/login',
+  }),
 );
+
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/users/login로 요청해야 함.)
 userRouter.post(
   '/users/login',

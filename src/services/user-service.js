@@ -31,8 +31,7 @@ class UserService {
   }
 
   //구글 로그인
-
-  async getUserTokenByGoogle(profile, done) {
+  async getUserTokenByGoogle(profile) {
     try {
       const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
       const exUser = await this.userModel.findByEmail(
@@ -41,6 +40,11 @@ class UserService {
       );
       // 이미 가입된 구글 프로필이면 성공
       if (exUser) {
+        if (exUser.role === 'disabled') {
+          throw new Error(
+            '해당 계정은 탈퇴처리된 계정입니다. 관리자에게 문의하세요.',
+          );
+        }
         const userInfoWithUserToken = {};
         const token = jwt.sign(
           { userId: exUser._id, role: exUser.role },
@@ -49,7 +53,9 @@ class UserService {
         userInfoWithUserToken.token = token;
         userInfoWithUserToken.userId = exUser._id;
         userInfoWithUserToken.role = exUser.role;
-        done(null, userInfoWithUserToken);
+        console.log('기 회원가입 로그인 토큰 : ', userInfoWithUserToken);
+
+        return userInfoWithUserToken;
       } else {
         // 가입되지 않는 유저면 회원가입 시키고 로그인을 시킨다
         const newUser = await this.userModel.create({
@@ -65,11 +71,11 @@ class UserService {
         userInfoWithUserToken.token = token;
         userInfoWithUserToken.userId = newUser._id;
         userInfoWithUserToken.role = newUser.role;
-        done(null, userInfoWithUserToken);
+        console.log('회원가입 후 로그인 토큰 : ', userInfoWithUserToken);
+        return userInfoWithUserToken;
       }
     } catch (error) {
-      console.error(error);
-      done(error);
+      throw error;
     }
   }
   // 로그인
