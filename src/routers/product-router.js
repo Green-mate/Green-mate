@@ -1,6 +1,6 @@
 import is from '@sindresorhus/is';
 import { Router } from 'express';
-import { adminOnly, asyncHandler } from '../middlewares';
+import { adminOnly, asyncHandler, loginRequired } from '../middlewares';
 import { productService } from '../services';
 import { pagenate, krDate } from '../utils';
 import { logger } from '../../config/winston';
@@ -154,6 +154,20 @@ productRouter.delete(
       result: 'success',
       reason: '상품이 삭제되었습니다.',
     });
+  }),
+);
+
+// 상품 좋아요 토글: /api/products/like/:shortId
+productRouter.post(
+  '/products/like/:userId/:productId',
+  loginRequired,
+  asyncHandler(async (req, res, next) => {
+    const userId = req.params.userId; // 클라이언트에서 유저 ID 전달
+    const productId = req.params.productId;
+
+    const product = await productService.toggleLike(productId, userId); // toggleLike 메서드 호출
+
+    res.status(200).json(product);
   }),
 );
 
