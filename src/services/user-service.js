@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { userModel, orderModel, productModel } from '../db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { makeJwtToken } from '../utils/jwt-token-maker';
 
 class UserService {
   constructor(userModel) {
@@ -43,17 +44,8 @@ class UserService {
             '해당 계정은 탈퇴처리된 계정입니다. 관리자에게 문의하세요.',
           );
         }
-        const userInfoWithUserToken = {};
-        const token = jwt.sign(
-          { userId: exUser._id, role: exUser.role },
-          secretKey,
-        );
-        userInfoWithUserToken.token = token;
-        userInfoWithUserToken.userId = exUser._id;
-        userInfoWithUserToken.role = exUser.role;
-        console.log('기 회원가입 로그인 토큰 : ', userInfoWithUserToken);
-
-        return userInfoWithUserToken;
+        const madeToken = makeJwtToken(exUser);
+        return madeToken;
       } else {
         // 가입되지 않는 유저면 회원가입 시키고 로그인을 시킨다
         const newUser = await this.userModel.create({
@@ -61,16 +53,8 @@ class UserService {
           userName: profile.displayName,
           provider: 'google',
         });
-        const token = jwt.sign(
-          { userId: newUser._id, role: newUser.role },
-          secretKey,
-        );
-        const userInfoWithUserToken = {};
-        userInfoWithUserToken.token = token;
-        userInfoWithUserToken.userId = newUser._id;
-        userInfoWithUserToken.role = newUser.role;
-        console.log('회원가입 후 로그인 토큰 : ', userInfoWithUserToken);
-        return userInfoWithUserToken;
+        const madeToken = makeJwtToken(newUser);
+        return madeToken;
       }
     } catch (error) {
       throw error;
@@ -106,16 +90,9 @@ class UserService {
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.',
       );
     }
-
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
-    const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
-    const userInfoWithUserToken = {};
-    userInfoWithUserToken.token = token;
-    userInfoWithUserToken.userId = user._id;
-    userInfoWithUserToken.role = user.role;
-
-    return userInfoWithUserToken;
+    const madeToken = makeJwtToken(user);
+    return madeToken;
   }
 
   //유저 정보 조회

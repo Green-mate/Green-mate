@@ -16,7 +16,7 @@ passport.use(
       clientSecret: process.env.GOOGLE_KEY,
       callbackURL: '/api/users/google/callback', // 구글 로그인 Redirect URI 경로
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile) => {
       console.log('google profile : ', profile);
       userService.getUserTokenByGoogle(profile);
     },
@@ -59,10 +59,11 @@ userRouter.get(
   '/users/google/callback',
   passport.authenticate('google', {
     session: false,
-    successRedirect: '/',
-    failureRedirect: '/login',
   }),
-  async (res, req, next) => res.json(),
+  (req, res, next) => {
+    userService.getUserTokenByGoogle(profile);
+    res.redirect('/');
+  },
 );
 
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/users/login로 요청해야 함.)
