@@ -30,11 +30,10 @@ class UserService {
   }
 
   //구글 로그인
-  async getUserTokenByGoogle(profile) {
+  async getUserTokenByGoogle(profile, done) {
     try {
       const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
       const exUser = await this.userModel.findByEmail(
-        // 구글 플랫폼에서 로그인 했고 & snsId필드에 구글 아이디가 일치할경우
         profile.emails[0].value.toString(),
       );
       // 이미 가입된 구글 프로필이면 성공

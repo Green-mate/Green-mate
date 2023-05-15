@@ -62,6 +62,7 @@ userRouter.get(
     successRedirect: '/',
     failureRedirect: '/login',
   }),
+  async (res, req, next) => res.json(),
 );
 
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/users/login로 요청해야 함.)
