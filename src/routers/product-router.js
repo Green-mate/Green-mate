@@ -1,11 +1,11 @@
 import is from '@sindresorhus/is';
 import { Router } from 'express';
-import { adminOnly, asyncHandler } from '../middlewares';
+import { adminOnly, asyncHandler, loginRequired } from '../middlewares';
 import { productService } from '../services';
 import { pagenate, krDate } from '../utils';
 import { logger } from '../../config/winston';
 import { productImageUpload } from '../middlewares/multer';
-
+const fs = require('fs');
 const productRouter = Router();
 
 // 상품 전체 조회: /api/products?page=1&perPage=9
@@ -75,22 +75,23 @@ productRouter.get(
 productRouter.post(
   '/admin/products',
   adminOnly,
-  productImageUpload.single('productImage'),
+  productImageUpload,
   asyncHandler(async (req, res, next) => {
     if (is.emptyObject(req.body)) {
       throw new Error(
         'headers의 Content-Type이 application/json으로 설정되지 않았습니다.',
       );
     }
-    const { productName, category, productPrice, productImage, stock } =
-      req.body;
+    const imgName = `http://localhost:3000/static/${req.file.filename}`;
+    //도메인 바뀌면 바꿔주기
+    const { productName, category, productPrice, stock } = req.body;
     const date = krDate(); // 한국 시간대로 설정.
 
     const productObj = {
       productName,
       category,
       productPrice: Number(productPrice),
-      productImage: '../dist/product-images/' + req.file.filename,
+      productImage: imgName,
       stock: Number(stock),
       createdDate: date,
     };
@@ -109,13 +110,14 @@ productRouter.post(
 productRouter.patch(
   '/admin/products',
   adminOnly,
+  productImageUpload,
   asyncHandler(async (req, res, next) => {
     if (is.emptyObject(req.body)) {
       throw new Error(
         'headers의 Content-Type이 application/json으로 설정되지 않았습니다.',
       );
     }
-
+    const imgName = `http://localhost:3000/static/${req.file.filename}`;
     const item = req.query.item;
     logger.info(item);
     const { productName, category, productPrice, productImage, stock } =
@@ -125,7 +127,7 @@ productRouter.patch(
       productName,
       category,
       productPrice: Number(productPrice),
-      productImage,
+      productImage: imgName,
       stock: Number(stock),
     };
     const products = await productService.updateProduct(item, updateObj);
@@ -152,6 +154,20 @@ productRouter.delete(
       result: 'success',
       reason: '상품이 삭제되었습니다.',
     });
+  }),
+);
+
+// 상품 좋아요 토글: /api/products/like/:shortId
+productRouter.post(
+  '/products/like/:userId/:productId',
+  loginRequired,
+  asyncHandler(async (req, res, next) => {
+    const userId = req.params.userId; // 클라이언트에서 유저 ID 전달
+    const productId = req.params.productId;
+
+    const product = await productService.toggleLike(productId, userId); // toggleLike 메서드 호출
+
+    res.status(200).json(product);
   }),
 );
 

@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Product Panel</title>
     <!-- import tailwind css -->
-    <link href="/dist/output.css" rel="stylesheet" />
+    <link href="/static/output.css" rel="stylesheet" />
     <!-- 아이콘 -->
-    <link rel="icon" type="image/png" sizes="16X16" href="../dist/logo-2.png" />
+    <link rel="icon" type="image/png" sizes="16X16" href="/static/logo-2.png" />
     <!-- 폰트 어썸: 아이콘 -->
     <script
       defer
@@ -28,7 +28,7 @@
           class="flex items-center justify-center h-28 border-b border-gray-700 bg-white"
         >
           <a href="/">
-            <img src="../dist/logo-1.png" class="w-20" />
+            <img src="/static/logo-1.png" class="w-20" />
           </a>
         </div>
         <div class="flex flex-col p-4">
@@ -83,15 +83,34 @@
                 <div class="w-20"></div>
               </div>
               <div class="container mx-auto" id="product-list-div">
+                
+                <!-- 여기에 product-list 들어감 -->
 
-                <!-- 여기에 추가하는 div 숨기기 -->
+                <!-- 상품 추가 버튼 누를 시 나오는 add-content-div -->
                 <div
                   class="bg-gray-200 py-2 flex items-center gap-x-12 px-4 my-2 rounded-md border-b-2 border-gray-300"
                   id="add-content-div"
                   style="display : none"
                 >
                   <input class="w-1/5" id="post-input1"></input>
-                  <input class="w-1/5" id="post-input2"></input>
+                  <!-- <input class="w-1/5" id="post-input2"></input> -->
+
+                  <div class="relative inline-flex w-1/5" name="categoryName" id="post-input2">
+                    <button id="category-dropdown" class="py-2 text-left bg-white shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-offset-1">
+                      카테고리 선택
+                    </button>
+                    <div class="absolute right-0 z-10 mt-2 w-48 shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" id="category-options">
+                      <div id="checkbox-list" class="py-1">
+                      </div>
+                      <div class="flex justify-end px-2 py-2">
+                        <button id="category-confirm" class="px-4 py-2 text-sm font-medium text-white bg-lime-500 rounded-md hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-lime-600">
+                         저장
+                        </button>
+                      </div>
+                    </div>
+                    </div>
+
+
                   <input class="w-1/5" id="post-input3"></input>
                   <input class="w-1/5" id="post-input4"></input>
                   <div class="flex flex-col justify-center items-center w-1/5 h-10">
@@ -99,16 +118,19 @@
                       style="display: none"
                       class="hadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none mb-5"
                       id="thumbnail-input"
-              
-                      type="file"
+                      type="file" 
+                      name="img" 
+                      accept="image/jpeg, image/png"
                     />
-              
+                  
                     <img
-                      src="../dist/uploadimg.png"
+                      src="/static/uploadimg.png"
                       id="upload"
                       class="rounded-xl shadow focus:outline-none"
                       style="width: 100px; height: 100px"
                     />
+                    
+
                   </div>
 
                   <button

@@ -165,7 +165,12 @@ async function getProductDetail() {
 
   // 재고 수량 카운트 버튼 && 총 상품 금액 계산
   document.querySelector('#button-plus').addEventListener('click', () => {
-    productAmountNum += 1;
+    if (productAmountNum < stock) {
+      productAmountNum += 1;
+    } else {
+      alert('상품 수량은 재고 수량까지만 카운트 가능합니다.');
+      productAmountNum = stock;
+    }
     productAmount.textContent = productAmountNum;
     TOTALPRICE = productAmountNum * productPrice;
     totalAmount.innerText = productAmountNum;

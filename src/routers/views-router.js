@@ -18,7 +18,6 @@ viewsRouter.use('/order-complete', serveStatic('order-complete'));
 viewsRouter.use('/mypage', serveStatic('mypage'));
 
 viewsRouter.use('/product-detail', serveStatic('product-detail'));
-// viewsRouter.use('/product-detail/:pid', serveStatic('product-detail'));
 viewsRouter.use('/mypage-shipping', serveStatic('mypage-shipping'));
 viewsRouter.use('/mypage-shipping-edit', serveStatic('mypage-shipping-edit'));
 

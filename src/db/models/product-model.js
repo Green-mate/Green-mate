@@ -1,7 +1,7 @@
-import { model } from "mongoose";
-import { ProductSchema } from "../schemas/product-schema";
+import { model } from 'mongoose';
+import { ProductSchema } from '../schemas/product-schema';
 
-const Product = model("products", ProductSchema);
+const Product = model('products', ProductSchema);
 
 export class ProductModel {
   async countDocumentsAll() {
@@ -33,6 +33,11 @@ export class ProductModel {
     return product;
   }
 
+  // async findAllByShortId(shortId) {
+  //   const product = await Product.find({ shortId });
+  //   return product;
+  // }
+
   async findByProductName(productName) {
     const products = await Product.findOne({ productName });
     return products;
@@ -50,15 +55,33 @@ export class ProductModel {
     const updatedProduct = await Product.findOneAndUpdate(
       filter,
       updateObj,
-      option
+      option,
     );
+    return updatedProduct;
+  }
+
+  //
+  async findById(productId) {
+    const product = await Product.find({ _id: productId });
+    return product;
+  }
+  //재고관리 로직
+  async updateById({ productId, count }) {
+    const filter = { _id: productId };
+    const option = { returnOriginal: false };
+    const updatedProduct = await Product.findOneAndUpdate(
+      filter,
+      { $inc: { stock: count } },
+      option,
+    );
+
     return updatedProduct;
   }
 
   async updateStock(shortId, stock, count) {
     const updatedStock = await Product.updateOne(
       { shortId, stock },
-      { $inc: { stock: count } }
+      { $inc: { stock: count } },
     );
     return updatedStock;
   }

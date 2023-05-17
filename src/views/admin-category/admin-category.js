@@ -24,6 +24,14 @@ const adminGetCategoryAPI = async () => {
   try {
     await axios.get(`/api/admin/categories`).then((response) => {
       categoryList = response.data;
+      const sessionCategoryList = [];
+      for (const item of categoryList) {
+        sessionCategoryList.push(item.categoryName);
+      }
+      sessionStorage.setItem(
+        'categoryList',
+        JSON.stringify(sessionCategoryList),
+      );
     });
   } catch (error) {
     console.error(error);

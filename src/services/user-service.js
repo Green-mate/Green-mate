@@ -1,13 +1,16 @@
-import { userModel } from '../db';
-import { orderModel } from '../db';
-
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import 'dotenv/config';
+import { userModel, orderModel, productModel } from '../db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { makeJwtToken } from '../utils/jwt-token-maker';
 
 class UserService {
   constructor(userModel) {
     this.userModel = userModel;
     this.orderModel = orderModel;
+    this.productModel = productModel;
   }
 
   // 회원가입
@@ -27,6 +30,36 @@ class UserService {
     return createdNewUser;
   }
 
+  //구글 로그인
+  async getUserTokenByGoogle(profile, done) {
+    try {
+      const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
+      const exUser = await this.userModel.findByEmail(
+        profile.emails[0].value.toString(),
+      );
+      // 이미 가입된 구글 프로필이면 성공
+      if (exUser) {
+        if (exUser.role === 'disabled') {
+          throw new Error(
+            '해당 계정은 탈퇴처리된 계정입니다. 관리자에게 문의하세요.',
+          );
+        }
+        const madeToken = makeJwtToken(exUser);
+        return madeToken;
+      } else {
+        // 가입되지 않는 유저면 회원가입 시키고 로그인을 시킨다
+        const newUser = await this.userModel.create({
+          email: profile.emails[0].value.toString(),
+          userName: profile.displayName,
+          provider: 'google',
+        });
+        const madeToken = makeJwtToken(newUser);
+        return madeToken;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
   // 로그인
   async getUserToken(loginInfo) {
     const { email, password } = loginInfo;
@@ -57,16 +90,9 @@ class UserService {
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.',
       );
     }
-
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
-    const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
-    const userInfoWithUserToken = {};
-    userInfoWithUserToken.token = token;
-    userInfoWithUserToken.userId = user._id;
-    userInfoWithUserToken.role = user.role;
-
-    return userInfoWithUserToken;
+    const madeToken = makeJwtToken(user);
+    return madeToken;
   }
 
   //유저 정보 조회
@@ -133,6 +159,39 @@ class UserService {
     }
 
     return user;
+  }
+
+  async toggleUserLikedProducts(userId, productId) {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+    }
+
+    const product = await this.productModel.findByShortId(productId);
+    if (!product) {
+      throw new Error('게시물이 존재하지 않습니다.');
+    }
+
+    const newUser = await this.userModel.userLikedProducts(userId, productId);
+
+    return newUser;
+  }
+
+  // 좋아요한 상품 리스트 리턴
+  async getUserLikedProductList(userId) {
+    const result = {};
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+    }
+
+    const likedProducts = await this.userModel.getUserLikedProducts(userId);
+    if (likedProducts.length === 0) {
+      throw new Error('찜한 상품이 없습니다.');
+    }
+
+    result.likedProductList = likedProducts;
+    return result;
   }
 }
 
